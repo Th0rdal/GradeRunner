@@ -1,3 +1,8 @@
+/**
+ * Blueprint class for all GameObjects.
+ * Includes all important variables and methods any GameObject needs to have
+ */
+
 import java.awt.*;
 
 public abstract class GameObject {
@@ -17,15 +22,17 @@ public abstract class GameObject {
         this.height = height;
     }
 
-    public abstract void tick();
-    public abstract void render(Graphics g);
+    public abstract void tick();    //physic calculations in this method
+    public abstract void render(Graphics g); //anything drawing related in this method
 
-    public abstract void collision(GameObject collisionObject);
+    public abstract void collision(GameObject collisionObject); //collision handling in this method
 
-    public abstract Rectangle getBounds();
+    public abstract Rectangle getBounds();  //returns a Rectangle that represents the object (for collision calculation)
     public void adjustForScroll(float adjustX) {
         x += adjustX;
-    }
+    }   //adjusts the position of the object when scrolling
+
+    //getter and setter
     public float getX() {
         return x;
     }

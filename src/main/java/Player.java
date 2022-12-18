@@ -16,7 +16,7 @@ public class Player extends GameObject{
         x += getVelX();
         y -= getVelY();
         if (hasGravity()) {
-            if (!this.handler.isOnPlatform(this)) {
+            if (!this.isOnPlatform()) {
                 setVelY(getVelY() - getGravity());
             }else {
                 setVelY(0);
@@ -49,6 +49,19 @@ public class Player extends GameObject{
                 ((Platform)collisionObject).hitFromBelow();
             }
         }
+    }
+
+    public boolean isOnPlatform() {    //checks if the given GameObject is on a Platform
+        for (GameObject tempObject : this.handler.getObjectList()) {
+            if (tempObject.getID() != ID.Platform) {
+                continue;
+            }
+            if (new Rectangle((int)this.getX(), (int)this.getY()+5, (int)this.getWidth(), (int)this.getHeight()).intersects(tempObject.getBounds())) {
+                this.collision(tempObject);
+                return true;
+            }
+        }
+        return false;
     }
 
 }
