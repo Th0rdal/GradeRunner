@@ -1,3 +1,8 @@
+/**
+ * Main class Game. This class handles the gameloop and all important variables for the game.
+ *
+ */
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
@@ -42,7 +47,6 @@ public class Game extends Canvas implements Runnable{
 
         //add all Gameobjects to handler
         this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
-        this.handler.addObject(new Box(900.0f, 100.0f));
         this.handler.addObject(new Platform(300, 700.0f, true, handler));
         this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
         this.handler.addObject(this.developerTools);
@@ -118,6 +122,8 @@ public class Game extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
         g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
+
+        //enter render method specific to gamestate
         this.handler.render(g);
         if (gamestate == STATE.Game) {
             pass();
@@ -126,26 +132,17 @@ public class Game extends Canvas implements Runnable{
         } else if (gamestate == STATE.Pause) {
             pass();
         }
+
         bs.show();
         g.dispose();
     }
 
     private void pass() { //method that does nothing. only for development purpose
         return;
-    }
+    }   //method only for development. does nothing
 
     public STATE getGamestate() {return this.gamestate;}    //returns current gamestate
     public void setGamestate(STATE tempState) {this.gamestate = tempState;} //sets current gamestate
-
-    public static int WallCollision(int var, int min, int max) {
-        if (var >= max) {
-            return max;
-        }else if (var <= min) {
-            return min;
-        }else {
-            return var;
-        }
-    }
 
     public static float WallCollision(float var, float min, float max) {    //calculates collision with a wall
         if (var >= max) {

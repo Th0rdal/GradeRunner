@@ -1,12 +1,16 @@
+/**
+ * This class handles all GameObjects.
+ * Calls tick and render for all GameObjects, does collision checking, adjusts for scrolling
+ */
+
 import java.awt.*;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import java.util.concurrent.locks.ReentrantLock;
+
 
 public class Handler {
-    private LinkedList<GameObject> objectList = new LinkedList<GameObject>();
-    private ConcurrentLinkedDeque deleteQueue = new ConcurrentLinkedDeque();
+    private LinkedList<GameObject> objectList = new LinkedList<GameObject>();   //list of all GameObjects
+    private ConcurrentLinkedDeque deleteQueue = new ConcurrentLinkedDeque();    //queue with all GameObjects to delete
     private float moved = 0;
 
     public void tick() {
@@ -24,7 +28,7 @@ public class Handler {
         }
     }
 
-    public void checkCollision(GameObject object) {
+    public void checkCollision(GameObject object) { //checks the collisions of the parameter object with all other objects
         for (GameObject tempObject : this.objectList) {
             if (tempObject.getID() == object.getID() || tempObject.getID() == ID.Developer) {
                 continue;
@@ -35,7 +39,7 @@ public class Handler {
         }
     }
 
-    public void adjustScroll(float velX) {
+    public void adjustScroll(float velX) {  //adjusts the screen for scrolling
         for (GameObject tempObject : this.objectList) {
             if (tempObject.getID() == ID.Player) {
                 continue;
@@ -49,20 +53,6 @@ public class Handler {
             tempObject.adjustForScroll(-1.0f * velX);
         }
     }
-
-    public boolean isOnPlatform(GameObject object) {
-        for (GameObject tempObject : this.objectList) {
-            if (tempObject.getID() != ID.Platform) {
-                continue;
-            }
-            if (new Rectangle((int)object.getX(), (int)object.getY()+5, (int)object.getWidth(), (int)object.getHeight()).intersects(tempObject.getBounds())) {
-                object.collision(tempObject);
-                return true;
-            }
-        }
-        return false;
-    }
-
 
     public void addObject(GameObject object) {this.objectList.add(object);}
     public void removeObject(GameObject object) {this.deleteQueue.push(object);}
