@@ -9,39 +9,43 @@ public class Game extends Canvas implements Runnable{
     public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
     public static final float scrollWidthRight = 1050.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false, canScrollRight = true, scroll = false; //check variables if scrolling is allowed
+
     //variables used for the gameloop
-    private static final int MAX_FRAMES_PER_SECOND = 30;
-    private static final int MAX_TICKS_PER_SECOND = 30;
-    private static final double OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //this is the optimal time a single render calculates
-    private static final double OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
+    public static final int MAX_FRAMES_PER_SECOND = 30;
+    public static final int MAX_TICKS_PER_SECOND = 30;
+    public static final double OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //this is the optimal time a single render calculates
+    public static final double OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
     boolean running = false;
+
     //class variabe declaration
     Thread thread;
     Handler handler;
     WindowX windowX;
+    DeveloperTools developerTools = null;
+
+    //variables used for gamestate
     public enum STATE { //saves the current state of the game
         Menu,   //this state is active when in the menu
         Game,   //this state is active when the game is running
         Pause   //this state is active when the game is paused
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
+
     public Game() { //default constructor
         //create all object instances here
         this.handler = new Handler();
+        this.developerTools = new DeveloperTools();
         this.addKeyListener(new KeyInput(this.handler, this));
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
         //create objects here for now
-        Player player = new Player(200.f, 200.f, ID.Player, this.handler);
-        Box box1 = new Box(900.0f, 100.0f);
-        Box box2 = new Box(1500.f, 100.0f);
-        MarkerPoint m1 = new MarkerPoint(0.0f, 0.0f, ID.MarkerPoint);
-        Floor floor = new Floor(100.0f, 800.0f);
-        this.handler.addObject(player);
-        this.handler.addObject(box1);
-        this.handler.addObject(box2);
-        this.handler.addObject(m1);
-        this.handler.addObject(floor);
+
+        //add all Gameobjects to handler
+        this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
+        this.handler.addObject(new Box(900.0f, 100.0f));
+        this.handler.addObject(new Platform(300, 700.0f, true, handler));
+        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
+        this.handler.addObject(this.developerTools);
     }
 
     public synchronized void start() { //starts the game
@@ -61,32 +65,34 @@ public class Game extends Canvas implements Runnable{
 
     public void run() { //gameloop
         this.requestFocus();
+
         //gameloop variable initialisation
         double DeltaTimeFrames = 0;
         double DeltaTimeTicks = 0;
         long currentTime;
         long startTime = System.nanoTime();
         long timer = System.currentTimeMillis();
-        int frames = 0;
+
         //gameloop
         while (this.running) {
-            currentTime = System.nanoTime();
-            DeltaTimeFrames += (currentTime - startTime);
-            DeltaTimeTicks += (currentTime - startTime);
+            currentTime = System.nanoTime();    //gets current time
+            DeltaTimeFrames += (currentTime - startTime);   //adds a delta
+            DeltaTimeTicks += (currentTime - startTime);    //adds a delta
             startTime = currentTime;
-            if (DeltaTimeTicks >= Game.OPTIMAL_TIME_TICK) {
+            if (DeltaTimeTicks >= Game.OPTIMAL_TIME_TICK) { //if delta is larger than optimal time, call tick and subtract the optimal time from the delta
                 tick();
+                this.developerTools.incrementTicks();
                 DeltaTimeTicks -= Game.OPTIMAL_TIME_TICK;
             }
-            if (DeltaTimeFrames >= Game.OPTIMAL_TIME_FRAMES) {
+            if (DeltaTimeFrames >= Game.OPTIMAL_TIME_FRAMES) {  //if delta is larger than optimal time, call tick and subtract the optimal time from the delta
                 render();
-                frames++;
+                this.developerTools.incrementFrames();
                 DeltaTimeFrames -= Game.OPTIMAL_TIME_FRAMES;
             }
-            if (System.currentTimeMillis() - timer > 1000) {
+            if (this.developerTools != null && System.currentTimeMillis() - timer > 1000) {    //updates the frames and ticks for developerTools
                 timer += 1000;
-                System.out.println("Fps:" + frames);
-                frames = 0;
+                this.developerTools.updateFrames();
+                this.developerTools.updateTicks();
             }
         }
         stop();

@@ -4,7 +4,7 @@ public abstract class GameObject {
 
     protected float x, y;    //x and y values on screen
     protected float VelX, VelY; //velocity in x and y direction
-    protected float gravity = 0.5f;
+    protected float gravity = 1.0f;
     protected ID id;
     protected int width, height;
     protected Color objectColor;

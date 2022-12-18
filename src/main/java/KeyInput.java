@@ -10,9 +10,9 @@ public class KeyInput extends KeyAdapter {
     public KeyInput(Handler handler, Game game) {
         this.handler = handler;
         this.game = game;
-        keydown[0] = false;
-        keydown[1] = false;
-        keydown[2] = false;
+        keydown[0] = false; //A down
+        keydown[1] = false; //d down
+        keydown[2] = false; //shift down
         keydown[3] = false;
     }
 
@@ -26,6 +26,11 @@ public class KeyInput extends KeyAdapter {
                     if (this.handler.isOnPlatform(tempObject)) {
                         tempObject.setVelY(15.0f);
                     }
+                }
+                if (key == KeyEvent.VK_SHIFT && !keydown[2]) {
+                    this.vel = this.vel*2;
+                    tempObject.setVelX(tempObject.getVelX() * 2);
+                    keydown[2] = true;
                 }
             }
         }
@@ -47,6 +52,11 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_D) keydown[1] = false;
                 if (!keydown[0] && !keydown[1]) {
                     tempObject.setVelX(0);
+                }
+                if (key == KeyEvent.VK_SHIFT && keydown[2]) {
+                    this.vel = this.vel/2;
+                    tempObject.setVelX(tempObject.getVelX() / 2);
+                    keydown[2] = false;
                 }
             }
         }

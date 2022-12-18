@@ -38,12 +38,16 @@ public class Player extends GameObject{
     public void render(Graphics g) {
         g.setColor(getObjectColor());
         g.fillRect((int)x, (int)y, this.width, this.height);
-        g.drawString(Float.toString(getVelY()), 100, 20);
     }
 
     public void collision(GameObject collisionObject) {
-        if (collisionObject.getID() == ID.Floor) {
-            y = collisionObject.getY() - this.getWidth();
+        if (collisionObject.getID() == ID.Platform) {
+            if (this.getY() < collisionObject.getY()) {
+                y = collisionObject.getY() - this.getHeight();
+            }else {
+                y = collisionObject.getY() + collisionObject.getHeight();
+                ((Platform)collisionObject).hitFromBelow();
+            }
         }
     }
 
