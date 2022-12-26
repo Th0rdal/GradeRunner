@@ -43,8 +43,6 @@ public class Game extends Canvas implements Runnable{
         this.addKeyListener(new KeyInput(this.handler, this));
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
-        //create objects here for now
-
         //add all Gameobjects to handler
         this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
         this.handler.addObject(new Platform(300, 700.0f, true, handler));

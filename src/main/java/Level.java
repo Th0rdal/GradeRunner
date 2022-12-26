@@ -33,9 +33,12 @@ public class Level implements Serializable {
         }
     }
 
-    public void save() {
+    public void save() { //saves the level to a file
+        for (GameObject tempObject : this.handler.getObjectList()) {
+            blocks.add(tempObject);
+        }
         Utilities.saveObjectToFile(this, this.pathToFile);
-    }   //saves the level to a file
+    }
 
     //getters
     public String getName() {return this.name;}
