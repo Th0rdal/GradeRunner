@@ -25,14 +25,20 @@ public class Game extends Canvas implements Runnable{
     //class variabe declaration
     Thread thread;
     Handler handler;
+    Menu menu;
+    LevelSelect levelSelect;
     WindowX windowX;
+    PauseMenu pause;
     DeveloperTools developerTools = null;
+
+
 
     //variables used for gamestate
     public enum STATE { //saves the current state of the game
         Menu,   //this state is active when in the menu
         Game,   //this state is active when the game is running
-        Pause   //this state is active when the game is paused
+        Pause,   //this state is active when the game is paused
+        Levelselect
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
 
@@ -41,13 +47,21 @@ public class Game extends Canvas implements Runnable{
         this.handler = new Handler();
         this.developerTools = new DeveloperTools();
         this.addKeyListener(new KeyInput(this.handler, this));
+        this.menu = new Menu(this, handler);
+        this.levelSelect = new LevelSelect(this, handler);
+        this.pause = new PauseMenu(this, handler);
+        this.addMouseListener(this.menu);
+        this.addMouseListener(this.levelSelect);
+        this.addMouseListener(this.pause);
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
+
         //add all Gameobjects to handler
-        this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
-        this.handler.addObject(new Platform(300, 700.0f, true, handler));
-        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
-        this.handler.addObject(this.developerTools);
+//        this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
+//        this.handler.addObject(new Platform(300, 700.0f, true, handler));
+//        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
+//        this.handler.addObject(this.developerTools);
+
     }
 
     public synchronized void start() { //starts the game
@@ -101,13 +115,15 @@ public class Game extends Canvas implements Runnable{
     }
     public void tick() { //method for all physics calculation
         //enter tick methods specific to gamestate
-        this.handler.tick();
+
         if (this.gamestate == STATE.Game) {
-            pass();
+            this.handler.tick();
         } else if (this.gamestate == STATE.Menu) {
-            pass();
+            menu.tick();
         } else if (this.gamestate == STATE.Pause) {
-            pass();
+            pause.tick();
+        }else if (this.gamestate == STATE.Levelselect){
+            levelSelect.tick();
         }
         //enter all gamestates
     }
@@ -122,18 +138,21 @@ public class Game extends Canvas implements Runnable{
         g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
 
         //enter render method specific to gamestate
-        this.handler.render(g);
+
         if (gamestate == STATE.Game) {
-            pass();
+            this.handler.render(g);
         } else if (gamestate == STATE.Menu) {
-            pass();
+            menu.render(g);
         } else if (gamestate == STATE.Pause) {
-            pass();
+            pause.render(g);
+        }else if (this.gamestate == STATE.Levelselect){
+            levelSelect.render(g);
         }
 
         bs.show();
         g.dispose();
     }
+
 
     private void pass() { //method that does nothing. only for development purpose
         return;
