@@ -32,7 +32,7 @@ public class Game extends Canvas implements Runnable{
     PauseMenu pause;
     DeveloperTools developerTools = null;
     public static BufferedImage sprite_sheet;
-
+    private BufferedImage background;
 
 
     //variables used for gamestate
@@ -58,13 +58,18 @@ public class Game extends Canvas implements Runnable{
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
         BufferedImageLoader loader = new BufferedImageLoader();
         sprite_sheet = loader.loadImage("/player.png");
+        background = loader.loadImage("/bg.jpg");
+
+        Audio audio = new Audio();
+        //only works with hardcoded path file ?????????????????????????????????????
+        //audio.playMusic("/resources/bg.wav");
 
 
         //add all Gameobjects to handler
-//        this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
-//        this.handler.addObject(new Platform(300, 700.0f, true, handler));
-//        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
-//        this.handler.addObject(this.developerTools);
+       this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
+       this.handler.addObject(new Platform(300, 700.0f, true, handler));
+       this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
+      this.handler.addObject(this.developerTools);
 
     }
 
@@ -140,6 +145,8 @@ public class Game extends Canvas implements Runnable{
 
         Graphics g = bs.getDrawGraphics();
         g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
+        g.drawImage(background, 0, 0, null);
+
 
         //enter render method specific to gamestate
 

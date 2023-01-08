@@ -12,7 +12,7 @@ public class Platform extends GameObject{
     private Handler handler;
     public Platform(float x, float y, boolean breakable, Handler handler) {
         super(x, y, ID.Platform, 500, 32);
-        super.setObjectColor(Color.green);
+        super.setObjectColor(Color.BLACK);
         this.breakable = breakable;
         this.handler = handler;
     }

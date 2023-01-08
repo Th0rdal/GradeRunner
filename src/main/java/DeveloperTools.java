@@ -8,7 +8,6 @@ import java.awt.*;
 
 public class DeveloperTools extends GameObject{
 
-
     public DeveloperTools() {
         super(0.0f, 0.0f, ID.Developer, 0, 0);
     }
@@ -17,9 +16,10 @@ public class DeveloperTools extends GameObject{
     @Override
     public void render(Graphics g) {
         g.setColor(Color.black);
-        g.drawRect(0, 0, 100, 100);
+        g.drawRect(0, 0, 120, 120);
         g.drawString("FPS: " + Integer.toString(this.lastFrames) + "/" + Game.MAX_FRAMES_PER_SECOND, 10, 12);
         g.drawString("TICKS: " + Integer.toString(this.lastTicks) + "/" + Game.MAX_TICKS_PER_SECOND, 10, 22);
+        g.drawString("Selected Level: " + Integer.toString(LevelSelect.selectedLevel), 10, 32);
     }
     public void incrementFrames() {this.frames++;}
     public void updateFrames() {
