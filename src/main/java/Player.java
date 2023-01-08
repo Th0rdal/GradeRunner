@@ -1,14 +1,27 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public class Player extends GameObject{
 
     private Handler handler;
+    private BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
+    private int counter = 0;
+    private boolean walkRight = false;
+
 
     public Player(float x, float y, ID id, Handler handler) {
-        super(x, y, id, 32, 32);
+        super(x, y, id, 12, 17);
         super.setObjectColor(Color.red);
         this.handler = handler;
-    }
+
+        SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
+        this.imgLookRight = ss.grabImage(0, 0, 12, 17);
+        this.imgWalkRight1 = ss.grabImage(1, 0, 12, 17);
+        this.imgWalkRight2 = ss.grabImage(2, 0, 12, 17);
+        this.imgLookLeft = ss.grabImage(3, 0, 12, 17);
+        this.imgWalkLeft1 = ss.grabImage(4, 0, 12, 17);
+        this.imgWalkLeft2 = ss.grabImage(5, 0, 12, 17);
+     }
 
     public Rectangle getBounds() {return new Rectangle((int)x, (int)y, this.width, this.height);}
 
@@ -36,8 +49,43 @@ public class Player extends GameObject{
     }
 
     public void render(Graphics g) {
-        g.setColor(getObjectColor());
-        g.fillRect((int)x, (int)y, this.width, this.height);
+        //g.setColor(getObjectColor());
+        //g.fillRect((int)x, (int)y, this.width, this.height);
+        if (this.getVelY() != 0) {
+            if (this.getVelX() > 0){
+                g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+            }else if (this.getVelX() < 0) {
+                g.drawImage(this.imgLookLeft, (int)x, (int)y, null);
+            }else {
+                g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+            }
+        }else {
+            if (this.getVelX() > 0) {
+                if (counter % 3 == 0) {
+                    g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                    this.counter++;
+                } else if (counter % 3 == 1) {
+                    g.drawImage(this.imgWalkRight1, (int) x, (int) y, null);
+                    this.counter++;
+                } else if (counter % 3 == 2) {
+                    g.drawImage(this.imgWalkRight2, (int) x, (int) y, null);
+                    this.counter = 0;
+                }
+            }else if (this.getVelX() < 0) {
+                if (counter % 3 == 0) {
+                    g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
+                    this.counter++;
+                } else if (counter % 3 == 1) {
+                    g.drawImage(this.imgWalkLeft1, (int) x, (int) y, null);
+                    this.counter++;
+                } else if (counter % 3 == 2) {
+                    g.drawImage(this.imgWalkLeft2, (int) x, (int) y, null);
+                    this.counter = 0;
+                }
+            }else {
+                g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+            }
+        }
     }
 
     public void collision(GameObject collisionObject) {

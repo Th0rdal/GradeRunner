@@ -5,6 +5,7 @@
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 public class Game extends Canvas implements Runnable{
 
@@ -27,6 +28,7 @@ public class Game extends Canvas implements Runnable{
     Handler handler;
     WindowX windowX;
     DeveloperTools developerTools = null;
+    public static BufferedImage sprite_sheet;
 
     //variables used for gamestate
     public enum STATE { //saves the current state of the game
@@ -42,6 +44,8 @@ public class Game extends Canvas implements Runnable{
         this.developerTools = new DeveloperTools();
         this.addKeyListener(new KeyInput(this.handler, this));
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+        BufferedImageLoader loader = new BufferedImageLoader();
+        sprite_sheet = loader.loadImage("/player.png");
 
         //add all Gameobjects to handler
         this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
