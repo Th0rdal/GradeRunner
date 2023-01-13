@@ -12,6 +12,18 @@ public class LevelSelect extends MouseAdapter{
     private Color color;
     public static int selectedLevel = 0;
 
+    private boolean mouseOverButton1 = false;
+    private boolean mouseOverButton2 = false;
+    private boolean mouseOverButton3 = false;
+    private boolean mouseOverButton4 = false;
+    private boolean mouseOverButton5 = false;
+    private boolean mouseOverButton6 = false;
+    private boolean mouseOverButton7 = false;
+    private boolean mouseOverButton8 = false;
+    private boolean mouseOverButton9 = false;
+    private boolean mouseOverButton10 = false;
+
+
     public LevelSelect(Game game, Handler handler){
         this.game = game;
         this.handler = handler;
@@ -31,43 +43,98 @@ public class LevelSelect extends MouseAdapter{
     public void render(Graphics g) {
         Font menu = new Font("arial", 1, 100);
         Font buttons = new Font("arial", 1, 70);
+        Font button1 = new Font("arial", 1, 70);
+        Font button1Alt = new Font("arial", 1, 80);
         g.setFont(menu);
         g.setColor(Color.black);
         g.drawString("Level Select",300,150);
 
-        g.setColor(Color.black);
+        if (this.mouseOverButton10) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.fillRect(350, 700, 500, 100);
         g.setColor(Color.white);
+        if (this.mouseOverButton10) {
+            g.setFont(button1Alt);
+            g.drawString("Main Menu", 400, 775);
+        } else {
+            g.setFont(button1);
+            g.drawString("Main Menu", 425, 775);
+        }
+
         g.setFont(buttons);
-        g.drawString("Main Menu", 425, 775);
 
-
-
-        g.setColor(Color.black);
+        if (this.mouseOverButton1) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(200, 200, 200, 120);
         g.drawString("1", 280, 285);
 
+        if (this.mouseOverButton4) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(200, 350, 200, 120);
         g.drawString("4", 280, 435);
 
+        if (this.mouseOverButton7) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(200, 500, 200, 120);
         g.drawString("7", 280, 585);
 
+        if (this.mouseOverButton2) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(500, 200, 200, 120);
         g.drawString("2", 580, 285);
 
+        if (this.mouseOverButton5) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(500, 350, 200, 120);
         g.drawString("5", 580, 435);
 
+        if (this.mouseOverButton8) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(500, 500, 200, 120);
         g.drawString("8", 580, 585);
 
+        if (this.mouseOverButton3) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(800, 200, 200, 120);
         g.drawString("3", 880, 285);
 
+        if (this.mouseOverButton6) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(800, 350, 200, 120);
         g.drawString("6", 880, 435);
 
+        if (this.mouseOverButton9) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.drawRect(800, 500, 200, 120);
         g.drawString("9", 880, 585);
 
@@ -153,6 +220,46 @@ public class LevelSelect extends MouseAdapter{
         } else return false;
     }
 
+    public void mouseMoved(MouseEvent e) {
+        int mx = e.getX();
+        int my = e.getY();
+
+
+        this.mouseOverButton1 = false;
+        this.mouseOverButton2 = false;
+        this.mouseOverButton3 = false;
+        this.mouseOverButton4 = false;
+        this.mouseOverButton5 = false;
+        this.mouseOverButton6 = false;
+        this.mouseOverButton7 = false;
+        this.mouseOverButton8 = false;
+        this.mouseOverButton9 = false;
+        this.mouseOverButton10 = false;
+
+        if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
+            this.mouseOverButton10 = true;
+        } else if (mouseOverBox(mx, my, 200, 200, 200, 120)) {
+            this.mouseOverButton1 = true;
+        } else if (mouseOverBox(mx, my, 500, 200, 200, 120)) {
+            this.mouseOverButton2 = true;
+        }else if (mouseOverBox(mx, my, 800, 200, 200, 120)) {
+            this.mouseOverButton3 = true;
+        } else if (mouseOverBox(mx, my, 200, 350, 200, 120)) {
+            this.mouseOverButton4 = true;
+        }else if (mouseOverBox(mx, my, 500, 350, 200, 120)) {
+            this.mouseOverButton5 = true;
+        } else if (mouseOverBox(mx, my, 800, 350, 200, 120)) {
+            this.mouseOverButton6 = true;
+        }else if (mouseOverBox(mx, my, 200, 500, 200, 120)) {
+            this.mouseOverButton7 = true;
+        } else if (mouseOverBox(mx, my, 500, 500, 200, 120)) {
+            this.mouseOverButton8 = true;
+        }else if (mouseOverBox(mx, my, 800, 500, 200, 120)) {
+            this.mouseOverButton9 = true;
+        }
+    }
+
+
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
@@ -220,7 +327,7 @@ public class LevelSelect extends MouseAdapter{
                 pass();
             }
 
-            if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
+                if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
                 //game.gamestate = Game.STATE.Menu;
                 game.setGamestate(Game.STATE.Menu);
             }

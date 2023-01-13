@@ -9,6 +9,8 @@ public class PauseMenu extends MouseAdapter{
     private Handler handler;
     private Random r = new Random();
     private Color color;
+    private boolean mouseOverButton1 = false;
+    private boolean mouseOverButton2 = false;
 
     public PauseMenu(Game game, Handler handler){
         this.game = game;
@@ -25,20 +27,44 @@ public class PauseMenu extends MouseAdapter{
     public void render(Graphics g) {
         Font menu = new Font("arial", 1, 100);
         Font buttons = new Font("arial", 1, 70);
+        Font buttonsAlt = new Font("arial", 1, 80);
+        Font buttons2 = new Font("arial", 1, 70);
+        Font buttons2Alt = new Font("arial", 1, 80);
         g.setFont(menu);
         g.setColor(Color.black);
         g.drawString("Paused",450,150);
 
-        g.setColor(Color.black);
+        if (this.mouseOverButton1) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.fillRect(375, 200, 500, 100);
+        if (this.mouseOverButton2) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
         g.fillRect(375, 350, 500, 100);
         //g.drawRect(375, 500, 500, 100);
         //g.drawRect(375, 700, 500, 100);
 
         g.setColor(Color.white);
-        g.setFont(buttons);
-        g.drawString("Continue", 475, 275);
-        g.drawString("Main Menu", 450, 425);
+        if (this.mouseOverButton1) {
+            g.setFont(buttonsAlt);
+            g.drawString("Continue", 450, 275);
+        } else {
+            g.setFont(buttons);
+            g.drawString("Continue", 475, 275);
+        }
+        if (this.mouseOverButton2) {
+            g.setFont(buttons2Alt);
+            g.drawString("Main Menu", 425, 425);
+        } else {
+            g.setFont(buttons2);
+            g.drawString("Main Menu", 450, 425);
+        }
+
         //g.drawString("Help", 555, 425);
         //g.drawString("Quit", 555, 775);
 
@@ -74,6 +100,21 @@ public class PauseMenu extends MouseAdapter{
 //            if (mouseOverBox(mx, my, 375, 700, 500, 100)) {
 //                System.exit(1);
 //            }
+        }
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        int mx = e.getX();
+        int my = e.getY();
+
+        this.mouseOverButton1 = false;
+        this.mouseOverButton2 = false;
+
+
+        if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
+            this.mouseOverButton1 = true;
+        } else if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
+            this.mouseOverButton2 = true;
         }
     }
 
