@@ -13,7 +13,7 @@ public class Level implements Serializable {
     private String encryptionCode;  //a unique code for each world
     private String encryptedName;   //encrypted name of the world
     private long timeOfCreation;    //the time the object was created in nanoSeconds
-    private Handler handler;
+    private transient Handler handler;
 
     private LinkedList<GameObject> blocks = new LinkedList<>(); //a list with all blocks in the level
 
@@ -23,11 +23,13 @@ public class Level implements Serializable {
         this.encryptedName = Utilities.encryptName(this.name, this.timeOfCreation);
         this.encryptionCode = Utilities.encryptWorld(this);
         this.handler = handler;
-        this.pathToFile = "saves/worlds" + this.encryptionCode;
+        this.pathToFile = "saves/worlds/" + this.encryptionCode + ".world";
     }
 
-    public void load() {    //loads the level onto the screen
+    public void load(Handler handler) {    //loads the level onto the screen
+        this.handler = handler;
         this.handler.clear();
+        System.out.println(this.blocks.size());
         for (GameObject tempObject : this.blocks) {
             this.handler.addObject(tempObject);
         }
@@ -35,8 +37,9 @@ public class Level implements Serializable {
 
     public void save() { //saves the level to a file
         for (GameObject tempObject : this.handler.getObjectList()) {
-            blocks.add(tempObject);
+            this.blocks.add(tempObject);
         }
+        System.out.println(this.blocks.size());
         Utilities.saveObjectToFile(this, this.pathToFile);
     }
 
