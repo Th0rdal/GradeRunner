@@ -53,8 +53,11 @@ public class Game extends Canvas implements Runnable{
         this.levelSelect = new LevelSelect(this, handler);
         this.pause = new PauseMenu(this, handler);
         this.addMouseListener(this.menu);
+        this.addMouseMotionListener(this.menu);
         this.addMouseListener(this.levelSelect);
+        this.addMouseMotionListener(this.levelSelect);
         this.addMouseListener(this.pause);
+        this.addMouseMotionListener(this.pause);
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
         BufferedImageLoader loader = new BufferedImageLoader();
         sprite_sheet = loader.loadImage("/player.png");
