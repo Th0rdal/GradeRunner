@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 public class Player extends GameObject{
 
     private Handler handler;
-    private BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
+    private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int counter = 0;
     private boolean walkRight = false;
 
@@ -13,14 +13,6 @@ public class Player extends GameObject{
         super(x, y, id, 12, 17);
         super.setObjectColor(Color.red);
         this.handler = handler;
-
-        SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
-        this.imgLookRight = ss.grabImage(0, 0, 12, 17);
-        this.imgWalkRight1 = ss.grabImage(1, 0, 12, 17);
-        this.imgWalkRight2 = ss.grabImage(2, 0, 12, 17);
-        this.imgLookLeft = ss.grabImage(3, 0, 12, 17);
-        this.imgWalkLeft1 = ss.grabImage(4, 0, 12, 17);
-        this.imgWalkLeft2 = ss.grabImage(5, 0, 12, 17);
      }
 
     public Rectangle getBounds() {return new Rectangle((int)x, (int)y, this.width, this.height);}
@@ -48,10 +40,8 @@ public class Player extends GameObject{
         this.handler.checkCollision(this);
     }
 
-    public void render(Graphics g) {
-        //g.setColor(getObjectColor());
-        //g.fillRect((int)x, (int)y, this.width, this.height);
-        if (this.getVelY() != 0) {
+    public void render(Graphics g) {;
+        if (this.getVelY() != 0) {  //spritesheets while in air
             if (this.getVelX() > 0){
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
             }else if (this.getVelX() < 0) {
@@ -59,8 +49,8 @@ public class Player extends GameObject{
             }else {
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
             }
-        }else {
-            if (this.getVelX() > 0) {
+        }else { //spritesheets while on ground
+            if (this.getVelX() > 0) {   //running right
                 if (counter % 3 == 0) {
                     g.drawImage(this.imgLookRight, (int) x, (int) y, null);
                     this.counter++;
@@ -71,7 +61,7 @@ public class Player extends GameObject{
                     g.drawImage(this.imgWalkRight2, (int) x, (int) y, null);
                     this.counter = 0;
                 }
-            }else if (this.getVelX() < 0) {
+            }else if (this.getVelX() < 0) { //running left
                 if (counter % 3 == 0) {
                     g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
                     this.counter++;
@@ -82,7 +72,7 @@ public class Player extends GameObject{
                     g.drawImage(this.imgWalkLeft2, (int) x, (int) y, null);
                     this.counter = 0;
                 }
-            }else {
+            }else { //when not moving
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
             }
         }
@@ -90,11 +80,29 @@ public class Player extends GameObject{
 
     public void collision(GameObject collisionObject) {
         if (collisionObject.getID() == ID.Platform) {
+            float tempY, tempX;
+            boolean hitFromBelowFlag = false;
             if (this.getY() < collisionObject.getY()) {
-                y = collisionObject.getY() - this.getHeight();
+                tempY = collisionObject.getY() - this.getHeight();
             }else {
-                y = collisionObject.getY() + collisionObject.getHeight();
-                ((Platform)collisionObject).hitFromBelow();
+                tempY = collisionObject.getY() + collisionObject.getHeight();
+                hitFromBelowFlag = true;
+            }
+            if (this.getX() < collisionObject.getX()) {
+                tempX = collisionObject.getX() - this.getWidth();
+            }else {
+                tempX = collisionObject.getX() + collisionObject.getWidth();
+            }
+
+            if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {
+                x = tempX;
+                y += this.getGravity();
+            }else {
+                y = tempY;
+                if (hitFromBelowFlag) {
+                    ((Platform)collisionObject).hitFromBelow();
+                    this.setVelY(0);
+                }
             }
         }
     }
@@ -110,6 +118,16 @@ public class Player extends GameObject{
             }
         }
         return false;
+    }
+    @Override
+    public void loadSprites() {
+        SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
+        this.imgLookRight = ss.grabImage(0, 0, 12, 17);
+        this.imgWalkRight1 = ss.grabImage(1, 0, 12, 17);
+        this.imgWalkRight2 = ss.grabImage(2, 0, 12, 17);
+        this.imgLookLeft = ss.grabImage(3, 0, 12, 17);
+        this.imgWalkLeft1 = ss.grabImage(4, 0, 12, 17);
+        this.imgWalkLeft2 = ss.grabImage(5, 0, 12, 17);
     }
 
 }

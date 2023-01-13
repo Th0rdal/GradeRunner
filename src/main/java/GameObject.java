@@ -4,8 +4,9 @@
  */
 
 import java.awt.*;
+import java.io.Serializable;
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
     protected float x, y;    //x and y values on screen
     protected float VelX, VelY; //velocity in x and y direction
@@ -31,7 +32,7 @@ public abstract class GameObject {
     public void adjustForScroll(float adjustX) {
         x += adjustX;
     }   //adjusts the position of the object when scrolling
-
+    public abstract void loadSprites();
     //getter and setter
     public float getX() {
         return x;

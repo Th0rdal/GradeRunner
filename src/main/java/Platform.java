@@ -39,6 +39,6 @@ public class Platform extends GameObject{
     }
 
     public Rectangle getBounds() {return new Rectangle ((int)x, (int)y, this.width, this.height);}
-
+    public void loadSprites() {return;}
 
 }

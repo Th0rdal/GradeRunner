@@ -4,6 +4,7 @@
  */
 
 import java.awt.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -30,7 +31,7 @@ public class Handler {
 
     public void checkCollision(GameObject object) { //checks the collisions of the parameter object with all other objects
         for (GameObject tempObject : this.objectList) {
-            if (tempObject.getID() == object.getID() || tempObject.getID() == ID.Developer) {
+            if (tempObject.getID() == object.getID()) {
                 continue;
             }
             if (object.getBounds().intersects(tempObject.getBounds())) {
@@ -51,6 +52,20 @@ public class Handler {
                 Game.canScrollLeft = true;
             }
             tempObject.adjustForScroll(-1.0f * velX);
+        }
+    }
+
+    public GameObject getPlayer() {
+        for (GameObject tempObject : this.objectList) {
+            if (tempObject.getID() == ID.Player) {
+                return tempObject;
+            }
+        }
+        return null;
+    }
+    public void loadImages() {
+        for (GameObject tempObject : this.objectList) {
+            tempObject.loadSprites();
         }
     }
 

@@ -5,6 +5,5 @@
 public enum ID {
 
     Player(),
-    Developer(),
     Platform();
 }

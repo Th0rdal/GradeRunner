@@ -6,6 +6,7 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 public class Game extends Canvas implements Runnable{
 
@@ -45,9 +46,18 @@ public class Game extends Canvas implements Runnable{
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
 
     public Game() { //default constructor
+
+        //load sprites
+        BufferedImageLoader loader = new BufferedImageLoader();
+        sprite_sheet = loader.loadImage("/player.png");
+        background = loader.loadImage("/bg.jpg");
+
+        //audio initialization
+        Audio audio = new Audio();
+        //audio.playMusic("src/main/resources/backgroundMusic.wav");
+
         //create all object instances here
         this.handler = new Handler();
-        this.developerTools = new DeveloperTools();
         this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler);
         this.levelSelect = new LevelSelect(this, handler);
@@ -55,21 +65,13 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.pause);
+        this.developerTools = new DeveloperTools(this.handler);
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
-        BufferedImageLoader loader = new BufferedImageLoader();
-        sprite_sheet = loader.loadImage("/player.png");
-        background = loader.loadImage("/bg.jpg");
-
-        Audio audio = new Audio();
-        //only works with hardcoded path file ?????????????????????????????????????
-        audio.playMusic("src/main/resources/backgroundMusic.wav");
-
 
         //add all Gameobjects to handler
-       this.handler.addObject(new Player(200.f, 200.f, ID.Player, this.handler));
-       this.handler.addObject(new Platform(300, 700.0f, true, handler));
-       this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
-      this.handler.addObject(this.developerTools);
+        this.handler.addObject(new Player(700.0f, 200.f, ID.Player, this.handler));
+        this.handler.addObject(new Platform(300, 700.0f, true, handler));
+        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
 
     }
 
@@ -89,6 +91,10 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void run() { //gameloop
+        //init
+        this.developerTools.getPlayer();
+        this.handler.loadImages();
+
         this.requestFocus();
 
         //gameloop variable initialisation
@@ -149,15 +155,15 @@ public class Game extends Canvas implements Runnable{
 
 
         //enter render method specific to gamestate
-
+        this.developerTools.render(g);
         if (gamestate == STATE.Game) {
             this.handler.render(g);
         } else if (gamestate == STATE.Menu) {
-            menu.render(g);
+            this.menu.render(g);
         } else if (gamestate == STATE.Pause) {
-            pause.render(g);
+            this.pause.render(g);
         }else if (this.gamestate == STATE.Levelselect){
-            levelSelect.render(g);
+            this.levelSelect.render(g);
         }
 
         bs.show();

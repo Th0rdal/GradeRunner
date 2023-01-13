@@ -7,6 +7,7 @@
  * Sprint       SHIFT
  * Pause game   P
  * Close Game   ESC
+ * Show DevTools V
  */
 
 import java.awt.event.*;
@@ -50,6 +51,9 @@ public class KeyInput extends KeyAdapter {
             }else if (this.game.getGamestate() == Game.STATE.Pause) {
                 game.setGamestate(Game.STATE.Game);
             }
+        }
+        if (key == KeyEvent.VK_V) {
+            DeveloperTools.toggleVisibility();
         }
         if (key == KeyEvent.VK_ESCAPE) System.exit(1);  //closes the game
     }
