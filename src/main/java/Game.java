@@ -24,7 +24,7 @@ public class Game extends Canvas implements Runnable{
     public static final double OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
     boolean running = false;
 
-    //class variabe declaration
+    //class variable declaration
     Thread thread;
     Handler handler;
     Menu menu;
@@ -65,6 +65,9 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.pause);
+        this.addMouseMotionListener(this.menu);
+        this.addMouseMotionListener(this.levelSelect);
+        this.addMouseMotionListener(this.pause);
         this.developerTools = new DeveloperTools(this.handler);
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
