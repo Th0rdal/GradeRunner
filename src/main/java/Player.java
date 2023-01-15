@@ -5,13 +5,12 @@ public class Player extends GameObject{
 
     private Handler handler;
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
-    private int counter = 0;
+    private int spriteCounter = 0;
     private boolean walkRight = false;
 
 
-    public Player(float x, float y, ID id, Handler handler) {
-        super(x, y, id, 12, 17);
-        super.setObjectColor(Color.red);
+    public Player(float x, float y, Handler handler) {
+        super(x, y, ID.Player, 36, 51);
         this.handler = handler;
      }
 
@@ -21,7 +20,7 @@ public class Player extends GameObject{
         x += getVelX();
         y -= getVelY();
         if (hasGravity()) {
-            if (!this.isOnPlatform()) {
+            if (!this.handler.isOnPlatform(this)) {
                 setVelY(getVelY() - getGravity());
             }else {
                 setVelY(0);
@@ -33,10 +32,9 @@ public class Player extends GameObject{
             if (Game.getScroll()) {
                 Game.toggleScroll();
                 this.handler.adjustScroll(getVelX());
+
             }
         }
-        x = Game.WallCollision(x, 0, Game.WIDTH - 32);
-        y = Game.WallCollision(y, 0, Game.HEIGHT - 69);
         this.handler.checkCollision(this);
     }
 
@@ -51,26 +49,26 @@ public class Player extends GameObject{
             }
         }else { //spritesheets while on ground
             if (this.getVelX() > 0) {   //running right
-                if (counter % 3 == 0) {
+                if (spriteCounter % 3 == 0) {
                     g.drawImage(this.imgLookRight, (int) x, (int) y, null);
-                    this.counter++;
-                } else if (counter % 3 == 1) {
+                    this.spriteCounter++;
+                } else if (spriteCounter % 3 == 1) {
                     g.drawImage(this.imgWalkRight1, (int) x, (int) y, null);
-                    this.counter++;
-                } else if (counter % 3 == 2) {
+                    this.spriteCounter++;
+                } else if (spriteCounter % 3 == 2) {
                     g.drawImage(this.imgWalkRight2, (int) x, (int) y, null);
-                    this.counter = 0;
+                    this.spriteCounter = 0;
                 }
             }else if (this.getVelX() < 0) { //running left
-                if (counter % 3 == 0) {
+                if (spriteCounter % 3 == 0) {
                     g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
-                    this.counter++;
-                } else if (counter % 3 == 1) {
+                    this.spriteCounter++;
+                } else if (spriteCounter % 3 == 1) {
                     g.drawImage(this.imgWalkLeft1, (int) x, (int) y, null);
-                    this.counter++;
-                } else if (counter % 3 == 2) {
+                    this.spriteCounter++;
+                } else if (spriteCounter % 3 == 2) {
                     g.drawImage(this.imgWalkLeft2, (int) x, (int) y, null);
-                    this.counter = 0;
+                    this.spriteCounter = 0;
                 }
             }else { //when not moving
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
@@ -107,27 +105,15 @@ public class Player extends GameObject{
         }
     }
 
-    public boolean isOnPlatform() {    //checks if the given GameObject is on a Platform
-        for (GameObject tempObject : this.handler.getObjectList()) {
-            if (tempObject.getID() != ID.Platform) {
-                continue;
-            }
-            if (new Rectangle((int)this.getX(), (int)this.getY()+5, (int)this.getWidth(), (int)this.getHeight()).intersects(tempObject.getBounds())) {
-                this.collision(tempObject);
-                return true;
-            }
-        }
-        return false;
-    }
     @Override
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Game.sprite_sheet);
-        this.imgLookRight = ss.grabImage(0, 0, 12, 17);
-        this.imgWalkRight1 = ss.grabImage(1, 0, 12, 17);
-        this.imgWalkRight2 = ss.grabImage(2, 0, 12, 17);
-        this.imgLookLeft = ss.grabImage(3, 0, 12, 17);
-        this.imgWalkLeft1 = ss.grabImage(4, 0, 12, 17);
-        this.imgWalkLeft2 = ss.grabImage(5, 0, 12, 17);
+        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/player.png"));
+        this.imgLookRight = ss.grabImage(0, 0, this.width, this.height);
+        this.imgWalkRight1 = ss.grabImage(1, 0, this.width, this.height);
+        this.imgWalkRight2 = ss.grabImage(2, 0, this.width, this.height);
+        this.imgLookLeft = ss.grabImage(3, 0, this.width, this.height);
+        this.imgWalkLeft1 = ss.grabImage(4, 0, this.width, this.height);
+        this.imgWalkLeft2 = ss.grabImage(5, 0, this.width, this.height);
     }
 
 }

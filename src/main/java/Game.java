@@ -6,13 +6,13 @@
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
 
 public class Game extends Canvas implements Runnable{
 
     //variables used for the Window
     public static final int WIDTH = 1250, HEIGHT = WIDTH / 12 * 9;  //width and height of the window
     //variables used to control the scrolling
+    public static final int TOTALLENGTH = 1500;
     public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
     public static final float scrollWidthRight = 1050.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false, canScrollRight = true, scroll = false; //check variables if scrolling is allowed
@@ -32,7 +32,8 @@ public class Game extends Canvas implements Runnable{
     WindowX windowX;
     PauseMenu pause;
     DeveloperTools developerTools = null;
-    public static BufferedImage sprite_sheet;
+    public static BufferedImageLoader loader;
+    public static BufferedImage player_spriteSheet;
     private BufferedImage background;
 
 
@@ -48,8 +49,7 @@ public class Game extends Canvas implements Runnable{
     public Game() { //default constructor
 
         //load sprites
-        BufferedImageLoader loader = new BufferedImageLoader();
-        sprite_sheet = loader.loadImage("/player.png");
+        this.loader = new BufferedImageLoader();
         background = loader.loadImage("/bg.jpg");
 
         //audio initialization
@@ -57,7 +57,9 @@ public class Game extends Canvas implements Runnable{
         //audio.playMusic("src/main/resources/backgroundMusic.wav");
 
         //create all object instances here
+        Platform tempFloor = new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler);
         this.handler = new Handler();
+        this.handler.setTotalLength(Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler);
         this.levelSelect = new LevelSelect(this, handler);
@@ -65,13 +67,16 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.pause);
-        this.developerTools = new DeveloperTools(this.handler);
-        windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+        this.developerTools = new DeveloperTools(this.handler, tempFloor);
 
         //add all Gameobjects to handler
-        this.handler.addObject(new Player(700.0f, 200.f, ID.Player, this.handler));
-        this.handler.addObject(new Platform(300, 700.0f, true, handler));
-        this.handler.addObject(new Platform(100.0f, 800.0f, true, handler));
+        this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        this.handler.addObject(new Platform(300.0f, 700.0f, 2000, 32, true, handler));
+        this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
+        this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
+        this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
+        this.handler.addObject(tempFloor);
+        windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
     }
 

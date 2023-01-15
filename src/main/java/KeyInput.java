@@ -34,7 +34,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_A) {tempObject.setVelX(-1.0f * this.vel); keydown[0] = true;}    //sets velocity of player when A is pressed
                 if (key == KeyEvent.VK_D) {tempObject.setVelX(this.vel); keydown[1] = true;}            //sets velocity of player when D is pressed
                 if (key == KeyEvent.VK_SPACE) { //checks if a jump is allowed and sets velocity when true
-                    if (((Player) tempObject).isOnPlatform()) {
+                    if (handler.isOnPlatform(tempObject)) {
                         tempObject.setVelY(15.0f);
                     }
                 }

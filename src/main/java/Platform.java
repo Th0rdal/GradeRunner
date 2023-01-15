@@ -10,8 +10,8 @@ public class Platform extends GameObject{
 
     private boolean breakable;  //if true block can be broken
     private Handler handler;
-    public Platform(float x, float y, boolean breakable, Handler handler) {
-        super(x, y, ID.Platform, 500, 32);
+    public Platform(float x, float y, int width, int height, boolean breakable, Handler handler) {
+        super(x, y, ID.Platform, width, height);
         super.setObjectColor(Color.BLACK);
         this.breakable = breakable;
         this.handler = handler;

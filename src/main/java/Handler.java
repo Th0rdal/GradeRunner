@@ -4,7 +4,6 @@
  */
 
 import java.awt.*;
-import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
 
@@ -13,6 +12,7 @@ public class Handler {
     private LinkedList<GameObject> objectList = new LinkedList<GameObject>();   //list of all GameObjects
     private ConcurrentLinkedDeque deleteQueue = new ConcurrentLinkedDeque();    //queue with all GameObjects to delete
     private float moved = 0;
+    private float totalLength = 0.0f;
 
     public void tick() {
         for (GameObject tempObject : this.objectList) {
@@ -41,15 +41,20 @@ public class Handler {
     }
 
     public void adjustScroll(float velX) {  //adjusts the screen for scrolling
+        this.moved += (-1.0f * velX);
+        if (this.moved >= 0) {
+            Game.canScrollLeft = false;
+        }else if (moved < 0) {
+            Game.canScrollLeft = true;
+        }
+        if (this.moved <= this.totalLength) {
+            Game.canScrollRight = false;
+        }else if (this.moved > this.totalLength) {
+            Game.canScrollRight = true;
+        }
         for (GameObject tempObject : this.objectList) {
             if (tempObject.getID() == ID.Player) {
                 continue;
-            }
-            this.moved += (-1.0f * velX);
-            if (moved == 0) {
-                Game.canScrollLeft = false;
-            }else if (moved < 0) {
-                Game.canScrollLeft = true;
             }
             tempObject.adjustForScroll(-1.0f * velX);
         }
@@ -69,11 +74,28 @@ public class Handler {
         }
     }
 
+    public boolean isOnPlatform(GameObject object) {    //checks if the given GameObject is on a Platform
+        for (GameObject tempObject : this.getObjectList()) {
+            if (tempObject.getID() != ID.Platform) {
+                continue;
+            }
+            if (new Rectangle((int)object.getX(), (int)object.getY()+5, (int)object.getWidth(), (int)object.getHeight()).intersects(tempObject.getBounds())) {
+                object.collision(tempObject);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setTotalLength(int totalLength) {
+        this.totalLength = ((float) totalLength - 1250.0f + 15.0f) * -1.0f;
+    }
     public void addObject(GameObject object) {this.objectList.add(object);}
     public void removeObject(GameObject object) {this.deleteQueue.push(object);}
     public void clear() {
         this.objectList.clear();
     }
     public LinkedList<GameObject> getObjectList() {return this.objectList;}
+    public float getMoved() {return this.moved;}
 
 }
