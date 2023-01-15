@@ -11,6 +11,7 @@ public class PauseMenu extends MouseAdapter{
     private Color color;
     private boolean mouseOverButton1 = false;
     private boolean mouseOverButton2 = false;
+    private boolean mouseOverButtonMute = false;
 
     public PauseMenu(Game game, Handler handler){
         this.game = game;
@@ -19,7 +20,7 @@ public class PauseMenu extends MouseAdapter{
     }
 
 
-
+    public void pass(){}
     public void tick() {
 
     }
@@ -30,6 +31,9 @@ public class PauseMenu extends MouseAdapter{
         Font buttonsAlt = new Font("arial", 1, 80);
         Font buttons2 = new Font("arial", 1, 70);
         Font buttons2Alt = new Font("arial", 1, 80);
+        Font muteButton = new Font("arial", 1, 30);
+        Font muteButtonAlt = new Font("arial", 1, 40);
+
         g.setFont(menu);
         g.setColor(Color.black);
         g.drawString("Paused",450,150);
@@ -48,6 +52,13 @@ public class PauseMenu extends MouseAdapter{
         g.fillRect(375, 350, 500, 100);
         //g.drawRect(375, 500, 500, 100);
         //g.drawRect(375, 700, 500, 100);
+        if (this.mouseOverButtonMute) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
+        g.fillOval(1100,50,50,50);
+
 
         g.setColor(Color.white);
         if (this.mouseOverButton1) {
@@ -63,6 +74,14 @@ public class PauseMenu extends MouseAdapter{
         } else {
             g.setFont(buttons2);
             g.drawString("Main Menu", 450, 425);
+        }
+
+        if (this.mouseOverButtonMute) {
+            g.setFont(muteButtonAlt);
+            g.drawString("M", 1109, 90);
+        } else {
+            g.setFont(muteButton);
+            g.drawString("M", 1112, 85);
         }
 
         //g.drawString("Help", 555, 425);
@@ -92,6 +111,10 @@ public class PauseMenu extends MouseAdapter{
             if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
                 game.setGamestate(Game.STATE.Menu);
             }
+
+            if (mouseOverBox(mx, my, 1100,50,50,50)) {
+                pass();
+            }
 //
 //      if (mouseOverBox(mx, my, 375, 500, 500, 100)) {
 //        game.gamestate = Game.STATE.Options;
@@ -109,12 +132,15 @@ public class PauseMenu extends MouseAdapter{
 
         this.mouseOverButton1 = false;
         this.mouseOverButton2 = false;
+        this.mouseOverButtonMute = false;
 
 
         if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
             this.mouseOverButton1 = true;
         } else if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
             this.mouseOverButton2 = true;
+        }else if (mouseOverBox(mx, my, 1100,50,50,50)) {
+            this.mouseOverButtonMute  = true;
         }
     }
 
