@@ -7,6 +7,7 @@ public class Player extends GameObject{
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
     private boolean walkRight = false;
+    private float jumpVel = 15.0f;
 
 
     public Player(float x, float y, Handler handler) {
@@ -102,7 +103,23 @@ public class Player extends GameObject{
                     this.setVelY(0);
                 }
             }
+        }else if (collisionObject.getID() == ID.Enemy) {
+            if (this.getY() < collisionObject.getY()) {
+                ((Enemy)collisionObject).hitFromAbove();
+                this.jump();
+            }else {
+                this.hit();
+            }
         }
+    }
+
+    public void hit() {
+        this.setX(200.0f);
+        this.setY(200.0f);
+    }
+
+    public void jump() {
+        this.setVelY(this.jumpVel);
     }
 
     @Override

@@ -35,7 +35,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_D) {tempObject.setVelX(this.vel); keydown[1] = true;}            //sets velocity of player when D is pressed
                 if (key == KeyEvent.VK_SPACE) { //checks if a jump is allowed and sets velocity when true
                     if (handler.isOnPlatform(tempObject)) {
-                        tempObject.setVelY(15.0f);
+                        ((Player)tempObject).jump();
                     }
                 }
                 if (key == KeyEvent.VK_SHIFT && !keydown[2]) {  //doubles velocity if shift is not already pressed

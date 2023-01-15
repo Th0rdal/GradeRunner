@@ -78,6 +78,10 @@ public class Enemy extends GameObject{
         }
     }
 
+    public void hitFromAbove() {
+        this.handler.removeObject(this);
+    }
+
     @Override
     public Rectangle getBounds() {
         return new Rectangle((int)x, (int)y, this.width, this.height);
