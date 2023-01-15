@@ -9,6 +9,10 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 
 public class Handler {
+    private Game game;
+    public Handler(Game game) {
+        this.game = game;
+    }
     private LinkedList<GameObject> objectList = new LinkedList<GameObject>();   //list of all GameObjects
     private ConcurrentLinkedDeque deleteQueue = new ConcurrentLinkedDeque();    //queue with all GameObjects to delete
     private float moved = 0;
@@ -96,6 +100,9 @@ public class Handler {
         this.objectList.clear();
     }
     public LinkedList<GameObject> getObjectList() {return this.objectList;}
+    public void finish() {
+        game.setGamestate(Game.STATE.Menu);
+    }
     public float getMoved() {return this.moved;}
 
 }

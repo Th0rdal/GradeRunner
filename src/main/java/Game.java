@@ -3,6 +3,8 @@
  *
  */
 
+import jdk.jshell.execution.Util;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -60,7 +62,7 @@ public class Game extends Canvas implements Runnable{
         this.backgroundAudio.mute();
 
         //create all object instances here
-        this.handler = new Handler();
+        this.handler = new Handler(this);
         this.handler.setTotalLength(Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler, this.backgroundAudio);
@@ -78,7 +80,11 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
         this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
-        this.handler.addObject(new Goal(500.0f, 500.0f, this, this.handler));
+        this.handler.addObject(new Goal(500.0f, 500.0f, this.handler));
+        Level l = new Level("test", this.handler);
+        l.save();
+        //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
+        //l.load(this.handler);
 
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 

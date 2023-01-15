@@ -15,6 +15,7 @@ public abstract class GameObject implements Serializable {
     protected int width, height;
     protected Color objectColor;
     protected boolean bGravity = true, breakable;
+    protected transient Handler handler;
     public GameObject(float x, float y, ID id, int width, int height) {
         this.x = x;
         this.y = y;
@@ -65,4 +66,7 @@ public abstract class GameObject implements Serializable {
     public ID getID() {return this.id;}
     public Color getObjectColor() {return this.objectColor;}
     public void setObjectColor(Color tempColor) {this.objectColor = tempColor;}
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
 }

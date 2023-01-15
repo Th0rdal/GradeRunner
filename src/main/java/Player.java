@@ -3,7 +3,6 @@ import java.awt.image.BufferedImage;
 
 public class Player extends GameObject{
 
-    private Handler handler;
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
     private boolean walkRight = false;
@@ -121,7 +120,7 @@ public class Player extends GameObject{
                 this.hit();
             }
         }else if (collisionObject.getID() == ID.Goal) {
-            ((Goal)collisionObject).finish();
+            this.handler.finish();
         }
     }
 

@@ -3,12 +3,9 @@ import java.awt.image.BufferedImage;
 
 public class Goal extends GameObject{
 
-    private Game game;
-    private Handler handler;
-    private BufferedImage imgGoal;
-    public Goal(float x, float y, Game game, Handler handler) {
+    private transient BufferedImage imgGoal;
+    public Goal(float x, float y, Handler handler) {
         super(x, y, ID.Goal, 32, 39);
-        this.game = game;
         this.handler = handler;
     }
 
@@ -36,9 +33,5 @@ public class Goal extends GameObject{
     public void loadSprites() {
         SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/goal.png"));
         this.imgGoal = ss.grabImage(0, 0, this.width, this.height);
-    }
-
-    public void finish() {
-        game.setGamestate(Game.STATE.Menu);
     }
 }

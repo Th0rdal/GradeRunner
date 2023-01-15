@@ -69,6 +69,7 @@ public class Utilities { //calculates a hash for the saveFile
         }catch (Exception e) {
             e.printStackTrace();
         }
+        System.out.println("ERROR IN LOADING");
         return null;
     }
     public static void saveObjectToFile(Object object, String path) {   //saves an object to the file

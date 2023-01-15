@@ -32,6 +32,7 @@ public class Level implements Serializable {
         System.out.println(this.blocks.size());
         for (GameObject tempObject : this.blocks) {
             this.handler.addObject(tempObject);
+            tempObject.setHandler(this.handler);
         }
     }
 
@@ -39,7 +40,6 @@ public class Level implements Serializable {
         for (GameObject tempObject : this.handler.getObjectList()) {
             this.blocks.add(tempObject);
         }
-        System.out.println(this.blocks.size());
         Utilities.saveObjectToFile(this, this.pathToFile);
     }
 

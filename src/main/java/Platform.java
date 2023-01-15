@@ -9,7 +9,6 @@ import java.awt.*;
 public class Platform extends GameObject{
 
     private boolean breakable;  //if true block can be broken
-    private Handler handler;
     public Platform(float x, float y, int width, int height, boolean breakable, Handler handler) {
         super(x, y, ID.Platform, width, height);
         super.setObjectColor(Color.BLACK);
