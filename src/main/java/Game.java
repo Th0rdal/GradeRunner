@@ -57,10 +57,9 @@ public class Game extends Canvas implements Runnable{
 
         //audio initialization
         this.backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");
-        this.backgroundAudio.unmute();
+        this.backgroundAudio.mute();
 
         //create all object instances here
-        Platform tempFloor = new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler);
         this.handler = new Handler();
         this.handler.setTotalLength(Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
@@ -70,7 +69,7 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.pause);
-        this.developerTools = new DeveloperTools(this.handler, tempFloor);
+        this.developerTools = new DeveloperTools(this.handler);
 
         //add all Gameobjects to handler
         this.handler.addObject(new Player(700.0f, 200.f, this.handler));
@@ -78,7 +77,7 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
         this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
-        this.handler.addObject(tempFloor);
+        this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
     }

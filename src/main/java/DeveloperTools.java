@@ -10,13 +10,11 @@ public class DeveloperTools{
 
     private Player p;
     private Handler handler;
-    private Platform floor;
     private static boolean visibility = false;
     private int frames = 0, ticks = 0;
     private int lastFrames = 0, lastTicks = 0;
-    public DeveloperTools(Handler handler, Platform tmp) {
+    public DeveloperTools(Handler handler) {
         this.handler = handler;
-        this.floor = tmp;
     }
 
     public void render(Graphics g) {
@@ -29,8 +27,6 @@ public class DeveloperTools{
             g.drawString("Player X " + Float.toString(this.p.getX()), 10, 42);
             g.drawString("Player Y " + Float.toString(this.p.getY()), 10, 52);
             g.drawString("Moved: " + Float.toString(this.handler.getMoved()), 10, 62);
-            g.drawString(Float.toString(this.floor.getX()), 10, 72);
-            g.drawString(Float.toString(this.floor.getY()), 10, 82);
         }
     }
     public void incrementFrames() {this.frames++;}
