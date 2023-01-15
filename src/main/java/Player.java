@@ -120,6 +120,8 @@ public class Player extends GameObject{
             }else {
                 this.hit();
             }
+        }else if (collisionObject.getID() == ID.Goal) {
+            ((Goal)collisionObject).finish();
         }
     }
 

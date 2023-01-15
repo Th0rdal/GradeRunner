@@ -78,6 +78,8 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
         this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
+        this.handler.addObject(new Goal(500.0f, 500.0f, this, this.handler));
+
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
     }

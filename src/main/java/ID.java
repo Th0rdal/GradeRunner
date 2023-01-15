@@ -6,5 +6,6 @@ public enum ID {
 
     Player(),
     Platform(),
-    Enemy();
+    Enemy(),
+    Goal();
 }

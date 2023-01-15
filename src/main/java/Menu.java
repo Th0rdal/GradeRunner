@@ -118,12 +118,11 @@ public class Menu extends MouseAdapter{
     if (game.gamestate == Game.STATE.Menu) {
 
       if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
-        game.gamestate = Game.STATE.Game;
+        game.setGamestate(Game.STATE.Game);
         startGame();
       }
 
       if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
-        //game.gamestate = Game.STATE.Levelselect;
         game.setGamestate(Game.STATE.Levelselect);
       }
       if (mouseOverBox(mx, my, 1100,50,50,50)) {
