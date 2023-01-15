@@ -1,4 +1,4 @@
-import java.util.*;
+import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.awt.event.*;
 
@@ -7,18 +7,26 @@ public class Menu extends MouseAdapter{
 
   private Game game;
   private Handler handler;
-
+  private Audio backgroundAudio;
   private boolean mouseOverButton1 = false;
   private boolean mouseOverButton2 = false;
   private boolean mouseOverButton3 = false;
   private boolean mouseOverButtonMute = false;
+  private BufferedImage imgUnmute, imgMute;
 
 
-  public Menu(Game game, Handler handler){
+  public Menu(Game game, Handler handler, Audio backgroundAudio){
     this.game = game;
     this.handler = handler;
+    this.backgroundAudio = backgroundAudio;
+    this.loadSprites();
   }
 
+  public void loadSprites() {
+    SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/soundImg.png"));
+    this.imgUnmute = ss.grabImage(0, 0, 50, 50);
+    this.imgMute = ss.grabImage(1, 0, 50, 50);
+  }
   public void pass(){}
 
   public void tick(){}
@@ -63,7 +71,13 @@ public class Menu extends MouseAdapter{
     } else {
       g.setColor(Color.black);
     }
-    g.fillOval(1100,50,50,50);
+    //g.fillOval(1100,50,50,50);
+    if (this.backgroundAudio.musicPlaying()) {
+      g.drawImage(this.imgUnmute, 1100, 50, null);
+    }else {
+      g.drawImage(this.imgMute, 1100, 50, null);
+
+    }
 
     g.setColor(Color.white);
 
@@ -91,13 +105,13 @@ public class Menu extends MouseAdapter{
       g.drawString("Exit", 555, 575);
     }
 
-    if (this.mouseOverButtonMute) {
+    /*if (this.mouseOverButtonMute) {
       g.setFont(muteButtonAlt);
       g.drawString("M", 1109, 90);
     } else {
       g.setFont(muteButton);
       g.drawString("M", 1112, 85);
-    }
+    }*/
 
     //g.drawString("Quit", 555, 775);
 
@@ -135,7 +149,6 @@ public class Menu extends MouseAdapter{
     int mx = e.getX();
     int my = e.getY();
 
-
     if (game.gamestate == Game.STATE.Menu) {
 
       if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
@@ -148,7 +161,11 @@ public class Menu extends MouseAdapter{
         game.setGamestate(Game.STATE.Levelselect);
       }
       if (mouseOverBox(mx, my, 1100,50,50,50)) {
-        pass();
+        if (this.backgroundAudio.musicPlaying()) {
+          this.backgroundAudio.mute();
+        }else {
+          this.backgroundAudio.unmute();
+        }
       }
 
 //      if (mouseOverBox(mx, my, 375, 500, 500, 100)) {

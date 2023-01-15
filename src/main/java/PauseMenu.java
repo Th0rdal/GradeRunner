@@ -1,4 +1,5 @@
 
+import java.awt.image.BufferedImage;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -7,18 +8,24 @@ public class PauseMenu extends MouseAdapter{
 
     private Game game;
     private Handler handler;
-    private Random r = new Random();
-    private Color color;
+    private Audio backgroundAudio;
+    private BufferedImage imgUnmute, imgMute;
     private boolean mouseOverButton1 = false;
     private boolean mouseOverButton2 = false;
     private boolean mouseOverButtonMute = false;
 
-    public PauseMenu(Game game, Handler handler){
+    public PauseMenu(Game game, Handler handler, Audio audio){
         this.game = game;
         this.handler = handler;
-
+        this.backgroundAudio = audio;
+        this.loadSprites();
     }
 
+    public void loadSprites() {
+        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/soundImg.png"));
+        this.imgUnmute = ss.grabImage(0, 0, 50, 50);
+        this.imgMute = ss.grabImage(1, 0, 50, 50);
+    }
 
     public void pass(){}
     public void tick() {
@@ -76,12 +83,11 @@ public class PauseMenu extends MouseAdapter{
             g.drawString("Main Menu", 450, 425);
         }
 
-        if (this.mouseOverButtonMute) {
-            g.setFont(muteButtonAlt);
-            g.drawString("M", 1109, 90);
-        } else {
-            g.setFont(muteButton);
-            g.drawString("M", 1112, 85);
+        if (this.backgroundAudio.musicPlaying()) {
+            g.drawImage(this.imgUnmute, 1100, 50, null);
+        }else {
+            g.drawImage(this.imgMute, 1100, 50, null);
+
         }
 
         //g.drawString("Help", 555, 425);

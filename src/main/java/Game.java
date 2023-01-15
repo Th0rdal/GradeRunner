@@ -11,6 +11,7 @@ public class Game extends Canvas implements Runnable{
 
     //variables used for the Window
     public static final int WIDTH = 1250, HEIGHT = WIDTH / 12 * 9;  //width and height of the window
+
     //variables used to control the scrolling
     public static final int TOTALLENGTH = 1500;
     public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
@@ -24,14 +25,16 @@ public class Game extends Canvas implements Runnable{
     public static final double OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
     boolean running = false;
 
+
     //class variabe declaration
-    Thread thread;
-    Handler handler;
-    Menu menu;
-    LevelSelect levelSelect;
-    WindowX windowX;
-    PauseMenu pause;
-    DeveloperTools developerTools = null;
+    private Thread thread;
+    private Handler handler;
+    private Menu menu;
+    private LevelSelect levelSelect;
+    private WindowX windowX;
+    private PauseMenu pause;
+    private DeveloperTools developerTools = null;
+    private Audio backgroundAudio;
     public static BufferedImageLoader loader;
     public static BufferedImage player_spriteSheet;
     private BufferedImage background;
@@ -53,17 +56,17 @@ public class Game extends Canvas implements Runnable{
         background = loader.loadImage("/bg.jpg");
 
         //audio initialization
-        Audio audio = new Audio();
-        //audio.playMusic("src/main/resources/backgroundMusic.wav");
+        this.backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");
+        this.backgroundAudio.unmute();
 
         //create all object instances here
         Platform tempFloor = new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler);
         this.handler = new Handler();
         this.handler.setTotalLength(Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
-        this.menu = new Menu(this, handler);
+        this.menu = new Menu(this, handler, this.backgroundAudio);
         this.levelSelect = new LevelSelect(this, handler);
-        this.pause = new PauseMenu(this, handler);
+        this.pause = new PauseMenu(this, handler, this.backgroundAudio);
         this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.pause);
