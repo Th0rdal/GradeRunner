@@ -8,6 +8,16 @@ public class Player extends GameObject{
     private int spriteCounter = 0;
     private boolean walkRight = false;
     private float jumpVel = 15.0f;
+    private float moveVel = 5.0f;
+    public enum moveState {
+        left,
+        right,
+        sprint,
+        sprintStop,
+        jump,
+        stop;
+
+    }
 
 
     public Player(float x, float y, Handler handler) {
@@ -106,7 +116,7 @@ public class Player extends GameObject{
         }else if (collisionObject.getID() == ID.Enemy) {
             if (this.getY() < collisionObject.getY()) {
                 ((Enemy)collisionObject).hitFromAbove();
-                this.jump();
+                this.move(moveState.jump);
             }else {
                 this.hit();
             }
@@ -118,8 +128,22 @@ public class Player extends GameObject{
         this.setY(200.0f);
     }
 
-    public void jump() {
-        this.setVelY(this.jumpVel);
+    public void move(moveState state) {
+        if (state == moveState.left) {
+            this.setVelX(-1.0f * this.moveVel);
+        }else if (state == moveState.right) {
+            this.setVelX(this.moveVel);
+        }else if (state == moveState.jump) {
+            this.setVelY(this.jumpVel);
+        }else if (state == moveState.sprint) {
+            this.moveVel = this.moveVel * 2;
+            this.setVelX(getVelX() * 2);
+        }else if (state == moveState.sprintStop) {
+            this.moveVel = this.moveVel / 2;
+            this.setVelX(getVelX() / 2);
+        }else if (state == moveState.stop) {
+            this.setVelX(0.0f);
+        }
     }
 
     @Override
