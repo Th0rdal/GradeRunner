@@ -1,5 +1,7 @@
 
 import java.awt.image.BufferStrategy;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,8 +11,9 @@ public class LevelSelect extends MouseAdapter{
     private Game game;
     private Handler handler;
     private Random r = new Random();
-    private Color color;
     public static int selectedLevel = 0;
+    private File fileList[];
+    private Level[] levelList;
 
     private boolean mouseOverButton1 = false;
     private boolean mouseOverButton2 = false;
@@ -27,7 +30,8 @@ public class LevelSelect extends MouseAdapter{
     public LevelSelect(Game game, Handler handler){
         this.game = game;
         this.handler = handler;
-
+        this.loadLevels();
+        LevelSelect.selectedLevel = 1;
     }
 
     public int getSelectedLevel()
@@ -48,6 +52,11 @@ public class LevelSelect extends MouseAdapter{
         g.setFont(menu);
         g.setColor(Color.black);
         g.drawString("Level Select",300,150);
+        String tempString[] = new String[9];
+        for (int i = 0; i < tempString.length; i++) {
+            tempString[i] = Integer.toString(i+1);
+        }
+
 
         if (this.mouseOverButton10) {
             g.setColor(Color.gray);
@@ -72,23 +81,7 @@ public class LevelSelect extends MouseAdapter{
             g.setColor(Color.black);
         }
         g.drawRect(200, 200, 200, 120);
-        g.drawString("1", 280, 285);
-
-        if (this.mouseOverButton4) {
-            g.setColor(Color.gray);
-        } else {
-            g.setColor(Color.black);
-        }
-        g.drawRect(200, 350, 200, 120);
-        g.drawString("4", 280, 435);
-
-        if (this.mouseOverButton7) {
-            g.setColor(Color.gray);
-        } else {
-            g.setColor(Color.black);
-        }
-        g.drawRect(200, 500, 200, 120);
-        g.drawString("7", 280, 585);
+        g.drawString(tempString[0], 280, 285);
 
         if (this.mouseOverButton2) {
             g.setColor(Color.gray);
@@ -96,23 +89,7 @@ public class LevelSelect extends MouseAdapter{
             g.setColor(Color.black);
         }
         g.drawRect(500, 200, 200, 120);
-        g.drawString("2", 580, 285);
-
-        if (this.mouseOverButton5) {
-            g.setColor(Color.gray);
-        } else {
-            g.setColor(Color.black);
-        }
-        g.drawRect(500, 350, 200, 120);
-        g.drawString("5", 580, 435);
-
-        if (this.mouseOverButton8) {
-            g.setColor(Color.gray);
-        } else {
-            g.setColor(Color.black);
-        }
-        g.drawRect(500, 500, 200, 120);
-        g.drawString("8", 580, 585);
+        g.drawString(tempString[1], 580, 285);
 
         if (this.mouseOverButton3) {
             g.setColor(Color.gray);
@@ -120,7 +97,23 @@ public class LevelSelect extends MouseAdapter{
             g.setColor(Color.black);
         }
         g.drawRect(800, 200, 200, 120);
-        g.drawString("3", 880, 285);
+        g.drawString(tempString[2], 880, 285);
+
+        if (this.mouseOverButton4) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
+        g.drawRect(200, 350, 200, 120);
+        g.drawString(tempString[3], 280, 435);
+
+        if (this.mouseOverButton5) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
+        g.drawRect(500, 350, 200, 120);
+        g.drawString(tempString[4], 580, 435);
 
         if (this.mouseOverButton6) {
             g.setColor(Color.gray);
@@ -128,7 +121,23 @@ public class LevelSelect extends MouseAdapter{
             g.setColor(Color.black);
         }
         g.drawRect(800, 350, 200, 120);
-        g.drawString("6", 880, 435);
+        g.drawString(tempString[5], 880, 435);
+
+        if (this.mouseOverButton7) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
+        g.drawRect(200, 500, 200, 120);
+        g.drawString(tempString[6], 280, 585);
+
+        if (this.mouseOverButton8) {
+            g.setColor(Color.gray);
+        } else {
+            g.setColor(Color.black);
+        }
+        g.drawRect(500, 500, 200, 120);
+        g.drawString(tempString[7], 580, 585);
 
         if (this.mouseOverButton9) {
             g.setColor(Color.gray);
@@ -136,78 +145,70 @@ public class LevelSelect extends MouseAdapter{
             g.setColor(Color.black);
         }
         g.drawRect(800, 500, 200, 120);
-        g.drawString("9", 880, 585);
-
-
-        //g.drawString("Play", 555, 275);
-        //g.drawString("Level-Select", 425, 425);
-        //g.drawString("Exit", 555, 575);
-        //g.drawRect(400, 775, 200, 120);
-        //g.setColor(Color.black);
-        //g.fillRect(375, 700, 500, 100);
+        g.drawString(tempString[8], 880, 585);
 
         if(selectedLevel == 1)
         {
             g.setColor(Color.BLACK);
             g.fillRect(200, 200, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("1", 280, 285);
+            g.drawString(tempString[0], 280, 285);
         }
         else if(selectedLevel == 2)
         {
             g.setColor(Color.BLACK);
             g.fillRect(500, 200, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("2", 580, 285);
+            g.drawString(tempString[1], 580, 285);
         }
         else if(selectedLevel == 3)
         {
             g.setColor(Color.BLACK);
             g.fillRect(800, 200, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("3", 880, 285);
+            g.drawString(tempString[2], 880, 285);
         }
         else if(selectedLevel == 4)
         {
             g.setColor(Color.BLACK);
             g.fillRect(200, 350, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("4", 280, 435);
+            g.drawString(tempString[3], 280, 435);
         }
         else if(selectedLevel == 5)
         {
             g.setColor(Color.BLACK);
             g.fillRect(500, 350, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("5", 580, 435);
+            g.drawString(tempString[4], 580, 435);
         }
         else if(selectedLevel == 6)
         {
             g.setColor(Color.BLACK);
             g.fillRect(800, 350, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("6", 880, 435);
+            g.drawString(tempString[5], 880, 435);
         }
         else if(selectedLevel == 7)
         {
             g.setColor(Color.BLACK);
             g.fillRect(200, 500, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("7", 280, 585);
+            g.drawString(tempString[6], 280, 585);
         }
         else if(selectedLevel == 8)
         {
             g.setColor(Color.BLACK);
             g.fillRect(500, 500, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("8", 580, 585);
+            g.drawString(tempString[7], 580, 585);
         }
         else if(selectedLevel == 9)
         {
             g.setColor(Color.BLACK);
             g.fillRect(800, 500, 200, 120);
             g.setColor(Color.WHITE);
-            g.drawString("9", 880, 585);
+            g.drawString(tempString[8], 880, 585);
         }
 
     }
@@ -259,19 +260,11 @@ public class LevelSelect extends MouseAdapter{
         }
     }
 
-
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
 
-        BufferStrategy bs = game.getBufferStrategy();
-        Graphics g = bs.getDrawGraphics();
         if (game.gamestate == Game.STATE.Levelselect) {
-
-//            if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
-//                game.gamestate = Game.STATE.Game;
-//                startGame();
-//            }
 
             if (mouseOverBox(mx, my, 200, 200, 200, 120))
             {
@@ -327,8 +320,7 @@ public class LevelSelect extends MouseAdapter{
                 pass();
             }
 
-                if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
-                //game.gamestate = Game.STATE.Menu;
+            if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
                 game.setGamestate(Game.STATE.Menu);
             }
         }
@@ -338,14 +330,16 @@ public class LevelSelect extends MouseAdapter{
 
     }
 
-    public void startGame() {
-        //creating player
-//    handler.addObject(new Player(Game.WIDTH/2-32, Game.HEIGHT/2-32 , ID.Player, handler));
-//    try{ handler.ClearEnemies();
-//    } catch(NullPointerException d) {
-//      System.out.println("The d hit again");
-//    }
-        //creating enemy
-        //handler.addObject(new BasicEnemy(r.nextInt(Game.WIDTH-200), r.nextInt(Game.HEIGHT-300)+60, ID.BasicEnemy, handler, Color.red));
+    public void loadLevels() {
+        this.fileList = Utilities.loadFileContent("saves/worlds");
+        this.levelList = new Level[this.fileList.length];
+        for (int i = 0; i < this.levelList.length; i++) {
+            this.levelList[i] = (Level) Utilities.loadObjectFromFile("saves/worlds/" + this.fileList[i].getName());
+        }
     }
+
+    public Level[] getLevelList() {
+        return this.levelList;
+    }
+
 }

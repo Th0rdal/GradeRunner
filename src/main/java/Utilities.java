@@ -2,10 +2,7 @@
  * This class takes care of encryption and the saving of objects
  */
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -82,6 +79,12 @@ public class Utilities { //calculates a hash for the saveFile
         }catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static File[] loadFileContent(String path) {
+        File file = new File(path);
+        File fileList[] = file.listFiles();
+        return fileList;
     }
 }
 

@@ -6,7 +6,7 @@
 import java.awt.*;
 import java.io.Serializable;
 
-public abstract class GameObject implements Serializable {
+public abstract class GameObject implements Serializable, Cloneable{
 
     protected float x, y;    //x and y values on screen
     protected float VelX, VelY; //velocity in x and y direction
@@ -68,5 +68,8 @@ public abstract class GameObject implements Serializable {
     public void setObjectColor(Color tempColor) {this.objectColor = tempColor;}
     public void setHandler(Handler handler) {
         this.handler = handler;
+    }
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

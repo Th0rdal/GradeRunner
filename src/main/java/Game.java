@@ -47,7 +47,7 @@ public class Game extends Canvas implements Runnable{
         Menu,   //this state is active when in the menu
         Game,   //this state is active when the game is running
         Pause,   //this state is active when the game is paused
-        Levelselect
+        Levelselect;
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
 
@@ -68,26 +68,33 @@ public class Game extends Canvas implements Runnable{
         this.menu = new Menu(this, handler, this.backgroundAudio);
         this.levelSelect = new LevelSelect(this, handler);
         this.pause = new PauseMenu(this, handler, this.backgroundAudio);
-        this.addMouseListener(this.menu);
         this.addMouseListener(this.levelSelect);
+        this.addMouseListener(this.menu);
         this.addMouseListener(this.pause);
         this.developerTools = new DeveloperTools(this.handler);
 
         //add all Gameobjects to handler
-        this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        /*this.handler.addObject(new Player(700.0f, 200.f, this.handler));
         this.handler.addObject(new Platform(300.0f, 700.0f, 2000, 32, true, handler));
         this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
         this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
         this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
+        this.handler.addObject(new Enemy(25.0f, 50.0f, this.handler));
         this.handler.addObject(new Goal(500.0f, 500.0f, this.handler));
         Level l = new Level("test", this.handler);
-        l.save();
+        l.save();*/
+
         //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
 
         windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
+    }
+
+    public void startGame() {
+        this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
+        this.handler.loadImages();
     }
 
     public synchronized void start() { //starts the game
@@ -108,7 +115,6 @@ public class Game extends Canvas implements Runnable{
     public void run() { //gameloop
         //init
         this.developerTools.getPlayer();
-        this.handler.loadImages();
 
         this.requestFocus();
 

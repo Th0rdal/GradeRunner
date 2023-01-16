@@ -119,7 +119,7 @@ public class Menu extends MouseAdapter{
 
       if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
         game.setGamestate(Game.STATE.Game);
-        startGame();
+        this.game.startGame();
       }
 
       if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
@@ -141,8 +141,5 @@ public class Menu extends MouseAdapter{
 
   public void mouseReleased(MouseEvent e){
 
-  }
-
-  public void startGame() {
   }
 }

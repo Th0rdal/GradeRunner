@@ -29,10 +29,14 @@ public class Level implements Serializable {
     public void load(Handler handler) {    //loads the level onto the screen
         this.handler = handler;
         this.handler.clear();
-        System.out.println(this.blocks.size());
         for (GameObject tempObject : this.blocks) {
-            this.handler.addObject(tempObject);
-            tempObject.setHandler(this.handler);
+            try {
+                GameObject tempCopy = (GameObject) tempObject.clone();
+                this.handler.addObject(tempCopy);
+                tempCopy.setHandler(this.handler);
+            }catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
