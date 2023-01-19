@@ -39,8 +39,6 @@ public class Game extends Canvas implements Runnable{
     private DeathScreen deathScreen;
     private DeveloperTools developerTools = null;
     private Audio backgroundAudio;
-    public static BufferedImageLoader loader;
-    public static BufferedImage player_spriteSheet;
     private BufferedImage background;
 
 
@@ -58,8 +56,7 @@ public class Game extends Canvas implements Runnable{
     public Game() { //default constructor
 
         //load sprites
-        this.loader = new BufferedImageLoader();
-        background = loader.loadImage("/bg.jpg");
+        background = Utilities.loadImage("src/main/resources/bg.jpg");
 
         //audio initialization
         this.backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");

@@ -89,7 +89,7 @@ public class Enemy extends GameObject{
 
     @Override
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/enemy.png"));
+        SpriteSheet ss = new SpriteSheet(Utilities.loadImage("src/main/resources/enemy.png"));
         this.imgWalkRight1 = ss.grabImage(3, 0, this.width, this.height);
         this.imgWalkRight2 = ss.grabImage(2, 0, this.width, this.height);
         this.imgWalkLeft1 = ss.grabImage(1, 0, this.width, this.height);

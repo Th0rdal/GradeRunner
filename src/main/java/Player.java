@@ -144,7 +144,7 @@ public class Player extends GameObject{
 
     @Override
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/player.png"));
+        SpriteSheet ss = new SpriteSheet(Utilities.loadImage("src/main/resources/player.png"));
         this.imgLookRight = ss.grabImage(0, 0, this.width, this.height);
         this.imgWalkRight1 = ss.grabImage(1, 0, this.width, this.height);
         this.imgWalkRight2 = ss.grabImage(2, 0, this.width, this.height);

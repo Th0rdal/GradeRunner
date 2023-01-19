@@ -2,6 +2,8 @@
  * This class takes care of encryption and the saving of objects
  */
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -85,6 +87,15 @@ public class Utilities { //calculates a hash for the saveFile
         File file = new File(path);
         File fileList[] = file.listFiles();
         return fileList;
+    }
+
+    public static BufferedImage loadImage(String path) {
+        try {
+            return ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {

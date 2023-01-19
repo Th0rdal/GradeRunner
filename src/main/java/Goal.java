@@ -31,7 +31,7 @@ public class Goal extends GameObject{
 
     @Override
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/goal.png"));
+        SpriteSheet ss = new SpriteSheet(Utilities.loadImage("src/main/resources/goal.png"));
         this.imgGoal = ss.grabImage(0, 0, this.width, this.height);
     }
 }
