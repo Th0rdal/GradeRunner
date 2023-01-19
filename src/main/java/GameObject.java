@@ -14,7 +14,7 @@ public abstract class GameObject implements Serializable, Cloneable{
     protected ID id;
     protected int width, height;
     protected Color objectColor;
-    protected boolean bGravity = true, breakable;
+    protected boolean bGravity = true;
     protected transient Handler handler;
     public GameObject(float x, float y, ID id, int width, int height) {
         this.x = x;
@@ -22,6 +22,15 @@ public abstract class GameObject implements Serializable, Cloneable{
         this.id = id;
         this.width = width;
         this.height = height;
+    }
+
+    public GameObject(float x, float y, ID id, int width, int height, Handler handler) {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.width = width;
+        this.height = height;
+        this.handler = handler;
     }
 
     public abstract void tick();    //physic calculations in this method
@@ -38,14 +47,8 @@ public abstract class GameObject implements Serializable, Cloneable{
     public float getX() {
         return x;
     }
-    public void setX(float x) {
-        this.x = x;
-    }
     public float getY() {
         return this.y;
-    }
-    public void setY(float y) {
-        this.y = y;
     }
     public float getVelX() {
         return VelX;

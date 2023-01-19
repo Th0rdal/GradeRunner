@@ -1,12 +1,8 @@
-
-import java.awt.image.BufferedImage;
-import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class PauseMenu extends BasicMenu{
 
-    private BufferedImage imgUnmute, imgMute;
     private boolean mouseOverButton1 = false;
     private boolean mouseOverButton2 = false;
 
@@ -18,17 +14,15 @@ public class PauseMenu extends BasicMenu{
     public void loadSprites() {
         super.loadSprites();
     }
-
-    public void pass(){}
     public void tick() {
 
     }
 
     public void render(Graphics g) {
-        Font menu = new Font("arial", 1, 100);
-        Font buttonFont = new Font("arial", 1, 70);
-        Font buttonHighlightFont = new Font("arial", 1, 80);
-        int tempX = 0;
+        Font menu = new Font("arial", Font.PLAIN, 100);
+        Font buttonFont = new Font("arial", Font.PLAIN, 70);
+        Font buttonHighlightFont = new Font("arial", Font.PLAIN, 80);
+        int tempX;
 
         g.setFont(menu);
         g.setColor(Color.black);

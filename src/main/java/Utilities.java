@@ -1,5 +1,8 @@
 /**
- * This class takes care of encryption and the saving of objects
+ * This class takes care of miscellaneous tasks that are needed in multiple classes
+ * encryption
+ * saving and loading files
+ * loading images
  */
 
 import javax.imageio.ImageIO;
@@ -9,51 +12,48 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Utilities { //calculates a hash for the saveFile
+public class Utilities {
 
     public static String encryptName(String name, long time) {  //this method hashes a string
         String temp = "GradeRunner" + name;
         long tempAsInt = 0;
         for (int i = 0; i < temp.length(); i++) {
-            tempAsInt += (long)temp.charAt(i);
+            tempAsInt += temp.charAt(i);
         }
         tempAsInt = tempAsInt * time;
-        String encryptedString = Long.toString(tempAsInt);
-        return encryptedString;
+        return Long.toString(tempAsInt);
     }
 
     public static String encryptName(SaveFile sf) { //this method hashes the name of a saveFile
         String temp = "GradeRunner" + sf.getName();
         long tempAsInt = 0;
         for (int i = 0; i < temp.length(); i++) {
-            tempAsInt += (long)temp.charAt(i);
+            tempAsInt += temp.charAt(i);
         }
         tempAsInt = tempAsInt * sf.getCreationTime();
-        String encryptedString = Long.toString(tempAsInt);
-        return encryptedString;
+        return Long.toString(tempAsInt);
     }
 
-    public static String encryptWorld(Level l) {    //this method encrypts a level with SHA-512
-        String time = Long.toString(l.getCreationTime());
-        String name = l.getName();
-        String encryptedString = l.getEncryptedName();
+    public static String encryptWorld(long creationTime, String name) {    //this method encrypts a level with SHA-512
+        String time = Long.toString(creationTime);
         int nameAsInt = 0;
         for (int i = 0; i < name.length(); i++) {
-            nameAsInt = (int)name.charAt(i);
+            nameAsInt = name.charAt(i);
         }
-        String encyptedString = time + name + Integer.toString(nameAsInt);
+        String encryptedString = time + name + nameAsInt;
 
         //SHA-512 algorithm
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
-            byte[] messageDigest = md.digest(encyptedString.getBytes());
+            byte[] messageDigest = md.digest(encryptedString.getBytes());
             BigInteger no = new BigInteger(1, messageDigest);
-            String hashtext = no.toString(16);
-            while (hashtext.length() < 32) {
-                hashtext = "0" + hashtext;
+            StringBuilder hash = new StringBuilder(no.toString(16));
+            while (hash.length() < 32) {
+                //hash = "0" + hash;
+                hash.insert(0, '0');
             }
 
-            return hashtext;
+            return hash.toString();
         }catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -85,8 +85,7 @@ public class Utilities { //calculates a hash for the saveFile
 
     public static File[] loadFileContent(String path) {
         File file = new File(path);
-        File fileList[] = file.listFiles();
-        return fileList;
+        return file.listFiles();
     }
 
     public static BufferedImage loadImage(String path) {
@@ -100,10 +99,10 @@ public class Utilities { //calculates a hash for the saveFile
 
     public static boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {
         if (mx > x && mx < x + width) {
-            if (my > y && my < y + height) {
-                return true;
-            } else return false;
-        } else return false;
+            return (my > y && my < y + height);
+        } else {
+            return false;
+        }
     }
 }
 

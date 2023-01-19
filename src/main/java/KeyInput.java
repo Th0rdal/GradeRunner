@@ -13,9 +13,9 @@ import java.awt.event.*;
 
 public class KeyInput extends KeyAdapter {
 
-    private Handler handler;
-    private static boolean keydown[] = new boolean[3];  //tracks if the key is currently pressed 0 = A, 1 = D, 2 = SHIFT
-    private Game game;
+    private final Handler handler;
+    private static final boolean[] keydown = new boolean[3];  //tracks if the key is currently pressed 0 = A, 1 = D, 2 = SHIFT
+    private final Game game;
 
     public KeyInput(Handler handler, Game game) {
         this.handler = handler;

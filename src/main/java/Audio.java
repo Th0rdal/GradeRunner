@@ -5,18 +5,15 @@ import javax.sound.sampled.FloatControl;
 import java.io.File;
 
 public class Audio {
-    private String audioPath;
-    private AudioInputStream audioInput;
     private Clip clip;
     private FloatControl floatControl;
     public Audio(String path) {
-        this.audioPath = path;
         try {
-            File musicPath = new File(this.audioPath);
+            File musicPath = new File(path);
             if(musicPath.exists()){
-                this.audioInput = AudioSystem.getAudioInputStream(musicPath);
+                AudioInputStream audioInput = AudioSystem.getAudioInputStream(musicPath);
                 this.clip = AudioSystem.getClip();
-                this.clip.open(this.audioInput);
+                this.clip.open(audioInput);
                 this.floatControl =
                         (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             }

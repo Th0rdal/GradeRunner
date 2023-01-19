@@ -18,9 +18,9 @@ public class DeathScreen extends BasicMenu {
 
     public void render(Graphics g) {
 
-        Font titleFont = new Font("arial", 1, 100);
-        Font buttonFont = new Font("arial", 1, 70);
-        Font buttonHighlightedFont = new Font("arial", 1, 80);
+        Font titleFont = new Font("arial", Font.PLAIN, 100);
+        Font buttonFont = new Font("arial", Font.PLAIN, 70);
+        Font buttonHighlightedFont = new Font("arial", Font.PLAIN, 80);
         g.setFont(titleFont);
         g.setColor(Color.black);
         g.drawString("YOU DIED", 380, 150);
@@ -46,11 +46,7 @@ public class DeathScreen extends BasicMenu {
         int mx = e.getX();
         int my = e.getY();
 
-        this.mouseOverMainMenuButton = false;
-
-        if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
-            this.mouseOverMainMenuButton = true;
-        }
+        this.mouseOverMainMenuButton = Utilities.mouseOverBox(mx, my, 350, 700, 500, 100);
     }
     public void mousePressed(MouseEvent e) {
         if (game.getGamestate() != Game.STATE.DeathScreen) {

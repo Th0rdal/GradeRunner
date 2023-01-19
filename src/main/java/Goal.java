@@ -20,9 +20,7 @@ public class Goal extends GameObject{
     }
 
     @Override
-    public void collision(GameObject collisionObject) {
-        return;
-    }
+    public void collision(GameObject collisionObject) {}
 
     @Override
     public Rectangle getBounds() {

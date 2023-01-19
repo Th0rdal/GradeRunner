@@ -1,9 +1,7 @@
 /**
- * Main class Game. This class handles the gameloop and all important variables for the game.
+ * Main class Game. This class handles the game-loop and all important variables for the game.
  *
  */
-
-import jdk.jshell.execution.Util;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -20,26 +18,24 @@ public class Game extends Canvas implements Runnable{
     public static final float scrollWidthRight = 1050.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false, canScrollRight = true, scroll = false; //check variables if scrolling is allowed
 
-    //variables used for the gameloop
+    //variables used for the game-loop
     public static final int MAX_FRAMES_PER_SECOND = 30;
     public static final int MAX_TICKS_PER_SECOND = 30;
-    public static final double OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //this is the optimal time a single render calculates
-    public static final double OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
+    public static final int OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //this is the optimal time a single render calculates
+    public static final int OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
     boolean running = false;
 
 
-    //class variabe declaration
+    //class variable declaration
     private Thread thread;
-    private Handler handler;
-    private Menu menu;
-    private LevelSelect levelSelect;
-    private WindowX windowX;
-    private PauseMenu pause;
-    private VictoryScreen victoryScreen;
-    private DeathScreen deathScreen;
-    private DeveloperTools developerTools = null;
-    private Audio backgroundAudio;
-    private BufferedImage background;
+    private final Handler handler;
+    private final Menu menu;
+    private final LevelSelect levelSelect;
+    private final PauseMenu pause;
+    private final VictoryScreen victoryScreen;
+    private final DeathScreen deathScreen;
+    private final DeveloperTools developerTools;
+    private final BufferedImage background;
 
 
     //variables used for gamestate
@@ -49,7 +45,7 @@ public class Game extends Canvas implements Runnable{
         Pause,   //this state is active when the game is paused
         DeathScreen,
         VictoryScreen,
-        Levelselect;
+        Levelselect
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
 
@@ -59,17 +55,17 @@ public class Game extends Canvas implements Runnable{
         background = Utilities.loadImage("src/main/resources/bg.jpg");
 
         //audio initialization
-        this.backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");
-        this.backgroundAudio.mute();
+        Audio backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");
+        backgroundAudio.mute();
 
         //create all object instances here
         this.handler = new Handler(this, Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
-        this.menu = new Menu(this, handler, this.backgroundAudio);
-        this.levelSelect = new LevelSelect(this, handler, this.backgroundAudio);
-        this.pause = new PauseMenu(this, handler, this.backgroundAudio);
-        this.deathScreen = new DeathScreen(this, this.handler, this.backgroundAudio);
-        this.victoryScreen = new VictoryScreen(this, this.handler, this.backgroundAudio);
+        this.menu = new Menu(this, handler, backgroundAudio);
+        this.levelSelect = new LevelSelect(this, handler, backgroundAudio);
+        this.pause = new PauseMenu(this, handler, backgroundAudio);
+        this.deathScreen = new DeathScreen(this, this.handler, backgroundAudio);
+        this.victoryScreen = new VictoryScreen(this, this.handler, backgroundAudio);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.menu);
         this.addMouseListener(this.pause);
@@ -94,7 +90,7 @@ public class Game extends Canvas implements Runnable{
         //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
 
-        windowX = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+        new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
     }
 
@@ -118,20 +114,20 @@ public class Game extends Canvas implements Runnable{
         }
     }
 
-    public void run() { //gameloop
+    public void run() { //game-loop
         //init
         this.developerTools.getPlayer();
 
         this.requestFocus();
 
-        //gameloop variable initialisation
+        //game-loop variable initialisation
         double DeltaTimeFrames = 0;
         double DeltaTimeTicks = 0;
         long currentTime;
         long startTime = System.nanoTime();
         long timer = System.currentTimeMillis();
 
-        //gameloop
+        //game-loop
         while (this.running) {
             currentTime = System.nanoTime();    //gets current time
             DeltaTimeFrames += (currentTime - startTime);   //adds a delta
@@ -147,7 +143,7 @@ public class Game extends Canvas implements Runnable{
                 this.developerTools.incrementFrames();
                 DeltaTimeFrames -= Game.OPTIMAL_TIME_FRAMES;
             }
-            if (this.developerTools != null && System.currentTimeMillis() - timer > 1000) {    //updates the frames and ticks for developerTools
+            if (System.currentTimeMillis() - timer > 1000) {    //updates the frames and ticks for developerTools
                 timer += 1000;
                 this.developerTools.updateFrames();
                 this.developerTools.updateTicks();
@@ -167,7 +163,7 @@ public class Game extends Canvas implements Runnable{
         }else if (this.gamestate == STATE.Levelselect){
             levelSelect.tick();
         }
-        //enter all gamestates
+        //enter all gamestate
     }
     public void render() { //method for all graphic calculations
         BufferStrategy bs = this.getBufferStrategy();
@@ -201,11 +197,6 @@ public class Game extends Canvas implements Runnable{
         g.dispose();
     }
 
-
-    private void pass() { //method that does nothing. only for development purpose
-        return;
-    }   //method only for development. does nothing
-
     public STATE getGamestate() {return this.gamestate;}    //returns current gamestate
     public void setGamestate(STATE tempState) {this.gamestate = tempState;} //sets current gamestate
 
@@ -230,14 +221,11 @@ public class Game extends Canvas implements Runnable{
     }
 
     public static boolean canScroll() { //returns true if the screen can scroll in any direction
-        if (Game.canScrollLeft || Game.canScrollRight) {
-            return true;
-        }
-        return false;
+        return (Game.canScrollLeft || Game.canScrollRight);
     }
     public static void toggleScroll() {Game.scroll = !Game.scroll;}
     public static boolean getScroll() {return Game.scroll;}
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         new Game();
     }
 }

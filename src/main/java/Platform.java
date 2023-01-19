@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class Platform extends GameObject{
 
-    private boolean breakable;  //if true block can be broken
+    private final boolean breakable;  //if true block can be broken
     public Platform(float x, float y, int width, int height, boolean breakable, Handler handler) {
         super(x, y, ID.Platform, width, height);
         super.setObjectColor(Color.BLACK);
@@ -33,11 +33,9 @@ public class Platform extends GameObject{
 
 
     @Override
-    public void collision(GameObject collisionObject) { //this object should do nothing on collision
-        return;
-    }
+    public void collision(GameObject collisionObject) {}
 
     public Rectangle getBounds() {return new Rectangle ((int)x, (int)y, this.width, this.height);}
-    public void loadSprites() {return;}
+    public void loadSprites() {}
 
 }

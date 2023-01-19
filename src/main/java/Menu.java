@@ -1,12 +1,11 @@
-import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.awt.event.*;
 
 public class Menu extends BasicMenu{
 
-  private boolean mouseOverButton1 = false;
-  private boolean mouseOverButton2 = false;
-  private boolean mouseOverButton3 = false;
+  private boolean mouseOverPlayButton = false;
+  private boolean mouseOverLevelSelect = false;
+  private boolean mouseOverExitButton = false;
 
 
   public Menu(Game game, Handler handler, Audio backgroundAudio){
@@ -16,27 +15,23 @@ public class Menu extends BasicMenu{
 
   public void loadSprites() {
     super.loadSprites();
-    /*SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/soundImg.png"));
-    this.imgUnmute = ss.grabImage(0, 0, 50, 50);
-    this.imgMute = ss.grabImage(1, 0, 50, 50);*/
   }
-  public void pass(){}
 
   public void tick(){}
 
   public void render(Graphics g) {
     super.render(g);
 
-    Font menu = new Font("arial", 1, 100);
-    Font buttonFont = new Font("arial", 1, 70);
-    Font buttonHighlightedFont = new Font("arial", 1, 80);
-    int tempX = 0;
+    Font titleFont = new Font("arial", Font.PLAIN, 100);
+    Font buttonFont = new Font("arial", Font.PLAIN, 70);
+    Font buttonHighlightedFont = new Font("arial", Font.PLAIN, 80);
+    int tempX;
 
-    g.setFont(menu);
+    g.setFont(titleFont);
     g.setColor(Color.black);
     g.drawString("Grade Runner",280,150);
 
-    if (this.mouseOverButton1) {
+    if (this.mouseOverPlayButton) {
       g.setFont(buttonHighlightedFont);
       tempX = 545;
       g.setColor(Color.gray);
@@ -49,7 +44,7 @@ public class Menu extends BasicMenu{
     g.setColor(Color.white);
     g.drawString("Play", tempX, 275);
 
-    if (this.mouseOverButton2) {
+    if (this.mouseOverLevelSelect) {
       g.setFont(buttonHighlightedFont);
       tempX = 390;
       g.setColor(Color.gray);
@@ -62,7 +57,7 @@ public class Menu extends BasicMenu{
     g.setColor(Color.white);
     g.drawString("Level-Select", tempX, 425);
 
-    if (this.mouseOverButton3) {
+    if (this.mouseOverExitButton) {
       g.setFont(buttonHighlightedFont);
       tempX = 545;
       g.setColor(Color.gray);
@@ -81,16 +76,16 @@ public class Menu extends BasicMenu{
     int mx = e.getX();
     int my = e.getY();
 
-    this.mouseOverButton1 = false;
-    this.mouseOverButton2 = false;
-    this.mouseOverButton3 = false;
+    this.mouseOverPlayButton = false;
+    this.mouseOverLevelSelect = false;
+    this.mouseOverExitButton = false;
 
     if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
-      this.mouseOverButton1 = true;
+      this.mouseOverPlayButton = true;
     } else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
-      this.mouseOverButton2 = true;
+      this.mouseOverLevelSelect = true;
     } else if (Utilities.mouseOverBox(mx, my, 375, 500, 500, 100)) {
-      this.mouseOverButton3 = true;
+      this.mouseOverExitButton = true;
     }
   }
 

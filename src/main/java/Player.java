@@ -5,16 +5,16 @@ public class Player extends GameObject{
 
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
-    private boolean walkRight = false;
     private float jumpVel = 15.0f;
     private float moveVel = 5.0f;
+
     public enum moveState {
         left,
         right,
         sprint,
         sprintStop,
         jump,
-        stop;
+        stop
 
     }
 
@@ -48,7 +48,7 @@ public class Player extends GameObject{
         this.handler.checkCollision(this);
     }
 
-    public void render(Graphics g) {;
+    public void render(Graphics g) {
         if (this.getVelY() != 0) {  //spritesheets while in air
             if (this.getVelX() > 0){
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
@@ -132,10 +132,12 @@ public class Player extends GameObject{
         }else if (state == moveState.jump) {
             this.setVelY(this.jumpVel);
         }else if (state == moveState.sprint) {
-            this.moveVel = this.moveVel * 2;
+            this.moveVel = this.moveVel * 2.0f;
+            this.jumpVel = this.jumpVel * 1.2f;
             this.setVelX(getVelX() * 2);
         }else if (state == moveState.sprintStop) {
-            this.moveVel = this.moveVel / 2;
+            this.moveVel = this.moveVel / 2.0f;
+            this.jumpVel = this.jumpVel / 1.2f;
             this.setVelX(getVelX() / 2);
         }else if (state == moveState.stop) {
             this.setVelX(0.0f);

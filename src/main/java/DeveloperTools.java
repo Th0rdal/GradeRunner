@@ -9,7 +9,7 @@ import java.awt.*;
 public class DeveloperTools{
 
     private Player p;
-    private Handler handler;
+    private final Handler handler;
     private static boolean visibility = false;
     private int frames = 0, ticks = 0;
     private int lastFrames = 0, lastTicks = 0;
@@ -21,12 +21,12 @@ public class DeveloperTools{
         if (DeveloperTools.visibility) {
             g.setColor(Color.black);
             g.drawRect(0, 0, 140, 120);
-            g.drawString("FPS: " + Integer.toString(this.lastFrames) + "/" + Game.MAX_FRAMES_PER_SECOND, 10, 12);
-            g.drawString("TICKS: " + Integer.toString(this.lastTicks) + "/" + Game.MAX_TICKS_PER_SECOND, 10, 22);
-            g.drawString("Selected Level: " + Integer.toString(LevelSelect.selectedLevel), 10, 32);
-            g.drawString("Player X " + Float.toString(this.p.getX()), 10, 42);
-            g.drawString("Player Y " + Float.toString(this.p.getY()), 10, 52);
-            g.drawString("Moved: " + Float.toString(this.handler.getMoved()), 10, 62);
+            g.drawString("FPS: " + this.lastFrames + "/" + Game.MAX_FRAMES_PER_SECOND, 10, 12);
+            g.drawString("TICKS: " + this.lastTicks + "/" + Game.MAX_TICKS_PER_SECOND, 10, 22);
+            g.drawString("Selected Level: " + LevelSelect.selectedLevel, 10, 32);
+            g.drawString("Player X " + this.p.getX(), 10, 42);
+            g.drawString("Player Y " + this.p.getY(), 10, 52);
+            g.drawString("Moved: " + this.handler.getMoved(), 10, 62);
         }
     }
     public void incrementFrames() {this.frames++;}

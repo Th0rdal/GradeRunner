@@ -7,11 +7,11 @@ import java.util.HashMap;
 
 public class SaveFile implements Serializable {
 
-    private String name;
+    private final String name;
     private HashMap<String, Integer> LevelsComplete;    //encrypted level name / score
-    private long creationTime;
-    private String encryptedName;
-    private String pathToFile;
+    private final long creationTime;
+    private final String encryptedName;
+    private final String pathToFile;
     public SaveFile(String name) {
         this.creationTime = System.nanoTime();
         this.name = name;
