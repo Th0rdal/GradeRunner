@@ -35,6 +35,8 @@ public class Game extends Canvas implements Runnable{
     private LevelSelect levelSelect;
     private WindowX windowX;
     private PauseMenu pause;
+    private VictoryScreen victoryScreen;
+    private DeathScreen deathScreen;
     private DeveloperTools developerTools = null;
     private Audio backgroundAudio;
     public static BufferedImageLoader loader;
@@ -47,6 +49,8 @@ public class Game extends Canvas implements Runnable{
         Menu,   //this state is active when in the menu
         Game,   //this state is active when the game is running
         Pause,   //this state is active when the game is paused
+        DeathScreen,
+        VictoryScreen,
         Levelselect;
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
@@ -62,26 +66,31 @@ public class Game extends Canvas implements Runnable{
         this.backgroundAudio.mute();
 
         //create all object instances here
-        this.handler = new Handler(this);
-        this.handler.setTotalLength(Game.TOTALLENGTH);
+        this.handler = new Handler(this, Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler, this.backgroundAudio);
-        this.levelSelect = new LevelSelect(this, handler);
+        this.levelSelect = new LevelSelect(this, handler, this.backgroundAudio);
         this.pause = new PauseMenu(this, handler, this.backgroundAudio);
+        this.deathScreen = new DeathScreen(this, this.handler, this.backgroundAudio);
+        this.victoryScreen = new VictoryScreen(this, this.handler, this.backgroundAudio);
         this.addMouseListener(this.levelSelect);
         this.addMouseListener(this.menu);
         this.addMouseListener(this.pause);
+        this.addMouseListener(this.deathScreen);
         this.developerTools = new DeveloperTools(this.handler);
 
         //add all Gameobjects to handler
-        /*this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        this.handler.addObject(new Player(700.0f, 200.f, this.handler));
         this.handler.addObject(new Platform(300.0f, 700.0f, 2000, 32, true, handler));
         this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
-        this.handler.addObject(new Enemy(50.0f, 50.0f, this.handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
         this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
         this.handler.addObject(new Enemy(25.0f, 50.0f, this.handler));
-        this.handler.addObject(new Goal(500.0f, 500.0f, this.handler));
+        this.handler.addObject(new Goal(500.0f, 600.0f, this.handler));
+        this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
+        this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
+        this.handler.loadImages();
+        /*
         Level l = new Level("test", this.handler);
         l.save();*/
 
@@ -185,6 +194,10 @@ public class Game extends Canvas implements Runnable{
             this.pause.render(g);
         }else if (this.gamestate == STATE.Levelselect){
             this.levelSelect.render(g);
+        }else if (this.gamestate == STATE.DeathScreen) {
+            this.deathScreen.render(g);
+        }else if (this.gamestate == STATE.VictoryScreen) {
+            this.victoryScreen.render(g);
         }
 
         bs.show();

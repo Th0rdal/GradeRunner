@@ -6,10 +6,8 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LevelSelect extends MouseAdapter{
+public class LevelSelect extends BasicMenu{
 
-    private Game game;
-    private Handler handler;
     private Random r = new Random();
     public static int selectedLevel = 0;
     private File fileList[];
@@ -27,11 +25,11 @@ public class LevelSelect extends MouseAdapter{
     private boolean mouseOverButton10 = false;
 
 
-    public LevelSelect(Game game, Handler handler){
-        this.game = game;
-        this.handler = handler;
-        this.loadLevels();
+    public LevelSelect(Game game, Handler handler, Audio audio){
+        super(game, handler, audio);
+        //this.loadLevels();
         LevelSelect.selectedLevel = 1;
+        this.loadSprites();
     }
 
     public int getSelectedLevel()
@@ -39,12 +37,16 @@ public class LevelSelect extends MouseAdapter{
         return selectedLevel;
     }
 
-    public void tick() {
+    public void tick() {}
 
+    public void loadSprites() {
+        super.loadSprites();
     }
     public void pass(){}
 
     public void render(Graphics g) {
+        super.render(g);
+
         Font menu = new Font("arial", 1, 100);
         Font buttons = new Font("arial", 1, 70);
         Font button1 = new Font("arial", 1, 70);
@@ -213,14 +215,6 @@ public class LevelSelect extends MouseAdapter{
 
     }
 
-    public boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {
-        if (mx > x && mx < x + width) {
-            if (my > y && my < y + height) {
-                return true;
-            } else return false;
-        } else return false;
-    }
-
     public void mouseMoved(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
@@ -237,90 +231,63 @@ public class LevelSelect extends MouseAdapter{
         this.mouseOverButton9 = false;
         this.mouseOverButton10 = false;
 
-        if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
+        if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
             this.mouseOverButton10 = true;
-        } else if (mouseOverBox(mx, my, 200, 200, 200, 120)) {
+        } else if (Utilities.mouseOverBox(mx, my, 200, 200, 200, 120)) {
             this.mouseOverButton1 = true;
-        } else if (mouseOverBox(mx, my, 500, 200, 200, 120)) {
+        } else if (Utilities.mouseOverBox(mx, my, 500, 200, 200, 120)) {
             this.mouseOverButton2 = true;
-        }else if (mouseOverBox(mx, my, 800, 200, 200, 120)) {
+        }else if (Utilities.mouseOverBox(mx, my, 800, 200, 200, 120)) {
             this.mouseOverButton3 = true;
-        } else if (mouseOverBox(mx, my, 200, 350, 200, 120)) {
+        } else if (Utilities.mouseOverBox(mx, my, 200, 350, 200, 120)) {
             this.mouseOverButton4 = true;
-        }else if (mouseOverBox(mx, my, 500, 350, 200, 120)) {
+        }else if (Utilities.mouseOverBox(mx, my, 500, 350, 200, 120)) {
             this.mouseOverButton5 = true;
-        } else if (mouseOverBox(mx, my, 800, 350, 200, 120)) {
+        } else if (Utilities.mouseOverBox(mx, my, 800, 350, 200, 120)) {
             this.mouseOverButton6 = true;
-        }else if (mouseOverBox(mx, my, 200, 500, 200, 120)) {
+        }else if (Utilities.mouseOverBox(mx, my, 200, 500, 200, 120)) {
             this.mouseOverButton7 = true;
-        } else if (mouseOverBox(mx, my, 500, 500, 200, 120)) {
+        } else if (Utilities.mouseOverBox(mx, my, 500, 500, 200, 120)) {
             this.mouseOverButton8 = true;
-        }else if (mouseOverBox(mx, my, 800, 500, 200, 120)) {
+        }else if (Utilities.mouseOverBox(mx, my, 800, 500, 200, 120)) {
             this.mouseOverButton9 = true;
         }
     }
 
     public void mousePressed(MouseEvent e) {
-        int mx = e.getX();
-        int my = e.getY();
 
         if (game.gamestate == Game.STATE.Levelselect) {
-
-            if (mouseOverBox(mx, my, 200, 200, 200, 120))
-            {
+            super.mousePressed(e);
+            int mx = e.getX();
+            int my = e.getY();
+            if (Utilities.mouseOverBox(mx, my, 200, 200, 200, 120)) {
                 selectedLevel = 1;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 200, 350, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 200, 350, 200, 120)) {
                 selectedLevel = 4;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 200, 500, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 200, 500, 200, 120)) {
                 selectedLevel = 7;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 500, 200, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 500, 200, 200, 120)) {
                 selectedLevel = 2;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 500, 350, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 500, 350, 200, 120)) {
                 selectedLevel = 5;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 500, 500, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 500, 500, 200, 120)) {
                 selectedLevel = 8;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 800, 200, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 800, 200, 200, 120)) {
                 selectedLevel = 3;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 800, 350, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 800, 350, 200, 120)) {
                 selectedLevel = 6;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 800, 500, 200, 120))
-            {
+            }else if (Utilities.mouseOverBox(mx, my, 800, 500, 200, 120)) {
                 selectedLevel = 9;
                 pass();
-            }
-
-            if (mouseOverBox(mx, my, 350, 700, 500, 100)) {
+            }else if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
                 game.setGamestate(Game.STATE.Menu);
             }
         }

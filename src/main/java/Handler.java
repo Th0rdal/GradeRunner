@@ -10,13 +10,19 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Handler {
     private Game game;
-    public Handler(Game game) {
-        this.game = game;
-    }
     private LinkedList<GameObject> objectList = new LinkedList<GameObject>();   //list of all GameObjects
     private ConcurrentLinkedDeque deleteQueue = new ConcurrentLinkedDeque();    //queue with all GameObjects to delete
     private float moved = 0;
     private float totalLength = 0.0f;
+    public Handler(Game game) {
+        this.game = game;
+    }
+
+    public Handler(Game game, int totalLength) {
+        this.game = game;
+        this.totalLength = totalLength;
+    }
+
 
     public void tick() {
         for (GameObject tempObject : this.objectList) {
@@ -101,7 +107,10 @@ public class Handler {
     }
     public LinkedList<GameObject> getObjectList() {return this.objectList;}
     public void finish() {
-        game.setGamestate(Game.STATE.Menu);
+        game.setGamestate(Game.STATE.VictoryScreen);
+    }
+    public void hit() {
+        game.setGamestate(Game.STATE.DeathScreen);
     }
     public float getMoved() {return this.moved;}
 

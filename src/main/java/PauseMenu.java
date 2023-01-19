@@ -4,27 +4,19 @@ import java.util.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class PauseMenu extends MouseAdapter{
+public class PauseMenu extends BasicMenu{
 
-    private Game game;
-    private Handler handler;
-    private Audio backgroundAudio;
     private BufferedImage imgUnmute, imgMute;
     private boolean mouseOverButton1 = false;
     private boolean mouseOverButton2 = false;
-    private boolean mouseOverButtonMute = false;
 
     public PauseMenu(Game game, Handler handler, Audio audio){
-        this.game = game;
-        this.handler = handler;
-        this.backgroundAudio = audio;
+        super(game, handler, audio);
         this.loadSprites();
     }
 
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Game.loader.loadImage("/soundImg.png"));
-        this.imgUnmute = ss.grabImage(0, 0, 50, 50);
-        this.imgMute = ss.grabImage(1, 0, 50, 50);
+        super.loadSprites();
     }
 
     public void pass(){}
@@ -76,13 +68,6 @@ public class PauseMenu extends MouseAdapter{
         }
     }
 
-    public boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {
-        if (mx > x && mx < x + width) {
-            if (my > y && my < y + height) {
-                return true;
-            } else return false;
-        } else return false;
-    }
 
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
@@ -90,16 +75,16 @@ public class PauseMenu extends MouseAdapter{
 
         if (game.gamestate == Game.STATE.Pause) {
 
-            if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
+            if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
                 game.gamestate = Game.STATE.Game;
                 startGame();
             }
 
-            if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
+            if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
                 game.setGamestate(Game.STATE.Menu);
             }
 
-            if (mouseOverBox(mx, my, 1100,50,50,50)) {
+            if (Utilities.mouseOverBox(mx, my, 1100,50,50,50)) {
                 if (this.backgroundAudio.musicPlaying()) {
                     this.backgroundAudio.mute();
                 }else {
@@ -115,15 +100,12 @@ public class PauseMenu extends MouseAdapter{
 
         this.mouseOverButton1 = false;
         this.mouseOverButton2 = false;
-        this.mouseOverButtonMute = false;
 
 
-        if (mouseOverBox(mx, my, 375, 200, 500, 100)) {
+        if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
             this.mouseOverButton1 = true;
-        } else if (mouseOverBox(mx, my, 375, 350, 500, 100)) {
+        } else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
             this.mouseOverButton2 = true;
-        }else if (mouseOverBox(mx, my, 1100,50,50,50)) {
-            this.mouseOverButtonMute  = true;
         }
     }
 

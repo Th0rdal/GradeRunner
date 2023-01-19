@@ -117,16 +117,11 @@ public class Player extends GameObject{
                 ((Enemy)collisionObject).hitFromAbove();
                 this.move(moveState.jump);
             }else {
-                this.hit();
+                handler.hit();
             }
         }else if (collisionObject.getID() == ID.Goal) {
             this.handler.finish();
         }
-    }
-
-    public void hit() {
-        this.setX(200.0f);
-        this.setY(200.0f);
     }
 
     public void move(moveState state) {

@@ -86,5 +86,13 @@ public class Utilities { //calculates a hash for the saveFile
         File fileList[] = file.listFiles();
         return fileList;
     }
+
+    public static boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {
+        if (mx > x && mx < x + width) {
+            if (my > y && my < y + height) {
+                return true;
+            } else return false;
+        } else return false;
+    }
 }
 
