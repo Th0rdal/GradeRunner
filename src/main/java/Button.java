@@ -7,7 +7,7 @@ public class Button {
     private final int x, y, width, height;
     private String text;
     private boolean highlighted = false;
-    private boolean hasInfill;
+    private final boolean hasInfill;
     private boolean selected = false;
     private final Font buttonFont = new Font("arial", Font.PLAIN, 70);
     private final Font buttonHighlightFont = new Font("arial", Font.PLAIN, 80);
@@ -33,10 +33,11 @@ public class Button {
     }
 
     public void render(Graphics g) {
-        int fontHight = 0;
+        int fontHight;
         FontRenderContext frc = new FontRenderContext(new AffineTransform(), true, true);
         if (this.selected) {
             g.setColor(this.buttonColorSelected);
+            g.setFont(this.buttonFont);
             fontHight = (int) (buttonHighlightFont.getStringBounds(this.text, frc).getHeight() / 2 - g.getFontMetrics().getDescent());
         }else if (this.highlighted) {
             g.setColor(this.buttonColorHighlighted);
