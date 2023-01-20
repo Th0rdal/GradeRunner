@@ -3,8 +3,8 @@ import java.awt.event.*;
 
 public class PauseMenu extends BasicMenu{
 
-    private boolean mouseOverButton1 = false;
-    private boolean mouseOverButton2 = false;
+    private final Button Button_Continue = new Button(375, 200, 500, 100, "Continue", true);
+    private final Button Button_MainMenu = new Button(375, 350, 500, 100, "Main Menu", true);
 
     public PauseMenu(Game game, Handler handler, Audio audio){
         super(game, handler, audio);
@@ -14,99 +14,47 @@ public class PauseMenu extends BasicMenu{
     public void loadSprites() {
         super.loadSprites();
     }
-    public void tick() {
-
-    }
+    public void tick() {}
 
     public void render(Graphics g) {
-        Font menu = new Font("arial", Font.PLAIN, 100);
-        Font buttonFont = new Font("arial", Font.PLAIN, 70);
-        Font buttonHighlightFont = new Font("arial", Font.PLAIN, 80);
-        int tempX;
+        super.render(g);
 
+        Font menu = new Font("arial", Font.PLAIN, 100);
         g.setFont(menu);
         g.setColor(Color.black);
-        g.drawString("Paused",450,150);
+        g.drawString("Paused",(Game.WIDTH / 2 - g.getFontMetrics().stringWidth("Paused") / 2),150);
 
-        if (this.mouseOverButton1) {
-            g.setFont(buttonHighlightFont);
-            tempX = 450;
-            g.setColor(Color.gray);
-        } else {
-            g.setFont(buttonFont);
-            tempX = 475;
-            g.setColor(Color.black);
-        }
-        g.fillRect(375, 200, 500, 100);
-        g.setColor(Color.white);
-        g.drawString("Continue", tempX, 275);
-
-        if (this.mouseOverButton2) {
-            g.setFont(buttonHighlightFont);
-            tempX = 425;
-            g.setColor(Color.gray);
-        } else {
-            g.setFont(buttonFont);
-            tempX = 450;
-            g.setColor(Color.black);
-        }
-        g.fillRect(375, 350, 500, 100);
-        g.setColor(Color.white);
-        g.drawString("Main Menu", tempX, 425);
-
-        if (this.backgroundAudio.musicPlaying()) {
-            g.drawImage(this.imgUnmute, 1100, 50, null);
-        }else {
-            g.drawImage(this.imgMute, 1100, 50, null);
-
-        }
-    }
-
-
-    public void mousePressed(MouseEvent e) {
-        int mx = e.getX();
-        int my = e.getY();
-
-        if (game.gamestate == Game.STATE.Pause) {
-
-            if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
-                game.gamestate = Game.STATE.Game;
-                startGame();
-            }
-
-            if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
-                game.setGamestate(Game.STATE.Menu);
-            }
-
-            if (Utilities.mouseOverBox(mx, my, 1100,50,50,50)) {
-                if (this.backgroundAudio.musicPlaying()) {
-                    this.backgroundAudio.mute();
-                }else {
-                    this.backgroundAudio.unmute();
-                }
-            }
-        }
+        this.Button_Continue.render(g);
+        this.Button_MainMenu.render(g);
     }
 
     public void mouseMoved(MouseEvent e) {
+        if (game.getGamestate() != Game.STATE.Pause) {
+            return;
+        }
+        super.mouseMoved(e);
         int mx = e.getX();
         int my = e.getY();
 
-        this.mouseOverButton1 = false;
-        this.mouseOverButton2 = false;
+        this.Button_Continue.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 200, 500, 100));
+        this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 350, 500, 100));
+    }
 
+    public void mousePressed(MouseEvent e) {
+        if (game.gamestate != Game.STATE.Pause) {
+            return;
+        }
+
+        super.mousePressed(e);
+        int mx = e.getX();
+        int my = e.getY();
 
         if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
-            this.mouseOverButton1 = true;
-        } else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
-            this.mouseOverButton2 = true;
+            game.setGamestate(Game.STATE.Game);
+        }else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
+            game.setGamestate(Game.STATE.Menu);
         }
     }
 
-    public void mouseReleased(MouseEvent e){
-
-    }
-
-    public void startGame() {
-    }
+    public void mouseReleased(MouseEvent e){}
 }

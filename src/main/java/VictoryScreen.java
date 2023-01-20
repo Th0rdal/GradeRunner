@@ -4,7 +4,7 @@ import java.awt.event.MouseEvent;
 public class VictoryScreen extends BasicMenu{
 
 
-    private boolean mouseOverMainMenuButton = false;
+    private final Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu", true);
 
     public VictoryScreen(Game game, Handler handler, Audio audio) {
         super(game, handler, audio);
@@ -20,22 +20,10 @@ public class VictoryScreen extends BasicMenu{
     public void render(Graphics g) {
 
         Font titleFont = new Font("arial", Font.PLAIN, 100);
-        Font buttonFont = new Font("arial", Font.PLAIN, 70);
-        Font buttonHighlightedFont = new Font("arial", Font.PLAIN, 80);
         g.setFont(titleFont);
         g.setColor(Color.black);
-        g.drawString("YOU WON", 400, 150);
-
-        g.fillRect(350, 700, 500, 100);
-        g.setColor(Color.white);
-        if (this.mouseOverMainMenuButton) {
-            g.setFont(buttonHighlightedFont);
-            g.drawString("Main Menu", 400, 775);
-        } else {
-            g.setFont(buttonFont);
-            g.drawString("Main Menu", 425, 775);
-        }
-
+        g.drawString("YOU WON", (Game.WIDTH / 2 - g.getFontMetrics().stringWidth("YOU WON") / 2), 150);
+        this.Button_MainMenu.render(g);
     }
 
     public void mouseMoved(MouseEvent e) {
@@ -47,7 +35,7 @@ public class VictoryScreen extends BasicMenu{
         int mx = e.getX();
         int my = e.getY();
 
-        this.mouseOverMainMenuButton = Utilities.mouseOverBox(mx, my, 350, 700, 500, 100);
+        this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 350, 700, 500, 100));
 
     }
     public void mousePressed(MouseEvent e) {

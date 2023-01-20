@@ -72,80 +72,84 @@ public class LevelSelect extends BasicMenu{
     }
 
     public void mouseMoved(MouseEvent e) {
+
+        if (game.getGamestate() != Game.STATE.Levelselect) {
+            return;
+        }
+
         int mx = e.getX();
         int my = e.getY();
         super.mouseMoved(e);
-        if (game.getGamestate() == Game.STATE.Levelselect) {
-            this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 350, 700, 500, 100));
-            this.Button_Level1.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 200, 200, 120));
-            this.Button_Level2.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 200, 200, 120));
-            this.Button_Level3.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 200, 200, 120));
-            this.Button_Level4.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 350, 200, 120));
-            this.Button_Level5.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 350, 200, 120));
-            this.Button_Level6.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 350, 200, 120));
-            this.Button_Level7.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 500, 200, 120));
-            this.Button_Level8.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 500, 200, 120));
-            this.Button_Level9.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 500, 200, 120));
-        }
+        this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 350, 700, 500, 100));
+        this.Button_Level1.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 200, 200, 120));
+        this.Button_Level2.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 200, 200, 120));
+        this.Button_Level3.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 200, 200, 120));
+        this.Button_Level4.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 350, 200, 120));
+        this.Button_Level5.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 350, 200, 120));
+        this.Button_Level6.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 350, 200, 120));
+        this.Button_Level7.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 500, 200, 120));
+        this.Button_Level8.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 500, 200, 120));
+        this.Button_Level9.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 500, 200, 120));
     }
 
     public void mousePressed(MouseEvent e) {
 
         if (game.gamestate == Game.STATE.Levelselect) {
-            super.mousePressed(e);
-            int mx = e.getX();
-            int my = e.getY();
-            if (Utilities.mouseOverBox(mx, my, 200, 200, 200, 120)) {
-                this.Button_Level1.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 1;
-                this.selectedButton = this.Button_Level1;
-            }else if (Utilities.mouseOverBox(mx, my, 200, 350, 200, 120)) {
-                this.Button_Level4.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 4;
-                this.selectedButton = this.Button_Level4;
-            }else if (Utilities.mouseOverBox(mx, my, 200, 500, 200, 120)) {
-                this.Button_Level7.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 7;
-                this.selectedButton = this.Button_Level7;
-            }else if (Utilities.mouseOverBox(mx, my, 500, 200, 200, 120)) {
-                this.Button_Level2.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 2;
-                this.selectedButton = this.Button_Level2;
-            }else if (Utilities.mouseOverBox(mx, my, 500, 350, 200, 120)) {
-                this.Button_Level5.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 5;
-                this.selectedButton = this.Button_Level5;
-            }else if (Utilities.mouseOverBox(mx, my, 500, 500, 200, 120)) {
-                this.Button_Level8.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 8;
-                this.selectedButton = this.Button_Level8;
-            }else if (Utilities.mouseOverBox(mx, my, 800, 200, 200, 120)) {
-                this.Button_Level3.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 3;
-                this.selectedButton = this.Button_Level3;
-            }else if (Utilities.mouseOverBox(mx, my, 800, 350, 200, 120)) {
-                this.Button_Level6.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 6;
-                this.selectedButton = this.Button_Level6;
-            }else if (Utilities.mouseOverBox(mx, my, 800, 500, 200, 120)) {
-                this.Button_Level9.changeSelected();
-                this.selectedButton.changeSelected();
-                this.selectedLevel = 9;
-                this.selectedButton = this.Button_Level9;
-            }else if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
-                if (this.selectedLevel > this.levelList.length) {
-                    game.getWindow().warning("Please choose an existing Level");
-                }else {
-                    game.setGamestate(Game.STATE.Menu);
-                }
+            return;
+        }
+        super.mousePressed(e);
+        int mx = e.getX();
+        int my = e.getY();
+        if (Utilities.mouseOverBox(mx, my, 200, 200, 200, 120)) {
+            this.Button_Level1.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 1;
+            this.selectedButton = this.Button_Level1;
+        }else if (Utilities.mouseOverBox(mx, my, 200, 350, 200, 120)) {
+            this.Button_Level4.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 4;
+            this.selectedButton = this.Button_Level4;
+        }else if (Utilities.mouseOverBox(mx, my, 200, 500, 200, 120)) {
+            this.Button_Level7.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 7;
+            this.selectedButton = this.Button_Level7;
+        }else if (Utilities.mouseOverBox(mx, my, 500, 200, 200, 120)) {
+            this.Button_Level2.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 2;
+            this.selectedButton = this.Button_Level2;
+        }else if (Utilities.mouseOverBox(mx, my, 500, 350, 200, 120)) {
+            this.Button_Level5.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 5;
+            this.selectedButton = this.Button_Level5;
+        }else if (Utilities.mouseOverBox(mx, my, 500, 500, 200, 120)) {
+            this.Button_Level8.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 8;
+            this.selectedButton = this.Button_Level8;
+        }else if (Utilities.mouseOverBox(mx, my, 800, 200, 200, 120)) {
+            this.Button_Level3.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 3;
+            this.selectedButton = this.Button_Level3;
+        }else if (Utilities.mouseOverBox(mx, my, 800, 350, 200, 120)) {
+            this.Button_Level6.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 6;
+            this.selectedButton = this.Button_Level6;
+        }else if (Utilities.mouseOverBox(mx, my, 800, 500, 200, 120)) {
+            this.Button_Level9.changeSelected();
+            this.selectedButton.changeSelected();
+            this.selectedLevel = 9;
+            this.selectedButton = this.Button_Level9;
+        }else if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
+            if (this.selectedLevel > this.levelList.length) {
+                game.getWindow().warning("Please choose an existing Level");
+            }else {
+                game.setGamestate(Game.STATE.Menu);
             }
         }
     }
