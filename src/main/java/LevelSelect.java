@@ -94,7 +94,7 @@ public class LevelSelect extends BasicMenu{
 
     public void mousePressed(MouseEvent e) {
 
-        if (game.gamestate == Game.STATE.Levelselect) {
+        if (game.gamestate != Game.STATE.Levelselect) {
             return;
         }
         super.mousePressed(e);

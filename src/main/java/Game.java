@@ -72,6 +72,7 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.menu);
         this.addMouseListener(this.pause);
         this.addMouseListener(this.deathScreen);
+        this.addMouseListener(this.victoryScreen);
         this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
 
         //add all Gameobjects to handler
