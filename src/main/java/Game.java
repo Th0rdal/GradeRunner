@@ -62,18 +62,19 @@ public class Game extends Canvas implements Runnable{
         this.handler = new Handler(this, Game.TOTALLENGTH);
         this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler, backgroundAudio);
-        this.levelSelect = new LevelSelect(this, handler, backgroundAudio);
+        this.levelSelect = new LevelSelect(this, this.handler, backgroundAudio);
         this.pause = new PauseMenu(this, handler, backgroundAudio);
         this.deathScreen = new DeathScreen(this, this.handler, backgroundAudio);
         this.victoryScreen = new VictoryScreen(this, this.handler, backgroundAudio);
         this.addMouseListener(this.levelSelect);
+        this.addMouseMotionListener(this.levelSelect);
         this.addMouseListener(this.menu);
         this.addMouseListener(this.pause);
         this.addMouseListener(this.deathScreen);
-        this.developerTools = new DeveloperTools(this.handler);
+        this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
 
         //add all Gameobjects to handler
-        this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        /*this.handler.addObject(new Player(700.0f, 200.f, this.handler));
         this.handler.addObject(new Platform(300.0f, 700.0f, 2000, 32, true, handler));
         this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
         this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
@@ -82,10 +83,10 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Goal(500.0f, 600.0f, this.handler));
         this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
         this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
-        this.handler.loadImages();
-        /*
-        Level l = new Level("test", this.handler);
-        l.save();*/
+        this.handler.loadImages();*/
+
+        //Level l = new Level("test", this.handler, 1500);
+        //l.save();
 
         //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
@@ -95,7 +96,8 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void startGame() {
-        this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
+
+            this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
         this.handler.loadImages();
     }
 

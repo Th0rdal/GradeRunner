@@ -101,7 +101,7 @@ public class Menu extends BasicMenu{
       }else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
         game.setGamestate(Game.STATE.Levelselect);
       }else if (Utilities.mouseOverBox(mx, my, 375, 500, 500, 100)) {
-        System.exit(1);
+        System.exit(0);
       }
     }
   }

@@ -44,9 +44,7 @@ public abstract class BasicMenu extends MouseAdapter {
         }
     }
 
-    public void mouseMoved(MouseEvent e) {
-
-    }
+    public void mouseMoved(MouseEvent e) {}
     public void mouseReleased(MouseEvent e) {
 
     }

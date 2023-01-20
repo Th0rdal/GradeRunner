@@ -48,4 +48,8 @@ public class Level implements Serializable{
         Utilities.saveObjectToFile(this, this.pathToFile);
     }
 
+    public String getName() {
+        return this.name;
+    }
+
 }
