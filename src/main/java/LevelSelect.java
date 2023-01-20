@@ -5,20 +5,20 @@ import java.awt.event.*;
 
 public class LevelSelect extends BasicMenu{
 
-    private int selectedLevel = 0;
+    private int selectedLevel;
     private Button selectedButton;
     private Level[] levelList;
-    private Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu", true);
-    private Button Button_Level1 = new Button(200, 200, 200, 120, false);
-    private Button Button_Level2 = new Button(500, 200, 200, 120, false);
-    private Button Button_Level3 = new Button(800, 200, 200, 120, false);
-    private Button Button_Level4 = new Button(200, 350, 200, 120, false);
-    private Button Button_Level5 = new Button(500, 350, 200, 120, false);
-    private Button Button_Level6 = new Button(800, 350, 200, 120, false);
-    private Button Button_Level7 = new Button(200, 500, 200, 120, false);
-    private Button Button_Level8 = new Button(500, 500, 200, 120, false);
-    private Button Button_Level9 = new Button(800, 500, 200, 120, false);
-    private Button[] levelButtonList = new Button[9];
+    private final Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu", true);
+    private final Button Button_Level1 = new Button(200, 200, 200, 120, false);
+    private final Button Button_Level2 = new Button(500, 200, 200, 120, false);
+    private final Button Button_Level3 = new Button(800, 200, 200, 120, false);
+    private final Button Button_Level4 = new Button(200, 350, 200, 120, false);
+    private final Button Button_Level5 = new Button(500, 350, 200, 120, false);
+    private final Button Button_Level6 = new Button(800, 350, 200, 120, false);
+    private final Button Button_Level7 = new Button(200, 500, 200, 120, false);
+    private final Button Button_Level8 = new Button(500, 500, 200, 120, false);
+    private final Button Button_Level9 = new Button(800, 500, 200, 120, false);
+    private final Button[] levelButtonList = new Button[9];
 
     public LevelSelect(Game game, Handler handler, Audio audio){
         super(game, handler, audio);
@@ -57,10 +57,6 @@ public class LevelSelect extends BasicMenu{
         g.setFont(menu);
         g.setColor(Color.black);
         g.drawString("Level Select",300,150);
-        String[] tempString = new String[9];
-        for (int i = 0; i < tempString.length; i++) {
-            tempString[i] = Integer.toString(i+1);
-        }
 
         this.Button_MainMenu.render(g);
         this.Button_Level1.render(g);
@@ -145,7 +141,11 @@ public class LevelSelect extends BasicMenu{
                 this.selectedLevel = 9;
                 this.selectedButton = this.Button_Level9;
             }else if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
-                game.setGamestate(Game.STATE.Menu);
+                if (this.selectedLevel > this.levelList.length) {
+                    game.getWindow().warning("Please choose an existing Level");
+                }else {
+                    game.setGamestate(Game.STATE.Menu);
+                }
             }
         }
     }

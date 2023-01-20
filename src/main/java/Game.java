@@ -35,6 +35,7 @@ public class Game extends Canvas implements Runnable{
     private final VictoryScreen victoryScreen;
     private final DeathScreen deathScreen;
     private final DeveloperTools developerTools;
+    private final WindowX window;
     private final BufferedImage background;
 
 
@@ -91,14 +92,15 @@ public class Game extends Canvas implements Runnable{
         //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
 
-        new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+         this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
     }
 
     public void startGame() {
 
-            this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
+        this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
         this.handler.loadImages();
+        this.developerTools.getPlayer();
     }
 
     public synchronized void start() { //starts the game
@@ -117,9 +119,6 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void run() { //game-loop
-        //init
-        this.developerTools.getPlayer();
-
         this.requestFocus();
 
         //game-loop variable initialisation
@@ -227,6 +226,9 @@ public class Game extends Canvas implements Runnable{
     }
     public static void toggleScroll() {Game.scroll = !Game.scroll;}
     public static boolean getScroll() {return Game.scroll;}
+    public WindowX getWindow() {
+        return this.window;
+    }
     public static void main(String[] args) {
         new Game();
     }
