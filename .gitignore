@@ -1,0 +1,8 @@
+/build/classes/java/main/*/*.class
+/build/classes/java/main/main.class
+/saves/worlds/*.world
+
+/.gradle/workspace-id.txt
+/.gradle/workspace-id.txt.lock
+/build/tmp/compileJava/previous-compilation-data.bin
+/.gradle/7.4/fileHashes/resourceHashesCache.bin
