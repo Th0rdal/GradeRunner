@@ -32,9 +32,6 @@ public class LevelSelect extends BasicMenu {
 
     public LevelSelect(Game game, Handler handler, Audio audio){
         super(game, handler, audio);
-        this.selectedLevel = 1;
-        this.selectedButton = this.Button_Level1;
-        this.selectedButton.changeSelected();
         this.loadSprites();
         this.levelButtonList[0] = this.Button_Level1;
         this.levelButtonList[1] = this.Button_Level2;
@@ -46,6 +43,9 @@ public class LevelSelect extends BasicMenu {
         this.levelButtonList[7] = this.Button_Level8;
         this.levelButtonList[8] = this.Button_Level9;
         this.loadLevels();
+        this.selectedLevel = 1;
+        this.selectedButton = this.Button_Level1;
+        this.selectedButton.changeSelected();
 
     }
 
@@ -177,7 +177,7 @@ public class LevelSelect extends BasicMenu {
         for (int i = 0; i < 9; i++) {
             try {
                 this.levelButtonList[i].reset();
-                this.levelButtonList[i].setText(this.levelList[9 * this.LevelCounter + i + 1].getName());
+                this.levelButtonList[i].setText(this.levelList[9 * this.LevelCounter + i].getName());
             }catch (IndexOutOfBoundsException | NullPointerException e) {
                 this.levelButtonList[i].setText(Integer.toString(9 * this.LevelCounter + i + 1));
             }

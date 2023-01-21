@@ -60,17 +60,9 @@ public class Enemy extends GameObject{
     @Override
     public void collision(GameObject collisionObject) {
         if (collisionObject.getID() == ID.Platform) {
-            float tempY, tempX;
-            if (this.getY() < collisionObject.getY()) {
-                tempY = collisionObject.getY() - this.getHeight();
-            }else {
-                tempY = collisionObject.getY() + collisionObject.getHeight();
-            }
-            if (this.getX() < collisionObject.getX()) {
-                tempX = collisionObject.getX() - this.getWidth();
-            }else {
-                tempX = collisionObject.getX() + collisionObject.getWidth();
-            }
+            float[] collisionDirectionArray = super.collisionDirection(collisionObject);
+            float tempY = collisionDirectionArray[0];
+            float tempX = collisionDirectionArray[1];
 
             if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {
                 x = tempX;
@@ -78,6 +70,15 @@ public class Enemy extends GameObject{
                 y += this.getGravity();
             }else {
                 y = tempY;
+            }
+        }else if (collisionObject.getID() == ID.Enemy) {
+            float[] collisionDirectionArray = super.collisionDirection(collisionObject);
+            float tempY = collisionDirectionArray[0];
+            float tempX = collisionDirectionArray[1];
+
+            if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {
+                this.setVelX(this.getVelX() * -1.0f);
+                collisionObject.setVelX(this.getVelX() * -1.0f);
             }
         }
     }

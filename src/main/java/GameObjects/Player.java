@@ -92,28 +92,9 @@ public class Player extends GameObject{
         }
     }
 
-    private float[] collisionDirection(GameObject collisionObject) {
-        float[] returnArray = new float[4];
-        if (this.getY() < collisionObject.getY()) {
-            returnArray[0] = collisionObject.getY() - this.getHeight();
-            returnArray[2] = 0.0f;  //hit above
-        }else {
-            returnArray[0] = collisionObject.getY() + collisionObject.getHeight();
-            returnArray[2] = 1.0f;  //hit below
-        }
-        if (this.getX() < collisionObject.getX()) {
-            returnArray[1] = collisionObject.getX() - this.getWidth();
-            returnArray[3] = 0.0f;  //hit left
-        }else {
-            returnArray[1] = collisionObject.getX() + collisionObject.getWidth();
-            returnArray[3] = 1.0f;  //hit right
-        }
-        return returnArray;
-    }
-
     public void collision(GameObject collisionObject) {
         if (collisionObject.getID() == ID.Platform) {
-            float[] collisionDirectionArray = this.collisionDirection(collisionObject);
+            float[] collisionDirectionArray = super.collisionDirection(collisionObject);
             float tempY = collisionDirectionArray[0];
             float tempX = collisionDirectionArray[1];
 
@@ -128,7 +109,7 @@ public class Player extends GameObject{
                 }
             }
         }else if (collisionObject.getID() == ID.Enemy) {
-            float[] collisionDirectionArray = this.collisionDirection(collisionObject);
+            float[] collisionDirectionArray = super.collisionDirection(collisionObject);
             float tempY = collisionDirectionArray[0];
             float tempX = collisionDirectionArray[1];
             if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {

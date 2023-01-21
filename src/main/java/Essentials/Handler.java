@@ -46,8 +46,8 @@ public class Handler {
 
     public void checkCollision(GameObject object) { //checks the collisions of the parameter object with all other objects
         for (GameObject tempObject : this.objectList) {
-            if (tempObject.getID() == object.getID()) {
-                continue;
+            if (tempObject == object) {
+                return;
             }
             if (object.getBounds().intersects(tempObject.getBounds())) {
                 object.collision(tempObject);

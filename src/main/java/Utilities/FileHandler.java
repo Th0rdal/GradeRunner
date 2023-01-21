@@ -11,6 +11,7 @@ public class FileHandler {
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             return objectInputStream.readObject();
         }catch (IOException | ClassNotFoundException e) {
+            System.out.println(path);
             e.printStackTrace();
             return null;
         }
