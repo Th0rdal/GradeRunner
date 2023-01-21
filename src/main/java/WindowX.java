@@ -27,4 +27,8 @@ public class WindowX extends Canvas {
     public void warning(String message) {
         JOptionPane.showMessageDialog(this.frame, message);
     }
+    public void error(String message) {
+        JOptionPane.showMessageDialog(this.frame, message);
+        System.exit(0);
+    }
 }

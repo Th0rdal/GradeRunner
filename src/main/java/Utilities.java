@@ -65,11 +65,10 @@ public class Utilities {
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
             return objectInputStream.readObject();
-        }catch (Exception e) {
+        }catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
+            return null;
         }
-        System.out.println("ERROR IN LOADING");
-        return null;
     }
     public static void saveObjectToFile(Object object, String path) {   //saves an object to the file
         try{
@@ -78,8 +77,9 @@ public class Utilities {
             outputStream.writeObject(object);
             outputStream.close();
             fileOutputStream.close();
-        }catch (Exception e) {
+        }catch (IOException e) {
             e.printStackTrace();
+            System.exit(0);
         }
     }
 
@@ -92,6 +92,7 @@ public class Utilities {
         try {
             return ImageIO.read(new File(path));
         } catch (IOException e) {
+            System.out.println("Image could not be loaded!");
             e.printStackTrace();
             return null;
         }

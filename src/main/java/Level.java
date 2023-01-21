@@ -28,7 +28,7 @@ public class Level implements Serializable{
         this.totalLength = totalLength;
     }
 
-    public void load(Handler handler) {    //loads the level onto the screen
+    public void load(Game game, Handler handler) {    //loads the level onto the screen
         this.handler = handler;
         this.handler.clear();
         this.handler.setTotalLength(this.totalLength);
@@ -39,6 +39,7 @@ public class Level implements Serializable{
                 tempCopy.setHandler(this.handler);
             }catch (CloneNotSupportedException e) {
                 e.printStackTrace();
+                game.getWindow().error("Could not load World!");
             }
         }
     }

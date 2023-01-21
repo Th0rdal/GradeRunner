@@ -1,13 +1,11 @@
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
+import javax.sound.sampled.*;
 import java.io.File;
+import java.io.IOException;
 
 public class Audio {
     private Clip clip;
     private FloatControl floatControl;
-    public Audio(String path) {
+    public Audio(Game game, String path) {
         try {
             File musicPath = new File(path);
             if(musicPath.exists()){
@@ -20,9 +18,12 @@ public class Audio {
             else{
                 System.out.println("Couldn't find Music file");
             }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
+        }catch (UnsupportedAudioFileException | IOException | LineUnavailableException | IllegalArgumentException e){
+            e.printStackTrace();
+            game.getWindow().warning("Audiofile could not be opened!");
+        }catch (SecurityException e) {
+            e.printStackTrace();
+            game.getWindow().error("Security Error! Shutting down!");
         }
         this.changeVolume(0.0f);
     }

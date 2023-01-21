@@ -56,7 +56,7 @@ public class Game extends Canvas implements Runnable{
         background = Utilities.loadImage("src/main/resources/bg.jpg");
 
         //audio initialization
-        Audio backgroundAudio = new Audio("src/main/resources/backgroundMusic.wav");
+        Audio backgroundAudio = new Audio(this,"src/main/resources/backgroundMusic.wav");
         backgroundAudio.mute();
 
         //create all object instances here
@@ -99,7 +99,7 @@ public class Game extends Canvas implements Runnable{
 
     public void startGame() {
 
-        this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this.handler);
+        this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this, this.handler);
         this.handler.loadImages();
         this.developerTools.getPlayer();
     }
@@ -114,8 +114,9 @@ public class Game extends Canvas implements Runnable{
         try {
             thread.join();
             this.running = false;
-        }catch (Exception e) {
+        }catch (InterruptedException e) {
             e.printStackTrace();
+            this.window.error("Error in Shutdown!");
         }
     }
 
