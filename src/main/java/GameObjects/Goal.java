@@ -1,3 +1,9 @@
+package GameObjects;
+
+import Essentials.Handler;
+import Utilities.FileHandler;
+import Utilities.SpriteSheet;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -29,7 +35,7 @@ public class Goal extends GameObject{
 
     @Override
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Utilities.loadImage("src/main/resources/goal.png"));
+        SpriteSheet ss = new SpriteSheet(FileHandler.loadImage("src/main/resources/goal.png"));
         this.imgGoal = ss.grabImage(0, 0, this.width, this.height);
     }
 }

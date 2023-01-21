@@ -3,6 +3,11 @@
  * Calls tick and render for all GameObjects, does collision checking, adjusts for scrolling
  */
 
+package Essentials;
+
+import GameObjects.GameObject;
+import GameObjects.ID;
+
 import java.awt.*;
 import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedDeque;
@@ -76,7 +81,7 @@ public class Handler {
         }
     }
 
-    public boolean isOnPlatform(GameObject object) {    //checks if the given GameObject is on a Platform
+    public boolean isOnPlatform(GameObject object) {    //checks if the given GameObjects.GameObject is on a GameObjects.Platform
         for (GameObject tempObject : this.getObjectList()) {
             if (tempObject.getID() != ID.Platform) {
                 continue;

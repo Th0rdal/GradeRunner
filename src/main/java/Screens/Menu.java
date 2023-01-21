@@ -1,11 +1,18 @@
+package Screens;
+
+import Essentials.Game;
+import Essentials.Handler;
+import Settings.Audio;
+
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.MouseEvent;
 
-public class Menu extends BasicMenu{
 
-  private final Button Button_PlayButton = new Button(375, 200, 500, 100, "Play", true);
-  private final Button Button_LevelSelect = new Button(375, 350, 500, 100, "LevelSelect", true);
-  private final Button Button_Exit = new Button(375, 500, 500, 100, "Exit", true);
+public class Menu extends BasicMenu {
+
+  private final Screens.Button Button_PlayButton = new Screens.Button(375, 200, 500, 100, "Play", true);
+  private final Screens.Button Button_LevelSelect = new Screens.Button(375, 350, 500, 100, "LevelSelect", true);
+  private final Screens.Button Button_Exit = new Screens.Button(375, 500, 500, 100, "Exit", true);
 
 
   public Menu(Game game, Handler handler, Audio backgroundAudio){
@@ -43,9 +50,9 @@ public class Menu extends BasicMenu{
     int my = e.getY();
     super.mouseMoved(e);
 
-    this.Button_PlayButton.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 200, 500, 100));
-    this.Button_LevelSelect.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 350, 500, 100));
-    this.Button_Exit.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 500, 500, 100));
+    this.Button_PlayButton.changeHighlight(this.mouseOverBox(mx, my, 375, 200, 500, 100));
+    this.Button_LevelSelect.changeHighlight(this.mouseOverBox(mx, my, 375, 350, 500, 100));
+    this.Button_Exit.changeHighlight(this.mouseOverBox(mx, my, 375, 500, 500, 100));
   }
 
   public void mousePressed(MouseEvent e) {
@@ -57,12 +64,12 @@ public class Menu extends BasicMenu{
     int mx = e.getX();
     int my = e.getY();
 
-    if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
+    if (this.mouseOverBox(mx, my, 375, 200, 500, 100)) {
       game.setGamestate(Game.STATE.Game);
       this.game.startGame();
-    }else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
+    }else if (this.mouseOverBox(mx, my, 375, 350, 500, 100)) {
       game.setGamestate(Game.STATE.Levelselect);
-    }else if (Utilities.mouseOverBox(mx, my, 375, 500, 500, 100)) {
+    }else if (this.mouseOverBox(mx, my, 375, 500, 500, 100)) {
       System.exit(0);
     }
   }

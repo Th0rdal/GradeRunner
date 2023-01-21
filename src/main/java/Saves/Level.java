@@ -2,6 +2,13 @@
  * This class saves a world in the game.
  *
  */
+package Saves;
+
+import Essentials.Game;
+import GameObjects.GameObject;
+import Essentials.Handler;
+import Utilities.Encryption;
+import Utilities.FileHandler;
 
 import java.io.*;
 import java.util.LinkedList;
@@ -22,8 +29,8 @@ public class Level implements Serializable{
     public Level(String name, Handler handler, int totalLength) {
         this.timeOfCreation = System.nanoTime();
         this.name = name;
-        this.encryptedName = Utilities.encryptName(this.name, this.timeOfCreation);
-        this.encryptionCode = Utilities.encryptWorld(this.timeOfCreation, this.name);
+        this.encryptedName = Encryption.encryptName(this.name, this.timeOfCreation);
+        this.encryptionCode = Encryption.encryptWorld(this.timeOfCreation, this.name);
         this.handler = handler;
         this.pathToFile = "saves/worlds/" + this.encryptionCode + ".world";
         this.totalLength = totalLength;
@@ -47,7 +54,7 @@ public class Level implements Serializable{
 
     public void save() { //saves the level to a file
         this.blocks.addAll(this.handler.getObjectList());
-        Utilities.saveObjectToFile(this, this.pathToFile);
+        FileHandler.saveObjectToFile(this, this.pathToFile);
     }
 
     public String getName() {

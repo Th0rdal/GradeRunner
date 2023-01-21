@@ -1,7 +1,10 @@
 /**
  * Blueprint class for all GameObjects.
- * Includes all important variables and methods any GameObject needs to have
+ * Includes all important variables and methods any GameObjects.GameObject needs to have
  */
+package GameObjects;
+
+import Essentials.Handler;
 
 import java.awt.*;
 import java.io.Serializable;
@@ -72,7 +75,7 @@ public abstract class GameObject implements Serializable, Cloneable{
     public void setHandler(Handler handler) {
         this.handler = handler;
     }
-    protected Object clone() throws CloneNotSupportedException {
+    public Object clone() throws CloneNotSupportedException {
         return super.clone();
     }
 }

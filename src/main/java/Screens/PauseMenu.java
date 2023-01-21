@@ -1,10 +1,16 @@
+package Screens;
+
+import Essentials.Game;
+import Essentials.Handler;
+import Settings.Audio;
+
 import java.awt.*;
 import java.awt.event.*;
 
-public class PauseMenu extends BasicMenu{
+public class PauseMenu extends BasicMenu {
 
-    private final Button Button_Continue = new Button(375, 200, 500, 100, "Continue", true);
-    private final Button Button_MainMenu = new Button(375, 350, 500, 100, "Main Menu", true);
+    private final Screens.Button Button_Continue = new Screens.Button(375, 200, 500, 100, "Continue", true);
+    private final Screens.Button Button_MainMenu = new Screens.Button(375, 350, 500, 100, "Main Menu.Menu", true);
 
     public PauseMenu(Game game, Handler handler, Audio audio){
         super(game, handler, audio);
@@ -36,8 +42,8 @@ public class PauseMenu extends BasicMenu{
         int mx = e.getX();
         int my = e.getY();
 
-        this.Button_Continue.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 200, 500, 100));
-        this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 375, 350, 500, 100));
+        this.Button_Continue.changeHighlight(this.mouseOverBox(mx, my, 375, 200, 500, 100));
+        this.Button_MainMenu.changeHighlight(this.mouseOverBox(mx, my, 375, 350, 500, 100));
     }
 
     public void mousePressed(MouseEvent e) {
@@ -49,9 +55,9 @@ public class PauseMenu extends BasicMenu{
         int mx = e.getX();
         int my = e.getY();
 
-        if (Utilities.mouseOverBox(mx, my, 375, 200, 500, 100)) {
+        if (this.mouseOverBox(mx, my, 375, 200, 500, 100)) {
             game.setGamestate(Game.STATE.Game);
-        }else if (Utilities.mouseOverBox(mx, my, 375, 350, 500, 100)) {
+        }else if (this.mouseOverBox(mx, my, 375, 350, 500, 100)) {
             game.setGamestate(Game.STATE.Menu);
         }
     }

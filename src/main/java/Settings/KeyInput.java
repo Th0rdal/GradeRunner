@@ -1,5 +1,5 @@
 /**
- * This class handles all KeyInput Events
+ * This class handles all Settings.KeyInput Events
  * KeyPressed, KeyReleased
  * Go left      A
  * Go right     D
@@ -8,6 +8,15 @@
  * Pause game   P
  * Show DevTools V
  */
+
+package Settings;
+
+import Essentials.Game;
+import Essentials.Handler;
+import DevTools.DeveloperTools;
+import GameObjects.GameObject;
+import GameObjects.ID;
+import GameObjects.Player;
 
 import java.awt.event.*;
 

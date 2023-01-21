@@ -1,3 +1,11 @@
+package Screens;
+
+import Essentials.Game;
+import Essentials.Handler;
+import Settings.Audio;
+import Utilities.SpriteSheet;
+import Utilities.FileHandler;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,7 +26,7 @@ public abstract class BasicMenu extends MouseAdapter {
     }
 
     public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(Utilities.loadImage("src/main/resources/soundImg.png"));
+        SpriteSheet ss = new SpriteSheet(FileHandler.loadImage("src/main/resources/soundImg.png"));
         this.imgUnmute = ss.grabImage(0, 0, 50, 50);
         this.imgMute = ss.grabImage(1, 0, 50, 50);
     }
@@ -35,7 +43,7 @@ public abstract class BasicMenu extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         int mx = e.getX();
         int my = e.getY();
-        if (Utilities.mouseOverBox(mx, my, 1100,50,50,50)) {
+        if (this.mouseOverBox(mx, my, 1100,50,50,50)) {
             if (this.backgroundAudio.musicPlaying()) {
                 this.backgroundAudio.mute();
             }else {
@@ -48,7 +56,13 @@ public abstract class BasicMenu extends MouseAdapter {
     public void mouseReleased(MouseEvent e) {
 
     }
-
+    public boolean mouseOverBox(int mx, int my, int x, int y, int width, int height) {
+        if (mx > x && mx < x + width) {
+            return (my > y && my < y + height);
+        } else {
+            return false;
+        }
+    }
     public abstract void tick();
 
 }

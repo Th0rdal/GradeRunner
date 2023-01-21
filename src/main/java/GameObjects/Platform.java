@@ -1,12 +1,16 @@
 /**
- * This class is a basic Platform.
- * The Player can jump on it and can break it by jumping against it from under it (if the flag is set)
+ * This class is a basic GameObjects.Platform.
+ * The GameObjects.Player can jump on it and can break it by jumping against it from under it (if the flag is set)
  *
  */
 
+package GameObjects;
+
+import Essentials.Handler;
+
 import java.awt.*;
 
-public class Platform extends GameObject{
+public class Platform extends GameObject {
 
     private final boolean breakable;  //if true block can be broken
     public Platform(float x, float y, int width, int height, boolean breakable, Handler handler) {

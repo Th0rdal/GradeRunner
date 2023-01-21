@@ -1,7 +1,16 @@
 /**
- * Main class Game. This class handles the game-loop and all important variables for the game.
+ * Main class Essentials.Game. This class handles the game-loop and all important variables for the game.
  *
  */
+
+package Essentials;
+
+import DevTools.DeveloperTools;
+import GameObjects.*;
+import Saves.*;
+import Screens.*;
+import Settings.*;
+import Utilities.*;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
@@ -31,7 +40,7 @@ public class Game extends Canvas implements Runnable{
     //class variable declaration
     private Thread thread;
     private final Handler handler;
-    private final Menu menu;
+    private final Screens.Menu menu;
     private final LevelSelect levelSelect;
     private final PauseMenu pause;
     private final VictoryScreen victoryScreen;
@@ -55,7 +64,7 @@ public class Game extends Canvas implements Runnable{
     public Game() { //default constructor
 
         //load sprites
-        background = Utilities.loadImage("src/main/resources/bg.jpg");
+        background = FileHandler.loadImage("src/main/resources/bg.jpg");
 
         //audio initialization
         Audio backgroundAudio = new Audio(this,"src/main/resources/backgroundMusic.wav");
@@ -63,7 +72,7 @@ public class Game extends Canvas implements Runnable{
 
         //create all object instances here
         this.handler = new Handler(this, Game.TOTALLENGTH);
-        this.menu = new Menu(this, handler, backgroundAudio);
+        this.menu = new Screens.Menu(this, handler, backgroundAudio);
         this.levelSelect = new LevelSelect(this, this.handler, backgroundAudio);
         this.pause = new PauseMenu(this, handler, backgroundAudio);
         this.deathScreen = new DeathScreen(this, this.handler, backgroundAudio);
@@ -92,7 +101,7 @@ public class Game extends Canvas implements Runnable{
         Level l = new Level("test", this.handler, 4000);
         l.save();
 
-        //Level l = (Level) Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
+        //Saves.Level l = (Saves.Level) Utilities.Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
 
          this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
@@ -231,8 +240,5 @@ public class Game extends Canvas implements Runnable{
     public static boolean getScroll() {return Game.scroll;}
     public WindowX getWindow() {
         return this.window;
-    }
-    public static void main(String[] args) {
-        new Game();
     }
 }

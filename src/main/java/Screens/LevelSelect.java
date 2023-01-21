@@ -1,24 +1,31 @@
+package Screens;
+
+import Essentials.Game;
+import Essentials.Handler;
+import Saves.Level;
+import Settings.Audio;
+import Utilities.FileHandler;
 
 import java.io.File;
 import java.awt.*;
 import java.awt.event.*;
 
-public class LevelSelect extends BasicMenu{
+public class LevelSelect extends BasicMenu {
 
     private int selectedLevel;
-    private Button selectedButton;
+    private Screens.Button selectedButton;
     private Level[] levelList;
-    private final Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu", true);
-    private final Button Button_Level1 = new Button(200, 200, 200, 120, false);
-    private final Button Button_Level2 = new Button(500, 200, 200, 120, false);
-    private final Button Button_Level3 = new Button(800, 200, 200, 120, false);
-    private final Button Button_Level4 = new Button(200, 350, 200, 120, false);
-    private final Button Button_Level5 = new Button(500, 350, 200, 120, false);
-    private final Button Button_Level6 = new Button(800, 350, 200, 120, false);
-    private final Button Button_Level7 = new Button(200, 500, 200, 120, false);
-    private final Button Button_Level8 = new Button(500, 500, 200, 120, false);
-    private final Button Button_Level9 = new Button(800, 500, 200, 120, false);
-    private final Button[] levelButtonList = new Button[9];
+    private final Screens.Button Button_MainMenu = new Screens.Button(350, 700, 500, 100, "Main Menu", true);
+    private final Screens.Button Button_Level1 = new Screens.Button(200, 200, 200, 120, false);
+    private final Screens.Button Button_Level2 = new Screens.Button(500, 200, 200, 120, false);
+    private final Screens.Button Button_Level3 = new Screens.Button(800, 200, 200, 120, false);
+    private final Screens.Button Button_Level4 = new Screens.Button(200, 350, 200, 120, false);
+    private final Screens.Button Button_Level5 = new Screens.Button(500, 350, 200, 120, false);
+    private final Screens.Button Button_Level6 = new Screens.Button(800, 350, 200, 120, false);
+    private final Screens.Button Button_Level7 = new Screens.Button(200, 500, 200, 120, false);
+    private final Screens.Button Button_Level8 = new Screens.Button(500, 500, 200, 120, false);
+    private final Screens.Button Button_Level9 = new Screens.Button(800, 500, 200, 120, false);
+    private final Screens.Button[] levelButtonList = new Screens.Button[9];
 
     public LevelSelect(Game game, Handler handler, Audio audio){
         super(game, handler, audio);
@@ -80,16 +87,16 @@ public class LevelSelect extends BasicMenu{
         int mx = e.getX();
         int my = e.getY();
         super.mouseMoved(e);
-        this.Button_MainMenu.changeHighlight(Utilities.mouseOverBox(mx, my, 350, 700, 500, 100));
-        this.Button_Level1.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 200, 200, 120));
-        this.Button_Level2.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 200, 200, 120));
-        this.Button_Level3.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 200, 200, 120));
-        this.Button_Level4.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 350, 200, 120));
-        this.Button_Level5.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 350, 200, 120));
-        this.Button_Level6.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 350, 200, 120));
-        this.Button_Level7.changeHighlight(Utilities.mouseOverBox(mx, my, 200, 500, 200, 120));
-        this.Button_Level8.changeHighlight(Utilities.mouseOverBox(mx, my, 500, 500, 200, 120));
-        this.Button_Level9.changeHighlight(Utilities.mouseOverBox(mx, my, 800, 500, 200, 120));
+        this.Button_MainMenu.changeHighlight(this.mouseOverBox(mx, my, 350, 700, 500, 100));
+        this.Button_Level1.changeHighlight(this.mouseOverBox(mx, my, 200, 200, 200, 120));
+        this.Button_Level2.changeHighlight(this.mouseOverBox(mx, my, 500, 200, 200, 120));
+        this.Button_Level3.changeHighlight(this.mouseOverBox(mx, my, 800, 200, 200, 120));
+        this.Button_Level4.changeHighlight(this.mouseOverBox(mx, my, 200, 350, 200, 120));
+        this.Button_Level5.changeHighlight(this.mouseOverBox(mx, my, 500, 350, 200, 120));
+        this.Button_Level6.changeHighlight(this.mouseOverBox(mx, my, 800, 350, 200, 120));
+        this.Button_Level7.changeHighlight(this.mouseOverBox(mx, my, 200, 500, 200, 120));
+        this.Button_Level8.changeHighlight(this.mouseOverBox(mx, my, 500, 500, 200, 120));
+        this.Button_Level9.changeHighlight(this.mouseOverBox(mx, my, 800, 500, 200, 120));
     }
 
     public void mousePressed(MouseEvent e) {
@@ -100,54 +107,54 @@ public class LevelSelect extends BasicMenu{
         super.mousePressed(e);
         int mx = e.getX();
         int my = e.getY();
-        if (Utilities.mouseOverBox(mx, my, 200, 200, 200, 120)) {
+        if (this.mouseOverBox(mx, my, 200, 200, 200, 120)) {
             this.Button_Level1.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 1;
             this.selectedButton = this.Button_Level1;
-        }else if (Utilities.mouseOverBox(mx, my, 200, 350, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 200, 350, 200, 120)) {
             this.Button_Level4.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 4;
             this.selectedButton = this.Button_Level4;
-        }else if (Utilities.mouseOverBox(mx, my, 200, 500, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 200, 500, 200, 120)) {
             this.Button_Level7.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 7;
             this.selectedButton = this.Button_Level7;
-        }else if (Utilities.mouseOverBox(mx, my, 500, 200, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 500, 200, 200, 120)) {
             this.Button_Level2.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 2;
             this.selectedButton = this.Button_Level2;
-        }else if (Utilities.mouseOverBox(mx, my, 500, 350, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 500, 350, 200, 120)) {
             this.Button_Level5.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 5;
             this.selectedButton = this.Button_Level5;
-        }else if (Utilities.mouseOverBox(mx, my, 500, 500, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 500, 500, 200, 120)) {
             this.Button_Level8.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 8;
             this.selectedButton = this.Button_Level8;
-        }else if (Utilities.mouseOverBox(mx, my, 800, 200, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 800, 200, 200, 120)) {
             this.Button_Level3.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 3;
             this.selectedButton = this.Button_Level3;
-        }else if (Utilities.mouseOverBox(mx, my, 800, 350, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 800, 350, 200, 120)) {
             this.Button_Level6.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 6;
             this.selectedButton = this.Button_Level6;
-        }else if (Utilities.mouseOverBox(mx, my, 800, 500, 200, 120)) {
+        }else if (this.mouseOverBox(mx, my, 800, 500, 200, 120)) {
             this.Button_Level9.changeSelected();
             this.selectedButton.changeSelected();
             this.selectedLevel = 9;
             this.selectedButton = this.Button_Level9;
-        }else if (Utilities.mouseOverBox(mx, my, 350, 700, 500, 100)) {
+        }else if (this.mouseOverBox(mx, my, 350, 700, 500, 100)) {
             if (this.selectedLevel > this.levelList.length) {
-                game.getWindow().warning("Please choose an existing Level");
+                game.getWindow().warning("Please choose an existing Saves.Level");
             }else {
                 game.setGamestate(Game.STATE.Menu);
             }
@@ -159,10 +166,10 @@ public class LevelSelect extends BasicMenu{
     }
 
     public void loadLevels() {
-        File[] fileList = Utilities.loadFileContent("saves/worlds");
+        File[] fileList = FileHandler.loadFileContent("saves/worlds");
         this.levelList = new Level[fileList.length];
         for (int i = 0; i < this.levelList.length; i++) {
-            this.levelList[i] = (Level)Utilities.loadObjectFromFile("saves/worlds/" + fileList[i].getName());
+            this.levelList[i] = (Level) FileHandler.loadObjectFromFile("saves/worlds/" + fileList[i].getName());
         }
         for (int i = 0; i < 9; i++) {
             try {
