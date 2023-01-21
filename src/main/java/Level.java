@@ -7,7 +7,8 @@ import java.io.*;
 import java.util.LinkedList;
 
 public class Level implements Serializable{
-
+    @Serial
+    private static final long serialVersionUID = 3538199102484134650L;
     private final String name;    //name of the world
     private final String pathToFile;  //path to the file
     private final String encryptionCode;  //a unique code for each world

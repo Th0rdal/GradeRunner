@@ -162,12 +162,12 @@ public class LevelSelect extends BasicMenu{
         File[] fileList = Utilities.loadFileContent("saves/worlds");
         this.levelList = new Level[fileList.length];
         for (int i = 0; i < this.levelList.length; i++) {
-            this.levelList[i] = (Level) Utilities.loadObjectFromFile("saves/worlds/" + fileList[i].getName());
+            this.levelList[i] = (Level)Utilities.loadObjectFromFile("saves/worlds/" + fileList[i].getName());
         }
         for (int i = 0; i < 9; i++) {
             try {
                 this.levelButtonList[i].setText(this.levelList[i].getName());
-            }catch (IndexOutOfBoundsException e) {
+            }catch (IndexOutOfBoundsException | NullPointerException e) {
                 this.levelButtonList[i].setText(Integer.toString(i+1));
             }
         }

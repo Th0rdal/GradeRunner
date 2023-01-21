@@ -61,12 +61,12 @@ public class Game extends Canvas implements Runnable{
 
         //create all object instances here
         this.handler = new Handler(this, Game.TOTALLENGTH);
-        this.addKeyListener(new KeyInput(this.handler, this));
         this.menu = new Menu(this, handler, backgroundAudio);
         this.levelSelect = new LevelSelect(this, this.handler, backgroundAudio);
         this.pause = new PauseMenu(this, handler, backgroundAudio);
         this.deathScreen = new DeathScreen(this, this.handler, backgroundAudio);
         this.victoryScreen = new VictoryScreen(this, this.handler, backgroundAudio);
+        this.addKeyListener(new KeyInput(this.handler, this));
         this.addMouseListener(this.levelSelect);
         this.addMouseMotionListener(this.levelSelect);
         this.addMouseListener(this.menu);
@@ -98,7 +98,6 @@ public class Game extends Canvas implements Runnable{
     }
 
     public void startGame() {
-
         this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1].load(this, this.handler);
         this.handler.loadImages();
         this.developerTools.getPlayer();
