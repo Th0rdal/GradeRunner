@@ -42,7 +42,6 @@ public class Player extends GameObject{
             if (Game.getScroll()) {
                 Game.toggleScroll();
                 this.handler.adjustScroll(getVelX());
-
             }
         }
         this.handler.checkCollision(this);
@@ -86,38 +85,54 @@ public class Player extends GameObject{
         }
     }
 
+    private float[] collisionDirection(GameObject collisionObject) {
+        float[] returnArray = new float[4];
+        if (this.getY() < collisionObject.getY()) {
+            returnArray[0] = collisionObject.getY() - this.getHeight();
+            returnArray[2] = 0.0f;  //hit above
+        }else {
+            returnArray[0] = collisionObject.getY() + collisionObject.getHeight();
+            returnArray[2] = 1.0f;  //hit below
+        }
+        if (this.getX() < collisionObject.getX()) {
+            returnArray[1] = collisionObject.getX() - this.getWidth();
+            returnArray[3] = 0.0f;  //hit left
+        }else {
+            returnArray[1] = collisionObject.getX() + collisionObject.getWidth();
+            returnArray[3] = 1.0f;  //hit right
+        }
+        return returnArray;
+    }
+
     public void collision(GameObject collisionObject) {
         if (collisionObject.getID() == ID.Platform) {
-            float tempY, tempX;
-            boolean hitFromBelowFlag = false;
-            if (this.getY() < collisionObject.getY()) {
-                tempY = collisionObject.getY() - this.getHeight();
-            }else {
-                tempY = collisionObject.getY() + collisionObject.getHeight();
-                hitFromBelowFlag = true;
-            }
-            if (this.getX() < collisionObject.getX()) {
-                tempX = collisionObject.getX() - this.getWidth();
-            }else {
-                tempX = collisionObject.getX() + collisionObject.getWidth();
-            }
+            float[] collisionDirectionArray = this.collisionDirection(collisionObject);
+            float tempY = collisionDirectionArray[0];
+            float tempX = collisionDirectionArray[1];
 
             if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {
                 x = tempX;
                 y += this.getGravity();
             }else {
                 y = tempY;
-                if (hitFromBelowFlag) {
+                if (collisionDirectionArray[2] == 1.0f) {
                     ((Platform)collisionObject).hitFromBelow();
                     this.setVelY(0);
                 }
             }
         }else if (collisionObject.getID() == ID.Enemy) {
-            if (this.getY() < collisionObject.getY()) {
-                ((Enemy)collisionObject).hitFromAbove();
-                this.move(moveState.jump);
+            float[] collisionDirectionArray = this.collisionDirection(collisionObject);
+            float tempY = collisionDirectionArray[0];
+            float tempX = collisionDirectionArray[1];
+            if (Math.abs(tempX - this.getX()) < Math.abs(tempY - this.getY())) {
+                this.handler.hit();
             }else {
-                handler.hit();
+                if (collisionDirectionArray[2] == 0.0f) {
+                    this.handler.removeObject(collisionObject);
+                    this.move(moveState.jump);
+                }else {
+                    this.handler.hit();
+                }
             }
         }else if (collisionObject.getID() == ID.Goal) {
             this.handler.finish();

@@ -52,13 +52,8 @@ public class Handler {
 
     public void adjustScroll(float velX) {  //adjusts the screen for scrolling
         this.moved += (-1.0f * velX);
-        if (this.moved >= 0) {
-            Game.canScrollLeft = false;
-        }else if (moved < 0) {
-            Game.canScrollLeft = true;
-        }
-        Game.canScrollRight = (this.moved <= this.totalLength);
-
+        Game.canScrollLeft = (this.moved <= 0);
+        Game.canScrollRight = (this.moved >= this.totalLength);
         for (GameObject tempObject : this.objectList) {
             if (tempObject.getID() == ID.Player) {
                 continue;
@@ -110,5 +105,6 @@ public class Handler {
         game.setGamestate(Game.STATE.DeathScreen);
     }
     public float getMoved() {return this.moved;}
+    public float getTotalLength(){return this.totalLength;}
 
 }
