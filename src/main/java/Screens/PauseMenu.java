@@ -10,7 +10,7 @@ import java.awt.event.*;
 public class PauseMenu extends BasicMenu {
 
     private final Screens.Button Button_Continue = new Screens.Button(375, 200, 500, 100, "Continue", true);
-    private final Screens.Button Button_MainMenu = new Screens.Button(375, 350, 500, 100, "Main Menu.Menu", true);
+    private final Screens.Button Button_MainMenu = new Screens.Button(375, 350, 500, 100, "Main Menu", true);
 
     public PauseMenu(Game game, Handler handler, Audio audio){
         super(game, handler, audio);

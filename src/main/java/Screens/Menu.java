@@ -46,9 +46,9 @@ public class Menu extends BasicMenu {
       return;
     }
 
+    super.mouseMoved(e);
     int mx = e.getX();
     int my = e.getY();
-    super.mouseMoved(e);
 
     this.Button_PlayButton.changeHighlight(this.mouseOverBox(mx, my, 375, 200, 500, 100));
     this.Button_LevelSelect.changeHighlight(this.mouseOverBox(mx, my, 375, 350, 500, 100));

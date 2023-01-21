@@ -10,7 +10,7 @@ import java.awt.event.MouseEvent;
 public class VictoryScreen extends BasicMenu {
 
 
-    private final Screens.Button Button_MainMenu = new Screens.Button(350, 700, 500, 100, "Main Menu.Menu", true);
+    private final Screens.Button Button_MainMenu = new Screens.Button(350, 700, 500, 100, "Main Menu", true);
 
     public VictoryScreen(Game game, Handler handler, Audio audio) {
         super(game, handler, audio);

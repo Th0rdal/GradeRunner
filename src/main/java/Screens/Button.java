@@ -70,5 +70,10 @@ public class Button {
     public void changeSelected() {
         this.selected = !this.selected;
     }
+    public void reset() {
+        this.selected = false;
+        this.highlighted = false;
+        this.text = "";
+    }
 
 }

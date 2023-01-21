@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 
 public class DeathScreen extends BasicMenu {
 
-    private final Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu.Menu", true);
+    private final Button Button_MainMenu = new Button(350, 700, 500, 100, "Main Menu", true);
 
     public DeathScreen(Game game, Handler handler, Audio audio) {
         super(game, handler, audio);
