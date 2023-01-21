@@ -36,6 +36,25 @@ public abstract class GameObject implements Serializable, Cloneable{
         this.handler = handler;
     }
 
+    protected float[] collisionDirection(GameObject collisionObject) {
+        float[] returnArray = new float[4];
+        if (this.getY() < collisionObject.getY()) {
+            returnArray[0] = collisionObject.getY() - this.getHeight();
+            returnArray[2] = 0.0f;  //hit above
+        }else {
+            returnArray[0] = collisionObject.getY() + collisionObject.getHeight();
+            returnArray[2] = 1.0f;  //hit below
+        }
+        if (this.getX() < collisionObject.getX()) {
+            returnArray[1] = collisionObject.getX() - this.getWidth();
+            returnArray[3] = 0.0f;  //hit left
+        }else {
+            returnArray[1] = collisionObject.getX() + collisionObject.getWidth();
+            returnArray[3] = 1.0f;  //hit right
+        }
+        return returnArray;
+    }
+
     public abstract void tick();    //physic calculations in this method
     public abstract void render(Graphics g); //anything drawing related in this method
 
