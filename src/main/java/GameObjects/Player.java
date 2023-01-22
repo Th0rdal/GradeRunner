@@ -12,6 +12,7 @@ public class Player extends GameObject{
 
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
+    private moveState lastLooked;
     private float jumpVel = 15.0f;
     private float moveVel = 5.0f;
 
@@ -35,6 +36,7 @@ public class Player extends GameObject{
     public void tick() {
         x += getVelX();
         y -= getVelY();
+
         if (hasGravity()) {
             if (!this.handler.isOnPlatform(this)) {
                 setVelY(getVelY() - getGravity());
@@ -74,6 +76,7 @@ public class Player extends GameObject{
                     g.drawImage(this.imgWalkRight2, (int) x, (int) y, null);
                     this.spriteCounter = 0;
                 }
+                this.lastLooked = moveState.right;
             }else if (this.getVelX() < 0) { //running left
                 if (spriteCounter % 3 == 0) {
                     g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
@@ -85,8 +88,15 @@ public class Player extends GameObject{
                     g.drawImage(this.imgWalkLeft2, (int) x, (int) y, null);
                     this.spriteCounter = 0;
                 }
+                this.lastLooked = moveState.left;
             }else { //when not moving
-                g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                if (this.lastLooked == moveState.right) {
+                    g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                }else if (this.lastLooked == moveState.left) {
+                    g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
+                }else {
+                    g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                }
             }
         }
     }
