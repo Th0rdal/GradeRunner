@@ -28,9 +28,6 @@ public class Enemy extends GameObject{
                 setVelY(0);
             }
         }
-
-        //x = Essentials.Game.WallCollision(x, 0, Essentials.Game.WIDTH - 32);
-        y = Game.WallCollision(y, 0, Game.HEIGHT - 69);
         this.handler.checkCollision(this);
     }
 

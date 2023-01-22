@@ -9,5 +9,6 @@ public enum ID {
     Player(),
     Platform(),
     Enemy(),
-    Goal()
+    Goal(),
+    Death()
 }

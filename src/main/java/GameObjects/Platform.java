@@ -19,6 +19,12 @@ public class Platform extends GameObject {
         this.breakable = breakable;
         this.handler = handler;
     }
+    public Platform(float x, float y, int width, int height, boolean breakable, Handler handler, ID id) {
+        super(x, y, id, width, height);
+        super.setObjectColor(Color.BLACK);
+        this.breakable = breakable;
+        this.handler = handler;
+    }
     public void tick() {
         x += getVelX();
         y += getVelY();

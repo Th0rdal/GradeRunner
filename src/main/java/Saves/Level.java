@@ -64,5 +64,8 @@ public class Level implements Serializable{
     public String getName() {
         return this.name;
     }
+    public int getTotalLength() {
+        return this.totalLength;
+    }
 
 }

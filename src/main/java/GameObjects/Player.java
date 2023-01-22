@@ -117,6 +117,7 @@ public class Player extends GameObject{
             }else {
                 if (collisionDirectionArray[2] == 0.0f) {
                     ((Enemy)collisionObject).hitFromAbove();
+                    this.handler.addToScore(collisionObject.getScoreAdd());
                     this.move(moveState.jump);
                 }else {
                     this.handler.hit();

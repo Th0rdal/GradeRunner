@@ -5,7 +5,7 @@
  * Go right     D
  * Jump         SPACE
  * Sprint       SHIFT
- * Pause game   P
+ * Pause game   ESC
  * Show DevTools V
  */
 
@@ -51,7 +51,7 @@ public class KeyInput extends KeyAdapter {
                 }
             }
         }
-        if (key == KeyEvent.VK_P) { //changes gamestate into state pause
+        if (key == KeyEvent.VK_ESCAPE) { //changes gamestate into state pause
             if (this.game.getGamestate() == Game.STATE.Game) {
                 game.setGamestate(Game.STATE.Pause);
             }else if (this.game.getGamestate() == Game.STATE.Pause) {

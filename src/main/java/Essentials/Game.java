@@ -94,16 +94,15 @@ public class Game extends Canvas implements Runnable{
 
         //add all Gameobjects to handler
         this.handler.addObject(new Player(700.0f, 200.f, this.handler));
-        this.handler.addObject(new Platform(300.0f, 700.0f, 2000, 32, true, handler));
+        this.handler.addObject(new Platform(300.0f, 700.0f, 500, 32, true, handler));
         this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
-        this.handler.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this.handler));
-        this.handler.addObject(new Platform(1500, 0, 32, Game.HEIGHT, false, this.handler));
+
         this.handler.addObject(new Enemy(25.0f, 50.0f, this.handler));
         this.handler.addObject(new Goal(500.0f, 600.0f, this.handler));
         this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
         this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
         this.handler.loadImages();
-        Level l = new Level("test", this.handler, 4000, 10);
+        Level l = new Level("test", this.handler, 2000, 500);
         l.save();
 
         //Saves.Level l = (Saves.Level) Utilities.Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");

@@ -7,6 +7,7 @@ package Essentials;
 
 import GameObjects.GameObject;
 import GameObjects.ID;
+import GameObjects.Platform;
 import Saves.Level;
 import Screens.HUD;
 
@@ -51,6 +52,14 @@ public class Handler {
                 continue;
             }
             if (object.getBounds().intersects(tempObject.getBounds())) {
+                if (tempObject.getID() == ID.Death) {
+                    if (object.getID() == ID.Player) {
+                        this.game.setGamestate(Game.STATE.DeathScreen);
+                        return;
+                    }
+                    this.removeObject(object);
+                    return;
+                }
                 object.collision(tempObject);
             }
         }
@@ -96,15 +105,16 @@ public class Handler {
     }
 
     public void setTotalLength(int totalLength) {
-        this.totalLength = ((float) totalLength - 1250.0f + 15.0f) * -1.0f;
+        this.totalLength = ((float) totalLength - 1250.0f + 10.0f) * -1.0f;
     }
     public void addObject(GameObject object) {this.objectList.add(object);}
     public void removeObject(GameObject object) {
-        this.hud.addToScore(object.getScoreAdd());
         this.deleteQueue.push(object);
     }
     public void clear() {
         this.objectList.clear();
+        this.deleteQueue.clear();
+        this.moved = 0;
     }
     public LinkedList<GameObject> getObjectList() {return this.objectList;}
     public void finish() {
@@ -120,8 +130,18 @@ public class Handler {
         this.level = l;
         this.level.load(this.game, this);
         this.hud.setupHUD(l.levelTime());
+        System.out.println(this.objectList.size());
+        System.out.println(this.totalLength);
+        this.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this));
+        this.addObject(new Platform(l.getTotalLength(), 0, 32, Game.HEIGHT, false, this));
+        this.addObject(new Platform(0, Game.HEIGHT+64, (int) l.getTotalLength(), 32, false, this, ID.Death));
+        System.out.println(this.objectList.size());
+
     }
     public HUD getHUD() {
         return this.hud;
+    }
+    public void addToScore(long score) {
+        this.hud.addToScore(score);
     }
 }
