@@ -7,6 +7,7 @@ package Essentials;
 
 import GameObjects.GameObject;
 import GameObjects.ID;
+import Saves.Level;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Handler {
     private final Game game;
+    private Level level;
     private final LinkedList<GameObject> objectList = new LinkedList<>();   //list of all GameObjects
     private final ConcurrentLinkedDeque<GameObject> deleteQueue = new ConcurrentLinkedDeque<>();    //queue with all GameObjects to delete
     private float moved = 0;
@@ -27,7 +29,6 @@ public class Handler {
         this.game = game;
         this.totalLength = totalLength;
     }
-
 
     public void tick() {
         for (GameObject tempObject : this.objectList) {
@@ -47,7 +48,7 @@ public class Handler {
     public void checkCollision(GameObject object) { //checks the collisions of the parameter object with all other objects
         for (GameObject tempObject : this.objectList) {
             if (tempObject == object) {
-                return;
+                continue;
             }
             if (object.getBounds().intersects(tempObject.getBounds())) {
                 object.collision(tempObject);
@@ -111,5 +112,8 @@ public class Handler {
     }
     public float getMoved() {return this.moved;}
     public float getTotalLength(){return this.totalLength;}
-
+    public void loadLevel(Level l) {
+        this.level = l;
+        this.level.load(this.game, this);
+    }
 }

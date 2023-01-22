@@ -186,5 +186,4 @@ public class LevelSelect extends BasicMenu {
     public Level[] getLevelList() {
         return this.levelList;
     }
-
 }
