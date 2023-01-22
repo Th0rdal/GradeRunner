@@ -6,8 +6,6 @@
 package Essentials;
 
 import DevTools.DeveloperTools;
-import GameObjects.*;
-import Saves.*;
 import Screens.*;
 import Settings.*;
 import Utilities.*;
@@ -90,18 +88,6 @@ public class Game extends Canvas implements Runnable{
         this.addMouseListener(this.victoryScreen);
         this.addMouseMotionListener(this.victoryScreen);
         this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
-
-        //add all Gameobjects to handler
-        this.handler.addObject(new Player(700.0f, 200.f, this.handler));
-        this.handler.addObject(new Platform(300.0f, 700.0f, 500, 32, true, this.handler));
-        this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, this.handler));
-        this.handler.addObject(new Enemy(25.0f, 50.0f, this.handler));
-        this.handler.addObject(new Goal(500.0f, 600.0f, this.handler));
-        this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
-        this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
-        this.handler.loadImages();
-        Level l = new Level("test", this.handler, 2000, 500);
-        l.save();
 
          this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
