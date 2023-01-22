@@ -18,17 +18,15 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 
 public class Handler {
     private final Game game;
-    private Level level;
     private final HUD hud;
     private final LinkedList<GameObject> objectList = new LinkedList<>();   //list of all GameObjects
     private final ConcurrentLinkedDeque<GameObject> deleteQueue = new ConcurrentLinkedDeque<>();    //queue with all GameObjects to delete
     private float moved = 0;
     private float totalLength;
 
-    public Handler(Game game, int totalLength) {
+    public Handler(Game game) {
         this.game = game;
         this.hud = new HUD(this.game);
-        this.totalLength = totalLength;
     }
 
     public void tick() {
@@ -127,14 +125,13 @@ public class Handler {
     public float getMoved() {return this.moved;}
     public float getTotalLength(){return this.totalLength;}
     public void loadLevel(Level l) {
-        this.level = l;
-        this.level.load(this.game, this);
+        l.load(this.game, this);
         this.hud.setupHUD(l.levelTime());
         System.out.println(this.objectList.size());
         System.out.println(this.totalLength);
         this.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this));
         this.addObject(new Platform(l.getTotalLength(), 0, 32, Game.HEIGHT, false, this));
-        this.addObject(new Platform(0, Game.HEIGHT+64, (int) l.getTotalLength(), 32, false, this, ID.Death));
+        this.addObject(new Platform(0, Game.HEIGHT+64, l.getTotalLength(), 32, false, this, ID.Death));
         System.out.println(this.objectList.size());
 
     }

@@ -66,7 +66,7 @@ public class LevelSelect extends BasicMenu {
         Font menu = new Font("arial", Font.PLAIN, 100);
         g.setFont(menu);
         g.setColor(Color.black);
-        g.drawString("Level Select",300,150);
+        g.drawString("Level Select",(Game.WIDTH / 2 - g.getFontMetrics().stringWidth("Level Select") / 2),150);
 
         this.Button_MainMenu.render(g);
         this.Button_next.render(g);

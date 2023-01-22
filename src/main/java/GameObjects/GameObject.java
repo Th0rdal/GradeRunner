@@ -20,13 +20,6 @@ public abstract class GameObject implements Serializable, Cloneable{
     protected boolean bGravity = true;
     protected transient Handler handler;
     protected long scoreAdd = 0;
-    public GameObject(float x, float y, ID id, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.id = id;
-        this.width = width;
-        this.height = height;
-    }
 
     public GameObject(float x, float y, ID id, int width, int height, Handler handler) {
         this.x = x;

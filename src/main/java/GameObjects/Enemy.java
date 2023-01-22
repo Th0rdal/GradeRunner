@@ -1,6 +1,5 @@
 package GameObjects;
 
-import Essentials.Game;
 import Essentials.Handler;
 import Utilities.FileHandler;
 import Utilities.SpriteSheet;

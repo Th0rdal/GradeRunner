@@ -34,7 +34,7 @@ public class HUD {
         this.score = 0;
     }
     public void finish() {
-        this.score += this.time * 1000;
+        this.score += this.time * 1000L;
         for (int i = 1; i < 6; i++) {
             if (this.time > (this.startTime/6) * i) {
                 this.grade -= 1;

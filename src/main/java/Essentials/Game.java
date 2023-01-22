@@ -22,7 +22,6 @@ public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 1250, HEIGHT = WIDTH / 12 * 9;  //width and height of the window
 
     //variables used to control the scrolling
-    public static final int TOTALLENGTH = 1500;
     public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
     public static final float scrollWidthRight = 1050.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false;
@@ -72,7 +71,7 @@ public class Game extends Canvas implements Runnable{
         backgroundAudio.mute();
 
         //create all object instances here
-        this.handler = new Handler(this, Game.TOTALLENGTH);
+        this.handler = new Handler(this);
         this.hud = this.handler.getHUD();
         this.menu = new Screens.Menu(this, handler, backgroundAudio);
         this.levelSelect = new LevelSelect(this, this.handler, backgroundAudio);
@@ -94,9 +93,8 @@ public class Game extends Canvas implements Runnable{
 
         //add all Gameobjects to handler
         this.handler.addObject(new Player(700.0f, 200.f, this.handler));
-        this.handler.addObject(new Platform(300.0f, 700.0f, 500, 32, true, handler));
-        this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, handler));
-
+        this.handler.addObject(new Platform(300.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(0.0f, 750.0f, 500, 32, true, this.handler));
         this.handler.addObject(new Enemy(25.0f, 50.0f, this.handler));
         this.handler.addObject(new Goal(500.0f, 600.0f, this.handler));
         this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
@@ -104,9 +102,6 @@ public class Game extends Canvas implements Runnable{
         this.handler.loadImages();
         Level l = new Level("test", this.handler, 2000, 500);
         l.save();
-
-        //Saves.Level l = (Saves.Level) Utilities.Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
-        //l.load(this.handler);
 
          this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
@@ -221,15 +216,6 @@ public class Game extends Canvas implements Runnable{
 
     public STATE getGamestate() {return this.gamestate;}    //returns current gamestate
     public void setGamestate(STATE tempState) {this.gamestate = tempState;} //sets current gamestate
-
-    public static float WallCollision(float var, float min, float max) {    //calculates collision with a wall
-        if (var >= max) {
-            return max;
-        }else if (var <= min) {
-            return min;
-        }
-        return var;
-    }
 
     public static float ScrollCollision(float var, float min, float max) {  //calculates collision with a "scroll wall"
         if (var >= max && Game.canScrollRight) {

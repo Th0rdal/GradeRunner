@@ -1,31 +1,10 @@
 package Utilities;
 
-import Saves.SaveFile;
-
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class Encryption {
-    public static String encryptName(String name, long time) {  //this method hashes a string
-        String temp = "GradeRunner" + name;
-        long tempAsInt = 0;
-        for (int i = 0; i < temp.length(); i++) {
-            tempAsInt += temp.charAt(i);
-        }
-        tempAsInt = tempAsInt * time;
-        return Long.toString(tempAsInt);
-    }
-
-    public static String encryptName(SaveFile sf) { //this method hashes the name of a saveFile
-        String temp = "GradeRunner" + sf.getName();
-        long tempAsInt = 0;
-        for (int i = 0; i < temp.length(); i++) {
-            tempAsInt += temp.charAt(i);
-        }
-        tempAsInt = tempAsInt * sf.getCreationTime();
-        return Long.toString(tempAsInt);
-    }
 
     public static String encryptWorld(long creationTime, String name) {    //this method encrypts a level with SHA-512
         String time = Long.toString(creationTime);

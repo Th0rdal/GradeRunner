@@ -11,8 +11,7 @@ public class Goal extends GameObject{
 
     private transient BufferedImage imgGoal;
     public Goal(float x, float y, Handler handler) {
-        super(x, y, ID.Goal, 32, 39);
-        this.handler = handler;
+        super(x, y, ID.Goal, 32, 39, handler);
     }
 
     @Override

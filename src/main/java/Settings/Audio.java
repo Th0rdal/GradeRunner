@@ -24,7 +24,7 @@ public class Audio {
             }
         }catch (UnsupportedAudioFileException | IOException | LineUnavailableException | IllegalArgumentException e){
             e.printStackTrace();
-            game.getWindow().warning("Audiofile could not be opened!");
+            game.getWindow().warning("Audio File could not be opened!");
         }catch (SecurityException e) {
             e.printStackTrace();
             game.getWindow().error("Security Error! Shutting down!");

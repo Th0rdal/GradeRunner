@@ -27,8 +27,7 @@ public class Player extends GameObject{
 
 
     public Player(float x, float y, Handler handler) {
-        super(x, y, ID.Player, 36, 51);
-        this.handler = handler;
+        super(x, y, ID.Player, 36, 51, handler);
      }
 
     public Rectangle getBounds() {return new Rectangle((int)x, (int)y, this.width, this.height);}
@@ -55,7 +54,7 @@ public class Player extends GameObject{
     }
 
     public void render(Graphics g) {
-        if (this.getVelY() != 0) {  //spritesheets while in air
+        if (this.getVelY() != 0) {  //in air
             if (this.getVelX() > 0){
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
             }else if (this.getVelX() < 0) {
@@ -63,7 +62,7 @@ public class Player extends GameObject{
             }else {
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
             }
-        }else { //spritesheets while on ground
+        }else { //on ground
             if (this.getVelX() > 0) {   //running right
                 if (spriteCounter % 3 == 0) {
                     g.drawImage(this.imgLookRight, (int) x, (int) y, null);

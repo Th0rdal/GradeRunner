@@ -14,16 +14,14 @@ public class Platform extends GameObject {
 
     private final boolean breakable;  //if true block can be broken
     public Platform(float x, float y, int width, int height, boolean breakable, Handler handler) {
-        super(x, y, ID.Platform, width, height);
+        super(x, y, ID.Platform, width, height, handler);
         super.setObjectColor(Color.BLACK);
         this.breakable = breakable;
-        this.handler = handler;
     }
     public Platform(float x, float y, int width, int height, boolean breakable, Handler handler, ID id) {
-        super(x, y, id, width, height);
+        super(x, y, id, width, height, handler);
         super.setObjectColor(Color.BLACK);
         this.breakable = breakable;
-        this.handler = handler;
     }
     public void tick() {
         x += getVelX();
