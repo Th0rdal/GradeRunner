@@ -13,7 +13,7 @@ public class Enemy extends GameObject{
     private transient BufferedImage imgWalkRight1, imgWalkRight2, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
     public Enemy(float x, float y, Handler handler) {
-        super(x, y, ID.Enemy, 38, 51, handler);
+        super(x, y, ID.Enemy, 38, 51, handler, 100);
         this.setVelX(2.0f);
     }
 

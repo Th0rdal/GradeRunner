@@ -8,6 +8,7 @@ package Essentials;
 import GameObjects.GameObject;
 import GameObjects.ID;
 import Saves.Level;
+import Screens.HUD;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -17,16 +18,15 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class Handler {
     private final Game game;
     private Level level;
+    private HUD hud;
     private final LinkedList<GameObject> objectList = new LinkedList<>();   //list of all GameObjects
     private final ConcurrentLinkedDeque<GameObject> deleteQueue = new ConcurrentLinkedDeque<>();    //queue with all GameObjects to delete
     private float moved = 0;
     private float totalLength = 0.0f;
-    public Handler(Game game) {
-        this.game = game;
-    }
 
     public Handler(Game game, int totalLength) {
         this.game = game;
+        this.hud = new HUD();
         this.totalLength = totalLength;
     }
 
@@ -99,12 +99,16 @@ public class Handler {
         this.totalLength = ((float) totalLength - 1250.0f + 15.0f) * -1.0f;
     }
     public void addObject(GameObject object) {this.objectList.add(object);}
-    public void removeObject(GameObject object) {this.deleteQueue.push(object);}
+    public void removeObject(GameObject object) {
+        this.hud.addToScore(object.getScoreAdd());
+        this.deleteQueue.push(object);
+    }
     public void clear() {
         this.objectList.clear();
     }
     public LinkedList<GameObject> getObjectList() {return this.objectList;}
     public void finish() {
+        this.hud.finish();
         game.setGamestate(Game.STATE.VictoryScreen);
     }
     public void hit() {
@@ -115,5 +119,9 @@ public class Handler {
     public void loadLevel(Level l) {
         this.level = l;
         this.level.load(this.game, this);
+        this.hud.setupHUD(l.levelTime());
+    }
+    public HUD getHUD() {
+        return this.hud;
     }
 }

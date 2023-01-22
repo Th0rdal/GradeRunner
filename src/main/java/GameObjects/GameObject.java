@@ -19,6 +19,7 @@ public abstract class GameObject implements Serializable, Cloneable{
     protected Color objectColor;
     protected boolean bGravity = true;
     protected transient Handler handler;
+    protected long scoreAdd = 0;
     public GameObject(float x, float y, ID id, int width, int height) {
         this.x = x;
         this.y = y;
@@ -34,6 +35,16 @@ public abstract class GameObject implements Serializable, Cloneable{
         this.width = width;
         this.height = height;
         this.handler = handler;
+    }
+
+    public GameObject(float x, float y, ID id, int width, int height, Handler handler, long scoreAdd) {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.width = width;
+        this.height = height;
+        this.handler = handler;
+        this.scoreAdd = scoreAdd;
     }
 
     protected float[] collisionDirection(GameObject collisionObject) {
@@ -96,5 +107,8 @@ public abstract class GameObject implements Serializable, Cloneable{
     }
     public Object clone() throws CloneNotSupportedException {
         return super.clone();
+    }
+    public long getScoreAdd() {
+        return this.scoreAdd;
     }
 }

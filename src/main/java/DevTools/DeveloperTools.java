@@ -32,9 +32,9 @@ public class DeveloperTools{
             g.drawRect(0, 0, 140, 120);
             g.drawString("FPS: " + this.lastFrames + "/" + Game.MAX_FRAMES_PER_SECOND, 10, 12);
             g.drawString("TICKS: " + this.lastTicks + "/" + Game.MAX_TICKS_PER_SECOND, 10, 22);
-            g.drawString("Selected Saves.Level: " + this.levelSelect.getSelectedLevel(), 10, 32);
-            g.drawString("GameObjects.Player X " + this.p.getX(), 10, 42);
-            g.drawString("GameObjects.Player Y " + this.p.getY(), 10, 52);
+            g.drawString("Selected Level: " + this.levelSelect.getSelectedLevel(), 10, 32);
+            g.drawString("Player X " + this.p.getX(), 10, 42);
+            g.drawString("Player Y " + this.p.getY(), 10, 52);
             g.drawString("Moved: " + this.handler.getMoved(), 10, 62);
             g.drawString("CanScrollRight: " + Game.canScrollRight, 10, 72);
             g.drawString("maxLen: " + this.handler.getTotalLength(), 10, 82);

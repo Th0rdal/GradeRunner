@@ -13,7 +13,7 @@ import java.util.HashMap;
 public class SaveFile implements Serializable {
 
     private final String name;
-    private HashMap<String, Integer> LevelsComplete;    //encrypted level name / score
+    private HashMap<Level, Integer> LevelsComplete;    //encrypted level name / score
     private final long creationTime;
     private final String encryptedName;
     private final String pathToFile;
@@ -30,5 +30,4 @@ public class SaveFile implements Serializable {
     //getter
     public String getName() {return this.name;}
     public Long getCreationTime() {return this.creationTime;}
-
 }

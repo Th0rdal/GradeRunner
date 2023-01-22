@@ -11,10 +11,15 @@ public class VictoryScreen extends BasicMenu {
 
 
     private final Screens.Button Button_MainMenu = new Screens.Button(350, 700, 500, 100, "Main Menu", true);
+    private final Font textFont = new Font("arial", Font.PLAIN, 30);
+    private final Font titleFont = new Font("arial", Font.PLAIN, 100);
+    private final HUD hud;
+
 
     public VictoryScreen(Game game, Handler handler, Audio audio) {
         super(game, handler, audio);
         this.loadSprites();
+        this.hud = this.handler.getHUD();
     }
 
     public void loadSprites() {
@@ -25,10 +30,13 @@ public class VictoryScreen extends BasicMenu {
 
     public void render(Graphics g) {
 
-        Font titleFont = new Font("arial", Font.PLAIN, 100);
-        g.setFont(titleFont);
+        g.setFont(this.titleFont);
         g.setColor(Color.black);
         g.drawString("YOU WON", (Game.WIDTH / 2 - g.getFontMetrics().stringWidth("YOU WON") / 2), 150);
+        g.setFont(this.textFont);
+        g.drawString("Score: " + this.hud.getScore(), 400, 300);
+        g.drawString("Time left: " + this.hud.getTime(), 400, 400);
+        g.drawString("Grade: " + this.hud.getGrade(), 400, 500);
         this.Button_MainMenu.render(g);
     }
 

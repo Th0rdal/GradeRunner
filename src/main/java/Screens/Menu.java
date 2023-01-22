@@ -65,7 +65,6 @@ public class Menu extends BasicMenu {
     int my = e.getY();
 
     if (this.mouseOverBox(mx, my, 375, 200, 500, 100)) {
-      game.setGamestate(Game.STATE.Game);
       this.game.startGame();
     }else if (this.mouseOverBox(mx, my, 375, 350, 500, 100)) {
       game.setGamestate(Game.STATE.Levelselect);

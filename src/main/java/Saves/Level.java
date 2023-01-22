@@ -22,11 +22,12 @@ public class Level implements Serializable{
     private final String encryptedName;   //encrypted name of the world
     private final long timeOfCreation;    //the time the object was created in nanoSeconds
     private final int totalLength;
+    private final int levelTime;
     private transient Handler handler;
 
     private final LinkedList<GameObject> blocks = new LinkedList<>(); //a list with all blocks in the level
 
-    public Level(String name, Handler handler, int totalLength) {
+    public Level(String name, Handler handler, int totalLength, int time) {
         this.timeOfCreation = System.nanoTime();
         this.name = name;
         this.encryptedName = Encryption.encryptName(this.name, this.timeOfCreation);
@@ -34,6 +35,7 @@ public class Level implements Serializable{
         this.handler = handler;
         this.pathToFile = "saves/worlds/" + this.encryptionCode + ".world";
         this.totalLength = totalLength;
+        this.levelTime = time;
     }
 
     public void load(Game game, Handler handler) {    //loads the level onto the screen
@@ -56,7 +58,9 @@ public class Level implements Serializable{
         this.blocks.addAll(this.handler.getObjectList());
         FileHandler.saveObjectToFile(this, this.pathToFile);
     }
-
+    public int levelTime() {
+        return this.levelTime;
+    }
     public String getName() {
         return this.name;
     }

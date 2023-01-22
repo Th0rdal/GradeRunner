@@ -7,6 +7,7 @@ package Essentials;
 
 import DevTools.DeveloperTools;
 import GameObjects.*;
+import Saves.*;
 import Screens.*;
 import Settings.*;
 import Utilities.*;
@@ -45,6 +46,7 @@ public class Game extends Canvas implements Runnable{
     private final VictoryScreen victoryScreen;
     private final DeathScreen deathScreen;
     private final DeveloperTools developerTools;
+    private final HUD hud;
     private final WindowX window;
     private final BufferedImage background;
 
@@ -71,6 +73,7 @@ public class Game extends Canvas implements Runnable{
 
         //create all object instances here
         this.handler = new Handler(this, Game.TOTALLENGTH);
+        this.hud = this.handler.getHUD();
         this.menu = new Screens.Menu(this, handler, backgroundAudio);
         this.levelSelect = new LevelSelect(this, this.handler, backgroundAudio);
         this.pause = new PauseMenu(this, handler, backgroundAudio);
@@ -100,9 +103,8 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
         this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
         this.handler.loadImages();
-
-        /*Level l = new Level("test", this.handler, 4000);
-        l.save();*/
+        Level l = new Level("test", this.handler, 4000, 500);
+        l.save();
 
         //Saves.Level l = (Saves.Level) Utilities.Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
         //l.load(this.handler);
@@ -115,6 +117,7 @@ public class Game extends Canvas implements Runnable{
         this.handler.loadLevel(this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1]);
         this.handler.loadImages();
         this.developerTools.getPlayer();
+        this.setGamestate(Game.STATE.Game);
     }
 
     public synchronized void start() { //starts the game
@@ -163,6 +166,9 @@ public class Game extends Canvas implements Runnable{
                 timer += 1000;
                 this.developerTools.updateFrames();
                 this.developerTools.updateTicks();
+                if (this.gamestate == STATE.Game) {
+                    this.hud.addSecond();
+                }
             }
         }
         stop();
@@ -197,6 +203,7 @@ public class Game extends Canvas implements Runnable{
         this.developerTools.render(g);
         if (gamestate == STATE.Game) {
             this.handler.render(g);
+            this.hud.render(g);
         } else if (gamestate == STATE.Menu) {
             this.menu.render(g);
         } else if (gamestate == STATE.Pause) {
