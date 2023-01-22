@@ -18,15 +18,15 @@ import java.util.concurrent.ConcurrentLinkedDeque;
 public class Handler {
     private final Game game;
     private Level level;
-    private HUD hud;
+    private final HUD hud;
     private final LinkedList<GameObject> objectList = new LinkedList<>();   //list of all GameObjects
     private final ConcurrentLinkedDeque<GameObject> deleteQueue = new ConcurrentLinkedDeque<>();    //queue with all GameObjects to delete
     private float moved = 0;
-    private float totalLength = 0.0f;
+    private float totalLength;
 
     public Handler(Game game, int totalLength) {
         this.game = game;
-        this.hud = new HUD();
+        this.hud = new HUD(this.game);
         this.totalLength = totalLength;
     }
 

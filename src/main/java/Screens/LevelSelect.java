@@ -109,12 +109,14 @@ public class LevelSelect extends BasicMenu {
     public void changeLevelSelection(int buttonIndex) {
         if (this.selectedLevel == buttonIndex) {
             return;
-        }else if (buttonIndex > this.levelList.length) {
+        }else if (9 * this.LevelCounter + buttonIndex > this.levelList.length) {
             game.getWindow().warning("There is no Level in this save slot!");
             return;
         }
+        if (selectedLevel != 0) {
+            this.selectedButton.changeSelected();
+        }
         this.levelButtonList[buttonIndex-1].changeSelected();
-        this.selectedButton.changeSelected();
         this.selectedLevel = buttonIndex;
         this.selectedButton = this.levelButtonList[buttonIndex-1];
 
@@ -176,6 +178,8 @@ public class LevelSelect extends BasicMenu {
     public void writeToLevelButton() {
         for (int i = 0; i < 9; i++) {
             try {
+                this.selectedLevel = 0;
+                this.selectedButton = null;
                 this.levelButtonList[i].reset();
                 this.levelButtonList[i].setText(this.levelList[9 * this.LevelCounter + i].getName());
             }catch (IndexOutOfBoundsException | NullPointerException e) {

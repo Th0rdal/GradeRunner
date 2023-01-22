@@ -103,7 +103,7 @@ public class Game extends Canvas implements Runnable{
         this.handler.addObject(new Enemy(100.0f, 50.0f, this.handler));
         this.handler.addObject(new Enemy(200.0f, 50.0f, this.handler));
         this.handler.loadImages();
-        Level l = new Level("test", this.handler, 4000, 500);
+        Level l = new Level("test", this.handler, 4000, 10);
         l.save();
 
         //Saves.Level l = (Saves.Level) Utilities.Utilities.loadObjectFromFile("saves/worlds/619327f1a946f2112f2fa86feb2a9922bb240025202e7e34ebbffb1a4c7ef75ea4f274e35db7422272b75f361e7fb50bcec6bbc972f2cfd4499ee4f4bf571969.world");
@@ -167,7 +167,7 @@ public class Game extends Canvas implements Runnable{
                 this.developerTools.updateFrames();
                 this.developerTools.updateTicks();
                 if (this.gamestate == STATE.Game) {
-                    this.hud.addSecond();
+                    this.hud.subtractSecond();
                 }
             }
         }

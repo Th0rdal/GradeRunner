@@ -5,12 +5,15 @@ import Essentials.Game;
 import java.awt.*;
 
 public class HUD {
+    private final Game game;
     private int time = 0;
     private int startTime = 0;
     private long score = 0;
     private char grade = 'F';
     private final Font textFont = new Font("arial", Font.PLAIN, 30);
-
+    public HUD(Game game) {
+        this.game = game;
+    }
     public void render(Graphics g) {
         g.setFont(this.textFont);
         g.drawString("Time: " + this.time, 800,32);
@@ -19,7 +22,10 @@ public class HUD {
     public void addToScore(long amount) {
         this.score += amount;
     }
-    public void addSecond() {
+    public void subtractSecond() {
+        if (this.time == 0) {
+            game.setGamestate(Game.STATE.DeathScreen);
+        }
         this.time -= 1;
     }
     public void setupHUD(int time){
