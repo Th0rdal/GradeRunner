@@ -6,6 +6,11 @@
 package Essentials;
 
 import DevTools.DeveloperTools;
+import GameObjects.Enemy;
+import GameObjects.Goal;
+import GameObjects.Platform;
+import GameObjects.Player;
+import Saves.Level;
 import Screens.*;
 import Settings.*;
 import Utilities.*;
@@ -21,7 +26,7 @@ public class Game extends Canvas implements Runnable{
 
     //variables used to control the scrolling
     public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
-    public static final float scrollWidthRight = 1050.0f; //width at which the screen starts to scroll right
+    public static final float scrollWidthRight = 800.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false;
     public static boolean canScrollRight = true;
     public static boolean scroll = false; //check variables if scrolling is allowed
@@ -90,6 +95,7 @@ public class Game extends Canvas implements Runnable{
         this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
 
          this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+
 
     }
 

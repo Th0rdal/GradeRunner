@@ -1,0 +1,14 @@
+this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        this.handler.addObject(new Platform(000.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(500.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(1100.0f, 650.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(1601.0f, 610.0f, 1, 10, true, this.handler));
+        this.handler.addObject(new Platform(1700.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Enemy(1400.0f, 50.0f, this.handler));
+        this.handler.addObject(new Platform(2300.0f, 650.0f, 200, 32, true, this.handler));
+        this.handler.addObject(new Platform(2600.0f, 600.0f, 200, 32, true, this.handler));
+        this.handler.addObject(new Platform(2900.0f, 550.0f, 200, 32, true, this.handler));
+        this.handler.addObject(new Goal(3000.0f, 500.0f, this.handler));
+        this.handler.loadImages();
+        Level l = new Level("Easy", this.handler, 3100, 500);
+        l.save();

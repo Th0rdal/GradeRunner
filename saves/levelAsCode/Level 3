@@ -1,0 +1,10 @@
+this.handler.addObject(new Player(700.0f, 200.f, this.handler));
+        this.handler.addObject(new Platform(000.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(500.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(1000.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Platform(1700.0f, 700.0f, 500, 32, true, this.handler));
+        this.handler.addObject(new Enemy(1000.0f, 50.0f, this.handler));
+        this.handler.addObject(new Goal(2000.0f, 600.0f, this.handler));
+        this.handler.loadImages();
+        Level l = new Level("Intro 3", this.handler, 2200, 500);
+        l.save();

@@ -13,7 +13,7 @@ public class Enemy extends GameObject{
     private int spriteCounter = 0;
     public Enemy(float x, float y, Handler handler) {
         super(x, y, ID.Enemy, 38, 51, handler, 100);
-        this.setVelX(2.0f);
+        this.setVelX(3.5f);
     }
 
     @Override
