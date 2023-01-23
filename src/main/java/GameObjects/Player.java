@@ -69,7 +69,13 @@ public class Player extends GameObject{
             }else if (this.getVelX() < 0) {
                 g.drawImage(this.imgLookLeft, (int)x, (int)y, null);
             }else {
-                g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                if (this.lastLooked == moveState.right) {
+                    g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                }else if (this.lastLooked == moveState.left) {
+                    g.drawImage(this.imgLookLeft, (int) x, (int) y, null);
+                }else {
+                    g.drawImage(this.imgLookRight, (int) x, (int) y, null);
+                }
             }
         }else { //on ground
             if (this.getVelX() > 0) {   //running right
