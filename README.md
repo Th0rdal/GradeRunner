@@ -1,5 +1,7 @@
 # GradeRunner
 
+java 17 SDK used to compile
+
 Movement:
 move left: D
 move right: A
