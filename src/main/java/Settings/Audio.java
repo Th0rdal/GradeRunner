@@ -1,3 +1,7 @@
+/**
+ * Handles loading of the audio file and control over the music (volumen and mute)
+ */
+
 package Settings;
 
 import Essentials.Game;
@@ -31,6 +35,7 @@ public class Audio {
         }
         this.changeVolume(0.0f);
     }
+
     public void changeVolume(float volume) {
         this.floatControl.setValue(volume);
     }

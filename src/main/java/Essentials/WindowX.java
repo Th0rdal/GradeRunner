@@ -1,5 +1,5 @@
 /**
- * This class takes care of the Window
+ * This class takes care of the Window and popup messages
  *
  */
 
@@ -26,11 +26,12 @@ public class WindowX extends Canvas {
         game.start();   //starts the game
 
     }
-    public void warning(String message) {
+    public void warning(String message) {   //creates a warning popup with the warning message
         JOptionPane.showMessageDialog(this.frame, message);
     }
-    public void error(String message) {
+
+    public void error(String message) { //creates an error popup with the error message and closes the game
         JOptionPane.showMessageDialog(this.frame, message);
-        System.exit(0);
+        System.exit(1);
     }
 }

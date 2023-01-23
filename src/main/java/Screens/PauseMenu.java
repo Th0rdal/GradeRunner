@@ -1,3 +1,7 @@
+/**
+ * Handles mouse events, sprite loading and render of the Pause Menu Screen
+ */
+
 package Screens;
 
 import Essentials.Game;
@@ -9,6 +13,7 @@ import java.awt.event.*;
 
 public class PauseMenu extends BasicMenu {
 
+    //buttons
     private final Screens.Button Button_Continue = new Screens.Button(375, 200, 500, 100, "Continue", true);
     private final Screens.Button Button_MainMenu = new Screens.Button(375, 350, 500, 100, "Main Menu", true);
 
@@ -17,12 +22,9 @@ public class PauseMenu extends BasicMenu {
         this.loadSprites();
     }
 
-    public void loadSprites() {
-        super.loadSprites();
-    }
-    public void tick() {}
+    public void tick() {}   //physic calculations in this method
 
-    public void render(Graphics g) {
+    public void render(Graphics g) {    //method for all graphic calculations
         super.render(g);
 
         Font menu = new Font("arial", Font.PLAIN, 100);
@@ -34,7 +36,12 @@ public class PauseMenu extends BasicMenu {
         this.Button_MainMenu.render(g);
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void loadSprites() { //loading of the sprites the object needs
+        super.loadSprites();
+    }
+
+    //mouse event
+    public void mouseMoved(MouseEvent e) {  //handles all events when mouse is moved
         if (game.getGamestate() != Game.STATE.Pause) {
             return;
         }
@@ -42,11 +49,11 @@ public class PauseMenu extends BasicMenu {
         int mx = e.getX();
         int my = e.getY();
 
-        this.Button_Continue.changeHighlight(this.mouseOverBox(mx, my, 375, 200, 500, 100));
-        this.Button_MainMenu.changeHighlight(this.mouseOverBox(mx, my, 375, 350, 500, 100));
+        this.Button_Continue.toggleHighlighted(this.mouseOverBox(mx, my, 375, 200, 500, 100));
+        this.Button_MainMenu.toggleHighlighted(this.mouseOverBox(mx, my, 375, 350, 500, 100));
     }
 
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {    //handles all events when mouse is pressed
         if (game.gamestate != Game.STATE.Pause) {
             return;
         }
@@ -62,5 +69,5 @@ public class PauseMenu extends BasicMenu {
         }
     }
 
-    public void mouseReleased(MouseEvent e){}
+    public void mouseReleased(MouseEvent e){}   //handles all events when mouse is released
 }

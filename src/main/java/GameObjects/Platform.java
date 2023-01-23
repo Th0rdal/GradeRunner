@@ -1,6 +1,5 @@
 /**
- * This class is a basic GameObjects.Platform.
- * The GameObjects.Player can jump on it and can break it by jumping against it from under it (if the flag is set)
+ * Handles collisions, tick and render for Platforms
  *
  */
 
@@ -23,27 +22,30 @@ public class Platform extends GameObject {
         super.setObjectColor(Color.BLACK);
         this.breakable = breakable;
     }
-    public void tick() {
+    public void tick() {    //method for all physics calculation
         x += getVelX();
         y += getVelY();
     }
-    public void render(Graphics g) {
+    public void render(Graphics g) {    //method for all graphic calculations
         g.setColor(getObjectColor());
         g.fillRect((int)x, (int)y, this.width, this.height);
     }
 
     public void hitFromBelow() {    //is activated when the platform is hit from below.
         if (this.breakable) {   //if breakable true, activate on break and remove the object from the screen
-            //put in here what happens on break
             this.handler.removeObject(this);
         }
     }
 
-
     @Override
-    public void collision(GameObject collisionObject) {}
+    public void collision(GameObject collisionObject) {}    //calculates collisions and reactions to them.
 
-    public Rectangle getBounds() {return new Rectangle ((int)x, (int)y, this.width, this.height);}
-    public void loadSprites() {}
+    public void loadSprites() {}    //loads the spriteSheet and sprites
+
+    //getter
+    public Rectangle getBounds() {  //returns a Rectangle that represents the object (for collision calculation)
+        return new Rectangle ((int)x, (int)y, this.width, this.height);
+    }
+
 
 }

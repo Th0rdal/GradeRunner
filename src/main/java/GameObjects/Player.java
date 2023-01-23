@@ -1,3 +1,7 @@
+/**
+ * Handles movement, collisions, sprite loading, tick and render of player
+ */
+
 package GameObjects;
 
 import Essentials.Game;
@@ -12,11 +16,11 @@ public class Player extends GameObject{
 
     private transient BufferedImage imgLookRight, imgWalkRight1, imgWalkRight2, imgLookLeft, imgWalkLeft1, imgWalkLeft2;
     private int spriteCounter = 0;
-    private moveState lastLooked;
-    private float jumpVel = 15.0f;
-    private float moveVel = 5.0f;
+    private moveState lastLooked;   //saves if last moveState was left or right
+    private float jumpVel = 15.0f;  //jump velocity
+    private float moveVel = 5.0f;   //move velocity
 
-    public enum moveState {
+    public enum moveState { //contains all movements a player can make
         left,
         right,
         sprint,
@@ -31,12 +35,12 @@ public class Player extends GameObject{
         super(x, y, ID.Player, 36, 51, handler);
      }
 
-    public Rectangle getBounds() {return new Rectangle((int)x, (int)y, this.width, this.height);}
-
-    public void tick() {
+    public void tick() {    //method for all physics calculation
+        //movement left and right
         x += getVelX();
         y -= getVelY();
 
+        //gravity
         if (hasGravity()) {
             if (!this.handler.isOnPlatform(this)) {
                 setVelY(getVelY() - getGravity());
@@ -45,6 +49,7 @@ public class Player extends GameObject{
             }
         }
 
+        //scrolling
         if (Game.canScroll()) {
             x = Game.ScrollCollision(x, Game.scrollWidthLeft, Game.scrollWidthRight);
             if (Game.getScroll()) {
@@ -52,10 +57,12 @@ public class Player extends GameObject{
                 this.handler.adjustScroll(getVelX());
             }
         }
+
+        //collision handling
         this.handler.checkCollision(this);
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g) {    //method for all graphic calculations
         if (this.getVelY() != 0) {  //in air
             if (this.getVelX() > 0){
                 g.drawImage(this.imgLookRight, (int) x, (int) y, null);
@@ -89,7 +96,7 @@ public class Player extends GameObject{
                     this.spriteCounter = 0;
                 }
                 this.lastLooked = moveState.left;
-            }else { //when not moving
+            }else { //not moving
                 if (this.lastLooked == moveState.right) {
                     g.drawImage(this.imgLookRight, (int) x, (int) y, null);
                 }else if (this.lastLooked == moveState.left) {
@@ -101,7 +108,7 @@ public class Player extends GameObject{
         }
     }
 
-    public void collision(GameObject collisionObject) {
+    public void collision(GameObject collisionObject) { //calculates collisions and reactions to them
         if (collisionObject.getID() == ID.Platform) {
             float[] collisionDirectionArray = super.collisionDirection(collisionObject);
             float tempY = collisionDirectionArray[0];
@@ -137,7 +144,18 @@ public class Player extends GameObject{
         }
     }
 
-    public void move(moveState state) {
+    @Override
+    public void loadSprites() { //loads the spriteSheet and sprites
+        SpriteSheet ss = new SpriteSheet(FileHandler.loadImage("src/main/resources/player.png"));
+        this.imgLookRight = ss.grabImage(0, 0, this.width, this.height);
+        this.imgWalkRight1 = ss.grabImage(1, 0, this.width, this.height);
+        this.imgWalkRight2 = ss.grabImage(2, 0, this.width, this.height);
+        this.imgLookLeft = ss.grabImage(3, 0, this.width, this.height);
+        this.imgWalkLeft1 = ss.grabImage(4, 0, this.width, this.height);
+        this.imgWalkLeft2 = ss.grabImage(5, 0, this.width, this.height);
+    }
+
+    public void move(moveState state) { //handles all movements a player can make
         if (state == moveState.left) {
             this.setVelX(-1.0f * this.moveVel);
         }else if (state == moveState.right) {
@@ -157,15 +175,9 @@ public class Player extends GameObject{
         }
     }
 
-    @Override
-    public void loadSprites() {
-        SpriteSheet ss = new SpriteSheet(FileHandler.loadImage("src/main/resources/player.png"));
-        this.imgLookRight = ss.grabImage(0, 0, this.width, this.height);
-        this.imgWalkRight1 = ss.grabImage(1, 0, this.width, this.height);
-        this.imgWalkRight2 = ss.grabImage(2, 0, this.width, this.height);
-        this.imgLookLeft = ss.grabImage(3, 0, this.width, this.height);
-        this.imgWalkLeft1 = ss.grabImage(4, 0, this.width, this.height);
-        this.imgWalkLeft2 = ss.grabImage(5, 0, this.width, this.height);
+    //getter
+    public Rectangle getBounds() {  //returns a Rectangle that represents the object (for collision calculation)
+        return new Rectangle((int)x, (int)y, this.width, this.height);
     }
 
 }

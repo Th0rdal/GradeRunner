@@ -1,3 +1,7 @@
+/**
+ * Handles the encryption of levels to ensure no overlap in names
+ */
+
 package Utilities;
 
 import java.math.BigInteger;

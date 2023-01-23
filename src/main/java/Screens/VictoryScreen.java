@@ -1,3 +1,7 @@
+/**
+ * Handles mouse events, sprite loading and render of the Victory Screen
+ */
+
 package Screens;
 
 import Essentials.Game;
@@ -22,13 +26,9 @@ public class VictoryScreen extends BasicMenu {
         this.hud = this.handler.getHUD();
     }
 
-    public void loadSprites() {
-        super.loadSprites();
-    }
+    public void tick(){}    //physic calculations in this method
 
-    public void tick(){}
-
-    public void render(Graphics g) {
+    public void render(Graphics g) {    //method for all graphic calculations
 
         g.setFont(this.titleFont);
         g.setColor(Color.black);
@@ -40,7 +40,12 @@ public class VictoryScreen extends BasicMenu {
         this.Button_MainMenu.render(g);
     }
 
-    public void mouseMoved(MouseEvent e) {
+    public void loadSprites() { //loading of the sprites the object needs
+        super.loadSprites();
+    }
+
+    //mouse event
+    public void mouseMoved(MouseEvent e) {  //handles all events when mouse is moved
         if (game.getGamestate() != Game.STATE.VictoryScreen) {
             return;
         }
@@ -49,10 +54,10 @@ public class VictoryScreen extends BasicMenu {
         int mx = e.getX();
         int my = e.getY();
 
-        this.Button_MainMenu.changeHighlight(this.mouseOverBox(mx, my, 350, 700, 500, 100));
+        this.Button_MainMenu.toggleHighlighted(this.mouseOverBox(mx, my, 350, 700, 500, 100));
 
     }
-    public void mousePressed(MouseEvent e) {
+    public void mousePressed(MouseEvent e) {    //handles all events when mouse is pressed
         if (game.getGamestate() != Game.STATE.VictoryScreen) {
             return;
         }
@@ -66,6 +71,5 @@ public class VictoryScreen extends BasicMenu {
         }
     }
 
-    public void mouseReleased(MouseEvent e){
-    }
+    public void mouseReleased(MouseEvent e){}   //handles all events when mouse is released
 }

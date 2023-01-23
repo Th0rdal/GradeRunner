@@ -1,3 +1,7 @@
+/**
+ * Handles loading and saving of files, directory contents and images
+ */
+
 package Utilities;
 
 import javax.imageio.ImageIO;
@@ -5,7 +9,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 
 public class FileHandler {
-    public static Object loadObjectFromFile(String path) {   //loads a level from a file
+    public static Object loadObjectFromFile(String path) {   //loads an object from a file
         try {
             FileInputStream fileInputStream = new FileInputStream(path);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -29,12 +33,12 @@ public class FileHandler {
         }
     }
 
-    public static File[] loadFileContent(String path) {
+    public static File[] loadFileContent(String path) { //returns all files in a directory
         File file = new File(path);
         return file.listFiles();
     }
 
-    public static BufferedImage loadImage(String path) {
+    public static BufferedImage loadImage(String path) {    //returns a loaded image
         try {
             return ImageIO.read(new File(path));
         } catch (IOException e) {

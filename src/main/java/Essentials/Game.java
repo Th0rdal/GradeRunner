@@ -1,16 +1,11 @@
 /**
- * Main class Essentials.Game. This class handles the game-loop and all important variables for the game.
+ * This class handles the game-loop and all important variables for the game.
  *
  */
 
 package Essentials;
 
 import DevTools.DeveloperTools;
-import GameObjects.Enemy;
-import GameObjects.Goal;
-import GameObjects.Platform;
-import GameObjects.Player;
-import Saves.Level;
 import Screens.*;
 import Settings.*;
 import Utilities.*;
@@ -25,7 +20,7 @@ public class Game extends Canvas implements Runnable{
     public static final int WIDTH = 1250, HEIGHT = WIDTH / 12 * 9;  //width and height of the window
 
     //variables used to control the scrolling
-    public static final float scrollWidthLeft = 200.0f; //width at which the screen starts to scroll to the left
+    public static final float scrollWidthLeft = 400.0f; //width at which the screen starts to scroll left
     public static final float scrollWidthRight = 800.0f; //width at which the screen starts to scroll right
     public static boolean canScrollLeft = false;
     public static boolean canScrollRight = true;
@@ -34,7 +29,7 @@ public class Game extends Canvas implements Runnable{
     //variables used for the game-loop
     public static final int MAX_FRAMES_PER_SECOND = 30;
     public static final int MAX_TICKS_PER_SECOND = 30;
-    public static final int OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //this is the optimal time a single render calculates
+    public static final int OPTIMAL_TIME_FRAMES = 1000000000 / Game.MAX_FRAMES_PER_SECOND;  //optimal time a single render calculates
     public static final int OPTIMAL_TIME_TICK = 1000000000 / Game.MAX_TICKS_PER_SECOND; //this is the optimal time a single tick calculates
     boolean running = false;
 
@@ -58,22 +53,22 @@ public class Game extends Canvas implements Runnable{
         Menu,   //this state is active when in the menu
         Game,   //this state is active when the game is running
         Pause,   //this state is active when the game is paused
-        DeathScreen,
-        VictoryScreen,
-        Levelselect
+        DeathScreen,    //this state is active when the player dies
+        VictoryScreen,  //this state is active when the player wins
+        Levelselect //this state is active when in levelSelect menu
     }
     public STATE gamestate = STATE.Menu; //variable holding the current gamestate
 
     public Game() { //default constructor
 
-        //load sprites
+        //load background sprite
         background = FileHandler.loadImage("src/main/resources/bg.jpg");
 
         //audio initialization
         Audio backgroundAudio = new Audio(this,"src/main/resources/backgroundMusic.wav");
         backgroundAudio.mute();
 
-        //create all object instances here
+        //instance creation and adding Listener
         this.handler = new Handler(this);
         this.hud = this.handler.getHUD();
         this.menu = new Screens.Menu(this, handler, backgroundAudio);
@@ -81,6 +76,7 @@ public class Game extends Canvas implements Runnable{
         this.pause = new PauseMenu(this, handler, backgroundAudio);
         this.deathScreen = new DeathScreen(this, this.handler, backgroundAudio);
         this.victoryScreen = new VictoryScreen(this, this.handler, backgroundAudio);
+        this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
         this.addKeyListener(new KeyInput(this.handler, this));
         this.addMouseListener(this.levelSelect);
         this.addMouseMotionListener(this.levelSelect);
@@ -92,14 +88,14 @@ public class Game extends Canvas implements Runnable{
         this.addMouseMotionListener(this.deathScreen);
         this.addMouseListener(this.victoryScreen);
         this.addMouseMotionListener(this.victoryScreen);
-        this.developerTools = new DeveloperTools(this.handler, this.levelSelect);
-
-         this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
+        this.window = new WindowX(Game.WIDTH, Game.HEIGHT, "GradeRunner", this);
 
 
     }
 
-    public void startGame() {
+    public void startGame() {   //loading level and preparing devTools
+        Game.canScrollLeft = false;
+        Game.canScrollRight = true;
         this.handler.loadLevel(this.levelSelect.getLevelList()[this.levelSelect.getSelectedLevel()-1]);
         this.handler.loadImages();
         this.developerTools.getPlayer();
@@ -148,7 +144,7 @@ public class Game extends Canvas implements Runnable{
                 this.developerTools.incrementFrames();
                 DeltaTimeFrames -= Game.OPTIMAL_TIME_FRAMES;
             }
-            if (System.currentTimeMillis() - timer > 1000) {    //updates the frames and ticks for developerTools
+            if (System.currentTimeMillis() - timer > 1000) {    //updates the frames and ticks for developerTools and the HUD
                 timer += 1000;
                 this.developerTools.updateFrames();
                 this.developerTools.updateTicks();
@@ -159,9 +155,9 @@ public class Game extends Canvas implements Runnable{
         }
         stop();
     }
-    public void tick() { //method for all physics calculation
-        //enter tick methods specific to gamestate
 
+    public void tick() { //method for all physics calculation
+        //tick method of instante
         if (this.gamestate == STATE.Game) {
             this.handler.tick();
         } else if (this.gamestate == STATE.Menu) {
@@ -171,8 +167,8 @@ public class Game extends Canvas implements Runnable{
         }else if (this.gamestate == STATE.Levelselect){
             levelSelect.tick();
         }
-        //enter all gamestate
     }
+
     public void render() { //method for all graphic calculations
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
@@ -180,12 +176,13 @@ public class Game extends Canvas implements Runnable{
             return;
         }
 
-        Graphics g = bs.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics();  //creates graphic object
+
         g.clearRect(0, 0, Game.WIDTH, Game.HEIGHT);
         g.drawImage(background, 0, 0, null);
 
 
-        //enter render method specific to gamestate
+        //render methods of instances
         this.developerTools.render(g);
         if (gamestate == STATE.Game) {
             this.handler.render(g);
@@ -206,9 +203,6 @@ public class Game extends Canvas implements Runnable{
         g.dispose();
     }
 
-    public STATE getGamestate() {return this.gamestate;}    //returns current gamestate
-    public void setGamestate(STATE tempState) {this.gamestate = tempState;} //sets current gamestate
-
     public static float ScrollCollision(float var, float min, float max) {  //calculates collision with a "scroll wall"
         if (var >= max && Game.canScrollRight) {
             Game.toggleScroll();
@@ -220,6 +214,7 @@ public class Game extends Canvas implements Runnable{
         return var;
     }
 
+    //getter and toggle
     public static boolean canScroll() { //returns true if the screen can scroll in any direction
         return (Game.canScrollLeft || Game.canScrollRight);
     }
@@ -228,4 +223,6 @@ public class Game extends Canvas implements Runnable{
     public WindowX getWindow() {
         return this.window;
     }
+    public STATE getGamestate() {return this.gamestate;}    //returns current gamestate
+    public void setGamestate(STATE tempState) {this.gamestate = tempState;} //sets current gamestate
 }

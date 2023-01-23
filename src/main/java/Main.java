@@ -1,3 +1,6 @@
+/**
+ * contains main method
+ */
 
 import Essentials.Game;
 public class Main {

@@ -1,7 +1,8 @@
 /**
- * This class saves a world in the game.
+ * Handles all information, loading and saving of a Level
  *
  */
+
 package Saves;
 
 import Essentials.Game;
@@ -18,8 +19,8 @@ public class Level implements Serializable{
     private static final long serialVersionUID = 3538199102484134650L;
     private final String name;    //name of the world
     private final String pathToFile;  //path to the file
-    private final int totalLength;
-    private final int levelTime;
+    private final int totalLength;  //total length of a level (for scrolling)
+    private final int levelTime;    //time to clear the level
     private transient Handler handler;
 
     private final LinkedList<GameObject> blocks = new LinkedList<>(); //a list with all blocks in the level
@@ -54,7 +55,9 @@ public class Level implements Serializable{
         this.blocks.addAll(this.handler.getObjectList());
         FileHandler.saveObjectToFile(this, this.pathToFile);
     }
-    public int levelTime() {
+
+    //getter
+    public int getLevelTime() {
         return this.levelTime;
     }
     public String getName() {

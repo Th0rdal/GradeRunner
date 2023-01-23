@@ -1,6 +1,5 @@
 /**
- * This class handles all Settings.KeyInput Events
- * KeyPressed, KeyReleased
+ * This class handles all KeyInput Events
  * Go left      A
  * Go right     D
  * Jump         SPACE
@@ -58,8 +57,8 @@ public class KeyInput extends KeyAdapter {
                 game.setGamestate(Game.STATE.Game);
             }
         }
-        if (key == KeyEvent.VK_V) {
-            DeveloperTools.toggleVisibility();
+        if (key == KeyEvent.VK_V) { //display devTools
+            DeveloperTools.toggleDisplay();
         }
     }
 

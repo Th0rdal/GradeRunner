@@ -1,7 +1,8 @@
 /**
  * Blueprint class for all GameObjects.
- * Includes all important variables and methods any GameObjects.GameObject needs to have
+ * Includes all important variables and methods any GameObject needs to have
  */
+
 package GameObjects;
 
 import Essentials.Handler;
@@ -13,13 +14,13 @@ public abstract class GameObject implements Serializable, Cloneable{
 
     protected float x, y;    //x and y values on screen
     protected float VelX, VelY; //velocity in x and y direction
-    protected float gravity = 1.0f;
-    protected ID id;
-    protected int width, height;
-    protected Color objectColor;
-    protected boolean bGravity = true;
+    protected float gravity = 1.0f; //gravitational acceleration
+    protected ID id;    //GameObject ID
+    protected int width, height;    //width and height of the object
+    protected Color objectColor;    //color for the objects that do not have sprites
+    protected boolean bGravity = true;  //saves if object has gravity affect it
     protected transient Handler handler;
-    protected long scoreAdd = 0;
+    protected long scoreAdd = 0;    //points to add to score on kill
 
     public GameObject(float x, float y, ID id, int width, int height, Handler handler) {
         this.x = x;
@@ -40,35 +41,41 @@ public abstract class GameObject implements Serializable, Cloneable{
         this.scoreAdd = scoreAdd;
     }
 
-    protected float[] collisionDirection(GameObject collisionObject) {
+    protected float[] collisionDirection(GameObject collisionObject) {  //calculates in which direction the collision took place
         float[] returnArray = new float[4];
-        if (this.getY() < collisionObject.getY()) {
+        if (this.getY() < collisionObject.getY()) { //hit above
             returnArray[0] = collisionObject.getY() - this.getHeight();
-            returnArray[2] = 0.0f;  //hit above
-        }else {
+            returnArray[2] = 0.0f;
+        }else { //hit below
             returnArray[0] = collisionObject.getY() + collisionObject.getHeight();
-            returnArray[2] = 1.0f;  //hit below
+            returnArray[2] = 1.0f;
         }
-        if (this.getX() < collisionObject.getX()) {
+        if (this.getX() < collisionObject.getX()) { //hit left
             returnArray[1] = collisionObject.getX() - this.getWidth();
-            returnArray[3] = 0.0f;  //hit left
-        }else {
+            returnArray[3] = 0.0f;
+        }else { //hit right
             returnArray[1] = collisionObject.getX() + collisionObject.getWidth();
-            returnArray[3] = 1.0f;  //hit right
+            returnArray[3] = 1.0f;
         }
         return returnArray;
     }
 
-    public abstract void tick();    //physic calculations in this method
-    public abstract void render(Graphics g); //anything drawing related in this method
-
-    public abstract void collision(GameObject collisionObject); //collision handling in this method
-
-    public abstract Rectangle getBounds();  //returns a Rectangle that represents the object (for collision calculation)
     public void adjustForScroll(float adjustX) {
         x += adjustX;
     }   //adjusts the position of the object when scrolling
-    public abstract void loadSprites();
+    public Object clone() throws CloneNotSupportedException {   //clones the GameObject
+        return super.clone();
+    }
+
+    //abstract methods
+    public abstract void tick();    //physic calculations in this method
+    public abstract void render(Graphics g); //method for all graphic calculations
+
+    public abstract void collision(GameObject collisionObject); //calculates collisions and reactions to them
+    public abstract void loadSprites(); //loading of the sprites the object needs
+    public abstract Rectangle getBounds();  //returns a Rectangle that represents the object (for collision calculation)
+
+
     //getter and setter
     public float getX() {
         return x;
@@ -97,9 +104,6 @@ public abstract class GameObject implements Serializable, Cloneable{
     public void setObjectColor(Color tempColor) {this.objectColor = tempColor;}
     public void setHandler(Handler handler) {
         this.handler = handler;
-    }
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
     }
     public long getScoreAdd() {
         return this.scoreAdd;

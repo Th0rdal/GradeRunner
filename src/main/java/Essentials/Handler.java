@@ -1,6 +1,10 @@
 /**
  * This class handles all GameObjects.
- * Calls tick and render for all GameObjects, does collision checking, adjusts for scrolling
+ * Calls tick and render for all GameObjects,
+ * does collision checking,
+ * adjusts for scrolling,
+ * loads all GameObject images,
+ * loads Level and creates HUD,
  */
 
 package Essentials;
@@ -29,7 +33,7 @@ public class Handler {
         this.hud = new HUD(this.game);
     }
 
-    public void tick() {
+    public void tick() {    //method for all physics calculation
         for (GameObject tempObject : this.objectList) {
             tempObject.tick();
         }
@@ -38,7 +42,7 @@ public class Handler {
         }
     }
 
-    public void render(Graphics g) {
+    public void render(Graphics g) {    //method for all graphic calculations
         for (GameObject tempObject : this.objectList) {
             tempObject.render(g);
         }
@@ -75,70 +79,72 @@ public class Handler {
         }
     }
 
-    public GameObject getPlayer() {
-        for (GameObject tempObject : this.objectList) {
-            if (tempObject.getID() == ID.Player) {
-                return tempObject;
-            }
-        }
-        return null;
-    }
-    public void loadImages() {
+    public void loadImages() {  //loads all images of GameObjects
         for (GameObject tempObject : this.objectList) {
             tempObject.loadSprites();
         }
     }
 
-    public boolean isOnPlatform(GameObject object) {    //checks if the given GameObjects.GameObject is on a GameObjects.Platform
+    public boolean isOnPlatform(GameObject object) {    //checks if the given GameObject is on a Platform
         for (GameObject tempObject : this.getObjectList()) {
             if (tempObject.getID() != ID.Platform) {
                 continue;
             }
             if (new Rectangle((int)object.getX(), (int)object.getY()+5, (int)object.getWidth(), (int)object.getHeight()).intersects(tempObject.getBounds())) {
-                object.collision(tempObject);
                 return true;
             }
         }
         return false;
     }
 
-    public void setTotalLength(int totalLength) {
-        this.totalLength = ((float) totalLength - 1250.0f + 10.0f) * -1.0f;
+    public void loadLevel(Level l) {    //loads level and creates walls around the level
+        l.load(this.game, this);
+        this.hud.setupHUD(l.getLevelTime());
+        this.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this));
+        this.addObject(new Platform(l.getTotalLength(), 0, 32, Game.HEIGHT, false, this));
+        this.addObject(new Platform(0, Game.HEIGHT+64, l.getTotalLength(), 32, false, this, ID.Death));
+
     }
+
     public void addObject(GameObject object) {this.objectList.add(object);}
     public void removeObject(GameObject object) {
         this.deleteQueue.push(object);
     }
-    public void clear() {
+    public void clear() {   //resets the handler
         this.objectList.clear();
         this.deleteQueue.clear();
         this.moved = 0;
     }
-    public LinkedList<GameObject> getObjectList() {return this.objectList;}
-    public void finish() {
+
+    public void finish() {  //method for when the player reaches the goal
         this.hud.finish();
         game.setGamestate(Game.STATE.VictoryScreen);
     }
-    public void hit() {
+
+    public void addToScore(long score) {
+        this.hud.addToScore(score);
+    }
+
+    public void hit() { //method for when the player gets hit
         game.setGamestate(Game.STATE.DeathScreen);
     }
+
+    //getter and setter
+    public void setTotalLength(int totalLength) {   //calculated the totalLength for scrolling
+        this.totalLength = ((float) totalLength - 1250.0f + 10.0f) * -1.0f;
+    }
+    public LinkedList<GameObject> getObjectList() {return this.objectList;}
     public float getMoved() {return this.moved;}
     public float getTotalLength(){return this.totalLength;}
-    public void loadLevel(Level l) {
-        l.load(this.game, this);
-        this.hud.setupHUD(l.levelTime());
-        System.out.println(this.objectList.size());
-        System.out.println(this.totalLength);
-        this.addObject(new Platform(-32, 0, 32, Game.HEIGHT, false, this));
-        this.addObject(new Platform(l.getTotalLength(), 0, 32, Game.HEIGHT, false, this));
-        this.addObject(new Platform(0, Game.HEIGHT+64, l.getTotalLength(), 32, false, this, ID.Death));
-        System.out.println(this.objectList.size());
-
-    }
     public HUD getHUD() {
         return this.hud;
     }
-    public void addToScore(long score) {
-        this.hud.addToScore(score);
+    public GameObject getPlayer() { //returns the player object
+        for (GameObject tempObject : this.objectList) {
+            if (tempObject.getID() == ID.Player) {
+                return tempObject;
+            }
+        }
+        return null;
     }
 }

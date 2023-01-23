@@ -1,8 +1,8 @@
-package GameObjects;
-
 /**
- * enum of all IDs GameObjects.GameObject can have
+ * enum of all IDs a GameObject can have
  */
+
+package GameObjects;
 
 public enum ID {
 
