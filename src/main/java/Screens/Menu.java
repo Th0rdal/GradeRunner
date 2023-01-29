@@ -18,7 +18,7 @@ public class Menu extends BasicMenu {
   private final Screens.Button Button_PlayButton = new Screens.Button(375, 200, 500, 100, "Play", true);
   private final Screens.Button Button_LevelSelect = new Screens.Button(375, 350, 500, 100, "LevelSelect", true);
   private final Screens.Button Button_Exit = new Screens.Button(375, 500, 500, 100, "Exit", true);
-
+  private final Font titleFont = new Font("arial", Font.PLAIN, 100);
 
   public Menu(Game game, Handler handler, Audio backgroundAudio){
     super(game, handler, backgroundAudio);
@@ -30,10 +30,9 @@ public class Menu extends BasicMenu {
   public void render(Graphics g) {  //method for all graphic calculations
     super.render(g);
 
-    Font titleFont = new Font("arial", Font.PLAIN, 100);
     g.setFont(titleFont);
     g.setColor(Color.black);
-    g.drawString("Grade Runner",(Game.WIDTH / 2 - g.getFontMetrics().stringWidth("Grade Runner") / 2) ,150);
+    g.drawString("Grade Runner", (Game.WIDTH / 2 - g.getFontMetrics().stringWidth("Grade Runner") / 2),150);
 
     this.Button_PlayButton.render(g);
     this.Button_LevelSelect.render(g);

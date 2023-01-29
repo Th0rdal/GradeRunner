@@ -1,5 +1,5 @@
 /**
- * Handles loading of the audio file and control over the music (volumen and mute)
+ * Handles loading of the audio file and control over the music (volume and mute)
  */
 
 package Settings;

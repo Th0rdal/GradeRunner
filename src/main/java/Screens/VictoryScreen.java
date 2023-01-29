@@ -57,6 +57,7 @@ public class VictoryScreen extends BasicMenu {
         this.Button_MainMenu.toggleHighlighted(this.mouseOverBox(mx, my, 350, 700, 500, 100));
 
     }
+
     public void mousePressed(MouseEvent e) {    //handles all events when mouse is pressed
         if (game.getGamestate() != Game.STATE.VictoryScreen) {
             return;

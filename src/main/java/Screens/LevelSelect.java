@@ -156,7 +156,6 @@ public class LevelSelect extends BasicMenu {
     public void mouseReleased(MouseEvent e){}   //handles all events when mouse is released
 
     //level handling
-
     public void changeLevelSelection(int buttonIndex) { //changes the selected level and selected button
         if (this.selectedLevel == buttonIndex) {
             return;
