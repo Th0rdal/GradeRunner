@@ -1,0 +1,395 @@
+@startuml
+class Saves.Level {
+- {static} long serialVersionUID
+- String name
+- String pathToFile
+- int totalLength
+- int levelTime
+- Handler handler
+- LinkedList<GameObject> blocks
++ <<Create>> Level(String,Handler,int,int)
++ void load(Game,Handler)
++ void save()
++ int getLevelTime()
++ String getName()
++ int getTotalLength()
+}
+class Screens.LevelSelect {
+- int selectedLevel
+- Screens.Button selectedButton
+- int pageNumber
+- Level[] levelList
+- Screens.Button Button_MainMenu
+- Screens.Button Button_Level1
+- Screens.Button Button_Level2
+- Screens.Button Button_Level3
+- Screens.Button Button_Level4
+- Screens.Button Button_Level5
+- Screens.Button Button_Level6
+- Screens.Button Button_Level7
+- Screens.Button Button_Level8
+- Screens.Button Button_Level9
+- Screens.Button Button_next
+- Screens.Button Button_prev
+- Screens.Button[] levelButtonList
++ <<Create>> LevelSelect(Game,Handler,Audio)
++ void tick()
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ void changeLevelSelection(int)
++ void loadLevels()
++ void writeToLevelButton()
++ Level[] getLevelList()
++ int getSelectedLevel()
+}
+class GameObjects.Platform {
+- boolean breakable
++ <<Create>> Platform(float,float,int,int,boolean,Handler)
++ <<Create>> Platform(float,float,int,int,boolean,Handler,ID)
++ void tick()
++ void render(Graphics)
++ void hitFromBelow()
++ void collision(GameObject)
++ void loadSprites()
++ Rectangle getBounds()
+}
+abstract class GameObjects.GameObject {
+# float x
+# float VelX
+# float gravity
+# ID id
+# int width
+# Color objectColor
+# boolean bGravity
+# Handler handler
+# long scoreAdd
++ <<Create>> GameObject(float,float,ID,int,int,Handler)
++ <<Create>> GameObject(float,float,ID,int,int,Handler,long)
+# float[] collisionDirection(GameObject)
++ void adjustForScroll(float)
++ Object clone()
++ {abstract}void tick()
++ {abstract}void render(Graphics)
++ {abstract}void collision(GameObject)
++ {abstract}void loadSprites()
++ {abstract}Rectangle getBounds()
++ float getX()
++ float getY()
++ float getVelX()
++ void setVelX(float)
++ float getVelY()
++ void setVelY(float)
++ float getWidth()
++ float getHeight()
++ float getGravity()
++ boolean hasGravity()
++ ID getID()
++ Color getObjectColor()
++ void setObjectColor(Color)
++ void setHandler(Handler)
++ long getScoreAdd()
+}
+class Utilities.Encryption {
++ {static} String encryptWorld(long,String)
+}
+class Settings.Audio {
+- Clip clip
+- FloatControl floatControl
++ <<Create>> Audio(Game,String)
++ void changeVolume(float)
++ void mute()
++ void unmute()
++ boolean musicPlaying()
+}
+enum GameObjects.ID {
++  Player
++  Platform
++  Enemy
++  Goal
++  Death
+}
+class Main {
++ {static} void main(String[])
+}
+class Essentials.Handler {
+- Game game
+- HUD hud
+- LinkedList<GameObject> objectList
+- ConcurrentLinkedDeque<GameObject> deleteQueue
+- float moved
+- float totalLength
++ <<Create>> Handler(Game)
++ void tick()
++ void render(Graphics)
++ void checkCollision(GameObject)
++ void adjustScroll(float)
++ void loadImages()
++ boolean isOnPlatform(GameObject)
++ void loadLevel(Level)
++ void addObject(GameObject)
++ void removeObject(GameObject)
++ void clear()
++ void finish()
++ void addToScore(long)
++ void hit()
++ void setTotalLength(int)
++ LinkedList<GameObject> getObjectList()
++ float getMoved()
++ float getTotalLength()
++ HUD getHUD()
++ GameObject getPlayer()
+}
+class Screens.HUD {
+- Game game
+- int time
+- int startTime
+- long score
+- char grade
+- Font textFont
++ <<Create>> HUD(Game)
++ void render(Graphics)
++ void finish()
++ void addToScore(long)
++ void subtractSecond()
++ void setupHUD(int)
++ int getTime()
++ long getScore()
++ char getGrade()
+}
+class GameObjects.Player {
+- BufferedImage imgLookRight
+- int spriteCounter
+- moveState lastLooked
+- float jumpVel
+- float moveVel
++ <<Create>> Player(float,float,Handler)
++ void tick()
++ void render(Graphics)
++ void collision(GameObject)
++ void loadSprites()
++ void move(moveState)
++ Rectangle getBounds()
+}
+enum GameObjects.moveState {
++  left
++  right
++  sprint
++  sprintStop
++  jump
++  stop
+}
+class Utilities.FileHandler {
++ {static} Object loadObjectFromFile(String)
++ {static} void saveObjectToFile(Object,String)
++ {static} File[] loadFileContent(String)
++ {static} BufferedImage loadImage(String)
+}
+class Screens.DeathScreen {
+- Button Button_MainMenu
+- Font titleFont
+- Font textFont
+- HUD hud
++ <<Create>> DeathScreen(Game,Handler,Audio)
++ void tick()
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
+}
+class Screens.PauseMenu {
+- Screens.Button Button_Continue
+- Screens.Button Button_MainMenu
++ <<Create>> PauseMenu(Game,Handler,Audio)
++ void tick()
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
+}
+class Utilities.SpriteSheet {
+- BufferedImage sprite
++ <<Create>> SpriteSheet(BufferedImage)
++ BufferedImage grabImage(int,int,int,int)
+}
+class GameObjects.Enemy {
+- BufferedImage imgWalkRight1
+- int spriteCounter
++ <<Create>> Enemy(float,float,Handler)
++ void tick()
++ void render(Graphics)
++ void collision(GameObject)
++ void loadSprites()
++ void hitFromAbove()
++ Rectangle getBounds()
+}
+class Essentials.Game {
++ {static} int WIDTH
++ {static} float scrollWidthLeft
++ {static} float scrollWidthRight
++ {static} boolean canScrollLeft
++ {static} boolean canScrollRight
++ {static} boolean scroll
++ {static} int MAX_FRAMES_PER_SECOND
++ {static} int MAX_TICKS_PER_SECOND
++ {static} int OPTIMAL_TIME_FRAMES
++ {static} int OPTIMAL_TIME_TICK
+~ boolean running
+- Thread thread
+- Handler handler
+- Screens.Menu menu
+- LevelSelect levelSelect
+- PauseMenu pause
+- VictoryScreen victoryScreen
+- DeathScreen deathScreen
+- DeveloperTools developerTools
+- HUD hud
+- WindowX window
+- BufferedImage background
++ STATE gamestate
++ <<Create>> Game()
++ void startGame()
++ void start()
++ void stop()
++ void run()
++ void tick()
++ void render()
++ {static} float ScrollCollision(float,float,float)
++ {static} boolean canScroll()
++ {static} void toggleScroll()
++ {static} boolean getScroll()
++ WindowX getWindow()
++ STATE getGamestate()
++ void setGamestate(STATE)
+}
+enum Essentials.STATE {
++  Menu
++  Game
++  Pause
++  DeathScreen
++  VictoryScreen
++  Levelselect
+}
+class Settings.KeyInput {
+- Handler handler
+- {static} boolean[] keydown
+- Game game
++ <<Create>> KeyInput(Handler,Game)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+class DevTools.DeveloperTools {
+- Player p
+- LevelSelect levelSelect
+- Handler handler
+- {static} boolean display
+- int frames
+- int lastFrames
++ <<Create>> DeveloperTools(Handler,LevelSelect)
++ void render(Graphics)
++ void incrementFrames()
++ void updateFrames()
++ void incrementTicks()
++ void updateTicks()
++ {static} void toggleDisplay()
++ void getPlayer()
+}
+class Screens.VictoryScreen {
+- Screens.Button Button_MainMenu
+- Font textFont
+- Font titleFont
+- HUD hud
++ <<Create>> VictoryScreen(Game,Handler,Audio)
++ void tick()
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
+}
+abstract class Screens.BasicMenu {
+# Game game
+# Handler handler
+# Audio backgroundAudio
+# BufferedImage imgUnmute
++ <<Create>> BasicMenu(Game,Handler,Audio)
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
++ boolean mouseOverBox(int,int,int,int,int,int)
++ {abstract}void tick()
+}
+class Screens.Menu {
+- Screens.Button Button_PlayButton
+- Screens.Button Button_LevelSelect
+- Screens.Button Button_Exit
+- Font titleFont
++ <<Create>> Menu(Game,Handler,Audio)
++ void tick()
++ void render(Graphics)
++ void loadSprites()
++ void mouseMoved(MouseEvent)
++ void mousePressed(MouseEvent)
++ void mouseReleased(MouseEvent)
+}
+class Essentials.WindowX {
+- JFrame frame
++ <<Create>> WindowX(int,int,String,Game)
++ void warning(String)
++ void error(String)
+}
+class Screens.Button {
+- int x
+- String text
+- boolean highlighted
+- boolean hasInfill
+- boolean selected
+- Font buttonFont
+- Font buttonHighlightFont
+- Color textColor
+- Color buttonColor
+- Color buttonColorSelected
+- Color buttonColorHighlighted
++ <<Create>> Button(int,int,int,int,String,boolean)
++ <<Create>> Button(int,int,int,int,boolean)
++ void render(Graphics)
++ void reset()
++ void setText(String)
++ void toggleHighlighted(boolean)
++ void toggleSelected()
+}
+class GameObjects.Goal {
+- BufferedImage imgGoal
++ <<Create>> Goal(float,float,Handler)
++ void tick()
++ void render(Graphics)
++ void collision(GameObject)
++ void loadSprites()
++ Rectangle getBounds()
+}
+
+
+Saves.Serializable <|.. Saves.Level
+Screens.BasicMenu <|-- Screens.LevelSelect
+GameObjects.GameObject <|-- GameObjects.Platform
+java.io.Serializable <|.. GameObjects.GameObject
+GameObjects.Cloneable <|.. GameObjects.GameObject
+GameObjects.GameObject <|-- GameObjects.Player
+Screens.BasicMenu <|-- Screens.DeathScreen
+Screens.BasicMenu <|-- Screens.PauseMenu
+GameObjects.GameObject <|-- GameObjects.Enemy
+Essentials.Runnable <|.. Essentials.Game
+Essentials.Canvas <|-- Essentials.Game
+Settings.KeyAdapter <|-- Settings.KeyInput
+Screens.BasicMenu <|-- Screens.VictoryScreen
+java.awt.event.MouseAdapter <|-- Screens.BasicMenu
+Screens.BasicMenu <|-- Screens.Menu
+Essentials.Canvas <|-- Essentials.WindowX
+GameObjects.GameObject <|-- GameObjects.Goal
+@enduml
